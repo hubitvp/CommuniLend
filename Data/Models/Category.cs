@@ -1,0 +1,19 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CommuniLend.Data.Models
+{
+    public class Category
+    {
+
+        [Key]
+        public int Id { get; set; }
+
+
+        [Required]
+        public required string Name { get; set; }
+
+
+        public string? Description { get; set; }
+
+    }
+}
