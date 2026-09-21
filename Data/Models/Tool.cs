@@ -1,4 +1,5 @@
 ﻿using CommuniLend.Data.Models.Enums;
+using CommuniLend.DataConstraints;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -11,10 +12,12 @@ namespace CommuniLend.Data.Models
 
 
         [Required]
+        [StringLength(ValidationConstants.Tool.NameMaxLength)]
         public required string Name { get; set; }
 
 
         [Required]
+        [StringLength(ValidationConstants.Tool.DescriptionMaxLength)]
         public required string Description { get; set; }
 
 

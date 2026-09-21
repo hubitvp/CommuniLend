@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CommuniLend.DataConstraints;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CommuniLend.Data.Models
@@ -38,6 +39,8 @@ namespace CommuniLend.Data.Models
         public DateOnly? ReturnDate { get; set; }
 
 
+
+        [StringLength(ValidationConstants.Loan.NotesMaxLength)]
         public string? Notes { get; set; }
     }
 }

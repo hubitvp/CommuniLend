@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CommuniLend.DataConstraints;
+using System.ComponentModel.DataAnnotations;
 
 namespace CommuniLend.Data.Models
 {
@@ -10,9 +11,10 @@ namespace CommuniLend.Data.Models
 
 
         [Required]
+        [StringLength(ValidationConstants.Category.NameMaxLength)]
         public required string Name { get; set; }
 
-
+        [StringLength(ValidationConstants.Category.DescriptionMaxLength)]
         public string? Description { get; set; }
 
     }

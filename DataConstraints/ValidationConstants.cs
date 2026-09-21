@@ -12,5 +12,22 @@
         }
 
 
+        public static class Tool
+        {
+            public const int NameMaxLength = 100;
+            public const int DescriptionMaxLength = 500;
+        }
+
+        public static class Category
+        {
+            public const int NameMaxLength = 100;
+            public const int DescriptionMaxLength = 500;
+
+        }
+
+        public static class Loan
+        {
+            public const int NotesMaxLength = 1000;
+        }
     }
 }
