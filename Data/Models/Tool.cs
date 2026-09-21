@@ -29,7 +29,6 @@ namespace CommuniLend.Data.Models
         public required decimal ReplacementValue { get; set; }
 
 
-
         [Url]
         public string? ImageUrl { get; set; }
 
@@ -55,5 +54,8 @@ namespace CommuniLend.Data.Models
 
         [ForeignKey(nameof(OwnerId))]
         public virtual Member Owner { get; set; } = null!;
+
+
+        public virtual ICollection<Loan> Loans { get; set; } = new List<Loan>();
     }
 }

@@ -38,5 +38,11 @@ namespace CommuniLend.Data.Models
         public required bool IsActive { get; set; }
 
 
+
+        public virtual ICollection<Tool> Tools { get; set; } = new List<Tool>();
+
+
+        public virtual ICollection<Loan> Loans { get; set; } = new List<Loan>();
+
     }
 }

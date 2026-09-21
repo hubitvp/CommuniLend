@@ -17,5 +17,7 @@ namespace CommuniLend.Data.Models
         [StringLength(ValidationConstants.Category.DescriptionMaxLength)]
         public string? Description { get; set; }
 
+
+        public virtual ICollection<Tool> Tools { get; set; } = new List<Tool>();
     }
 }
