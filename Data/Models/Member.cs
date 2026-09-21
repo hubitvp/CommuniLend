@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CommuniLend.DataConstraints;
+using System.ComponentModel.DataAnnotations;
 
 namespace CommuniLend.Data.Models
 {
@@ -9,19 +10,22 @@ namespace CommuniLend.Data.Models
 
 
         [Required]
+        [StringLength(ValidationConstants.Member.FullNameMaxLength)]
         public required string FullName { get; set; }
 
 
 
         [Required]
+        [StringLength(ValidationConstants.Member.EmailMaxLength)]
         public required string Email { get; set; }
 
 
         [Required]
+        [StringLength(ValidationConstants.Member.PhoneNumberMaxLength)]
         public required string PhoneNumber { get; set; }
 
 
-
+        [StringLength(ValidationConstants.Member.AddressMaxLength)]
         public string? Address { get; set; }
 
 
