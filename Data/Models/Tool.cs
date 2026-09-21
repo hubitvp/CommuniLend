@@ -26,10 +26,10 @@ namespace CommuniLend.Data.Models
 
 
         [Required]
+        [Column(TypeName = ColumnTypes.Tool.Decimal)]
         public required decimal ReplacementValue { get; set; }
 
 
-        [Url]
         public string? ImageUrl { get; set; }
 
 
