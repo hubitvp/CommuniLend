@@ -1,4 +1,5 @@
 ﻿using CommuniLend.Data.Models;
+using CommuniLend.Data.Models.Configurations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,5 +13,14 @@ namespace CommuniLend.Data
         public virtual DbSet<Tool> Tools { get; set; } = null!;
         public virtual DbSet<Loan> Loans { get; set; } = null!;
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new LoanConfiguration());
+            modelBuilder.ApplyConfiguration(new MemberConfiguration());
+            modelBuilder.ApplyConfiguration(new ToolConfiguration());
+        }
     }
 }
