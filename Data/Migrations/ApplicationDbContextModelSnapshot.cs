@@ -22,6 +22,1049 @@ namespace CommuniLend.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("CommuniLend.Data.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Electric and cordless power tools for drilling, cutting, sanding, and more",
+                            Name = "Power Tools"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Manual hand tools including wrenches, hammers, screwdrivers, pliers, and socket sets",
+                            Name = "Hand Tools"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Tools for measuring, leveling, detecting studs, and finishing work",
+                            Name = "Measuring & Finishing Tools"
+                        });
+                });
+
+            modelBuilder.Entity("CommuniLend.Data.Models.Loan", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BorrowerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly>("DueDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("LoanDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateOnly?>("ReturnDate")
+                        .HasColumnType("date");
+
+                    b.Property<int>("ToolId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BorrowerId");
+
+                    b.HasIndex("ToolId");
+
+                    b.ToTable("Loans");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BorrowerId = 1,
+                            DueDate = new DateOnly(2026, 9, 29),
+                            LoanDate = new DateOnly(2026, 9, 8),
+                            Notes = "Borrowed for home renovation project",
+                            ToolId = 3
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BorrowerId = 2,
+                            DueDate = new DateOnly(2026, 10, 3),
+                            LoanDate = new DateOnly(2026, 9, 12),
+                            Notes = "Needed for measuring deck",
+                            ToolId = 7
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BorrowerId = 3,
+                            DueDate = new DateOnly(2026, 10, 5),
+                            LoanDate = new DateOnly(2026, 9, 14),
+                            Notes = "Cabinet installation",
+                            ToolId = 11
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BorrowerId = 4,
+                            DueDate = new DateOnly(2026, 10, 8),
+                            LoanDate = new DateOnly(2026, 9, 17),
+                            Notes = "Basement repair work",
+                            ToolId = 14
+                        },
+                        new
+                        {
+                            Id = 5,
+                            BorrowerId = 5,
+                            DueDate = new DateOnly(2026, 10, 10),
+                            LoanDate = new DateOnly(2026, 9, 19),
+                            Notes = "Caulking bathroom tiles",
+                            ToolId = 19
+                        },
+                        new
+                        {
+                            Id = 6,
+                            BorrowerId = 6,
+                            DueDate = new DateOnly(2026, 10, 11),
+                            LoanDate = new DateOnly(2026, 9, 20),
+                            Notes = "Engine repair project",
+                            ToolId = 8
+                        },
+                        new
+                        {
+                            Id = 7,
+                            BorrowerId = 7,
+                            DueDate = new DateOnly(2026, 10, 12),
+                            LoanDate = new DateOnly(2026, 9, 21),
+                            Notes = "Measuring for new flooring",
+                            ToolId = 15
+                        },
+                        new
+                        {
+                            Id = 8,
+                            BorrowerId = 2,
+                            DueDate = new DateOnly(2026, 8, 22),
+                            LoanDate = new DateOnly(2026, 8, 8),
+                            Notes = "Shelf installation",
+                            ReturnDate = new DateOnly(2026, 8, 23),
+                            ToolId = 4
+                        },
+                        new
+                        {
+                            Id = 9,
+                            BorrowerId = 3,
+                            DueDate = new DateOnly(2026, 8, 27),
+                            LoanDate = new DateOnly(2026, 8, 13),
+                            Notes = "Picture frame hanging",
+                            ReturnDate = new DateOnly(2026, 8, 28),
+                            ToolId = 9
+                        },
+                        new
+                        {
+                            Id = 10,
+                            BorrowerId = 4,
+                            DueDate = new DateOnly(2026, 9, 1),
+                            LoanDate = new DateOnly(2026, 8, 18),
+                            Notes = "Fence repair",
+                            ReturnDate = new DateOnly(2026, 9, 2),
+                            ToolId = 5
+                        },
+                        new
+                        {
+                            Id = 11,
+                            BorrowerId = 5,
+                            DueDate = new DateOnly(2026, 9, 6),
+                            LoanDate = new DateOnly(2026, 8, 23),
+                            Notes = "Wall stud detection",
+                            ReturnDate = new DateOnly(2026, 9, 7),
+                            ToolId = 13
+                        },
+                        new
+                        {
+                            Id = 12,
+                            BorrowerId = 6,
+                            DueDate = new DateOnly(2026, 9, 11),
+                            LoanDate = new DateOnly(2026, 8, 28),
+                            Notes = "Deck board cutting",
+                            ReturnDate = new DateOnly(2026, 9, 12),
+                            ToolId = 2
+                        },
+                        new
+                        {
+                            Id = 13,
+                            BorrowerId = 7,
+                            DueDate = new DateOnly(2026, 9, 16),
+                            LoanDate = new DateOnly(2026, 9, 2),
+                            Notes = "Molding and trim work",
+                            ReturnDate = new DateOnly(2026, 9, 17),
+                            ToolId = 10
+                        },
+                        new
+                        {
+                            Id = 14,
+                            BorrowerId = 1,
+                            DueDate = new DateOnly(2026, 9, 1),
+                            LoanDate = new DateOnly(2026, 8, 18),
+                            Notes = "Tree removal branch cutting",
+                            ReturnDate = new DateOnly(2026, 9, 2),
+                            ToolId = 16
+                        },
+                        new
+                        {
+                            Id = 15,
+                            BorrowerId = 2,
+                            DueDate = new DateOnly(2026, 9, 8),
+                            LoanDate = new DateOnly(2026, 8, 25),
+                            Notes = "Floor sanding",
+                            ReturnDate = new DateOnly(2026, 9, 9),
+                            ToolId = 17
+                        },
+                        new
+                        {
+                            Id = 16,
+                            BorrowerId = 3,
+                            DueDate = new DateOnly(2026, 9, 14),
+                            LoanDate = new DateOnly(2026, 8, 31),
+                            Notes = "Finishing hardwood",
+                            ReturnDate = new DateOnly(2026, 9, 15),
+                            ToolId = 18
+                        });
+                });
+
+            modelBuilder.Entity("CommuniLend.Data.Models.Member", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(254)
+                        .HasColumnType("nvarchar(254)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateOnly>("JoinDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Members");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "123 Main Street, Springfield, IL 62701",
+                            Email = "john.smith@email.com",
+                            FullName = "John Smith",
+                            IsActive = true,
+                            JoinDate = new DateOnly(2026, 6, 24),
+                            PhoneNumber = "(555) 123-4567"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "456 Oak Avenue, Springfield, IL 62702",
+                            Email = "sarah.johnson@email.com",
+                            FullName = "Sarah Johnson",
+                            IsActive = true,
+                            JoinDate = new DateOnly(2026, 7, 24),
+                            PhoneNumber = "(555) 234-5678"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Address = "789 Pine Road, Springfield, IL 62703",
+                            Email = "michael.chen@email.com",
+                            FullName = "Michael Chen",
+                            IsActive = true,
+                            JoinDate = new DateOnly(2026, 8, 8),
+                            PhoneNumber = "(555) 345-6789"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Address = "321 Elm Street, Springfield, IL 62704",
+                            Email = "emily.rodriguez@email.com",
+                            FullName = "Emily Rodriguez",
+                            IsActive = true,
+                            JoinDate = new DateOnly(2026, 8, 23),
+                            PhoneNumber = "(555) 456-7890"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Address = "654 Maple Drive, Springfield, IL 62705",
+                            Email = "david.williams@email.com",
+                            FullName = "David Williams",
+                            IsActive = true,
+                            JoinDate = new DateOnly(2026, 9, 2),
+                            PhoneNumber = "(555) 567-8901"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Address = "987 Cedar Lane, Springfield, IL 62706",
+                            Email = "jessica.martinez@email.com",
+                            FullName = "Jessica Martinez",
+                            IsActive = true,
+                            JoinDate = new DateOnly(2026, 9, 7),
+                            PhoneNumber = "(555) 678-9012"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Address = "147 Birch Court, Springfield, IL 62707",
+                            Email = "robert.taylor@email.com",
+                            FullName = "Robert Taylor",
+                            IsActive = true,
+                            JoinDate = new DateOnly(2026, 9, 12),
+                            PhoneNumber = "(555) 789-0123"
+                        });
+                });
+
+            modelBuilder.Entity("CommuniLend.Data.Models.Tool", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Condition")
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly>("DateAdded")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("OwnerId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("ReplacementValue")
+                        .HasColumnType("decimal(8,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Tools");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            Condition = 0,
+                            DateAdded = new DateOnly(2026, 8, 23),
+                            Description = "18V lithium-ion cordless drill with carry case",
+                            ImageUrl = "/images/tools/cordless-drill.jpg",
+                            IsAvailable = true,
+                            Name = "Cordless Drill",
+                            OwnerId = 1,
+                            ReplacementValue = 89.99m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 1,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 8, 28),
+                            Description = "7.25\" circular saw for wood cutting",
+                            ImageUrl = "/images/tools/circular-saw.jpg",
+                            IsAvailable = true,
+                            Name = "Circular Saw",
+                            OwnerId = 1,
+                            ReplacementValue = 65.50m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 2,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 9, 2),
+                            Description = "Set of 3 adjustable wrenches in various sizes",
+                            ImageUrl = "/images/tools/wrench-set.jpg",
+                            IsAvailable = true,
+                            Name = "Adjustable Wrench Set",
+                            OwnerId = 2,
+                            ReplacementValue = 25.99m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 3,
+                            Condition = 2,
+                            DateAdded = new DateOnly(2026, 9, 7),
+                            Description = "24\" aluminum spirit level",
+                            ImageUrl = "/images/tools/level.jpg",
+                            IsAvailable = true,
+                            Name = "Level",
+                            OwnerId = 3,
+                            ReplacementValue = 18.75m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 2,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 9, 12),
+                            Description = "Set of 5 hammers with different head weights",
+                            ImageUrl = "/images/tools/hammer-set.jpg",
+                            IsAvailable = true,
+                            Name = "Hammer Set",
+                            OwnerId = 4,
+                            ReplacementValue = 35.00m
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryId = 1,
+                            Condition = 0,
+                            DateAdded = new DateOnly(2026, 9, 14),
+                            Description = "Orbital jigsaw for curved cuts",
+                            ImageUrl = "/images/tools/jigsaw.jpg",
+                            IsAvailable = false,
+                            Name = "Jigsaw",
+                            OwnerId = 5,
+                            ReplacementValue = 120.00m
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryId = 3,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 9, 15),
+                            Description = "25ft retractable tape measure",
+                            ImageUrl = "/images/tools/tape-measure.jpg",
+                            IsAvailable = true,
+                            Name = "Tape Measure",
+                            OwnerId = 6,
+                            ReplacementValue = 12.50m
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryId = 2,
+                            Condition = 2,
+                            DateAdded = new DateOnly(2026, 9, 17),
+                            Description = "Complete socket set with ratchets",
+                            ImageUrl = "/images/tools/socket-set.jpg",
+                            IsAvailable = true,
+                            Name = "Socket Set",
+                            OwnerId = 7,
+                            ReplacementValue = 45.99m
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryId = 2,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 9, 19),
+                            Description = "Set of 4 different pliers",
+                            ImageUrl = "/images/tools/pliers-set.jpg",
+                            IsAvailable = true,
+                            Name = "Pliers Set",
+                            OwnerId = 1,
+                            ReplacementValue = 28.00m
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CategoryId = 1,
+                            Condition = 0,
+                            DateAdded = new DateOnly(2026, 9, 20),
+                            Description = "10\" compound miter saw",
+                            ImageUrl = "/images/tools/miter-saw.jpg",
+                            IsAvailable = true,
+                            Name = "Miter Saw",
+                            OwnerId = 2,
+                            ReplacementValue = 199.99m
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CategoryId = 2,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 9, 21),
+                            Description = "Set of 12 screwdrivers (Phillips and flathead)",
+                            ImageUrl = "/images/tools/screwdriver-set.jpg",
+                            IsAvailable = true,
+                            Name = "Screwdriver Set",
+                            OwnerId = 3,
+                            ReplacementValue = 19.99m
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CategoryId = 1,
+                            Condition = 2,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "12V compact power drill",
+                            ImageUrl = "/images/tools/power-drill.jpg",
+                            IsAvailable = false,
+                            Name = "Power Drill",
+                            OwnerId = 4,
+                            ReplacementValue = 59.99m
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CategoryId = 3,
+                            Condition = 0,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "Digital stud finder with deep scan",
+                            ImageUrl = "/images/tools/stud-finder.jpg",
+                            IsAvailable = true,
+                            Name = "Stud Finder",
+                            OwnerId = 5,
+                            ReplacementValue = 42.50m
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CategoryId = 3,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "LED flashlight with adjustable beam",
+                            ImageUrl = "/images/tools/flashlight.jpg",
+                            IsAvailable = true,
+                            Name = "Flashlight",
+                            OwnerId = 6,
+                            ReplacementValue = 15.00m
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CategoryId = 3,
+                            Condition = 0,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "Digital laser distance measurer",
+                            ImageUrl = "/images/tools/laser-measure.jpg",
+                            IsAvailable = true,
+                            Name = "Laser Measure",
+                            OwnerId = 7,
+                            ReplacementValue = 79.99m
+                        },
+                        new
+                        {
+                            Id = 16,
+                            CategoryId = 1,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "Cordless reciprocating saw for demolition",
+                            ImageUrl = "/images/tools/reciprocating-saw.jpg",
+                            IsAvailable = true,
+                            Name = "Reciprocating Saw",
+                            OwnerId = 1,
+                            ReplacementValue = 145.00m
+                        },
+                        new
+                        {
+                            Id = 17,
+                            CategoryId = 1,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "5\" random orbital sander",
+                            ImageUrl = "/images/tools/orbital-sander.jpg",
+                            IsAvailable = true,
+                            Name = "Orbital Sander",
+                            OwnerId = 2,
+                            ReplacementValue = 99.99m
+                        },
+                        new
+                        {
+                            Id = 18,
+                            CategoryId = 2,
+                            Condition = 3,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "Set of 4 nail sets",
+                            ImageUrl = "/images/tools/nail-set.jpg",
+                            IsAvailable = true,
+                            Name = "Nail Set",
+                            OwnerId = 3,
+                            ReplacementValue = 8.99m
+                        },
+                        new
+                        {
+                            Id = 19,
+                            CategoryId = 2,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "Heavy-duty caulking gun",
+                            ImageUrl = "/images/tools/caulking-gun.jpg",
+                            IsAvailable = true,
+                            Name = "Caulking Gun",
+                            OwnerId = 4,
+                            ReplacementValue = 22.00m
+                        },
+                        new
+                        {
+                            Id = 20,
+                            CategoryId = 2,
+                            Condition = 2,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "Retractable utility knife with replacement blades",
+                            ImageUrl = "/images/tools/utility-knife.jpg",
+                            IsAvailable = true,
+                            Name = "Utility Knife",
+                            OwnerId = 5,
+                            ReplacementValue = 10.50m
+                        },
+                        new
+                        {
+                            Id = 21,
+                            CategoryId = 1,
+                            Condition = 0,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "20V impact driver",
+                            ImageUrl = "/images/tools/impact-driver.jpg",
+                            IsAvailable = true,
+                            Name = "Impact Driver",
+                            OwnerId = 6,
+                            ReplacementValue = 99.99m
+                        },
+                        new
+                        {
+                            Id = 22,
+                            CategoryId = 1,
+                            Condition = 0,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "18-gauge brad nailer",
+                            ImageUrl = "/images/tools/brad-nailer.jpg",
+                            IsAvailable = false,
+                            Name = "Brad Nailer",
+                            OwnerId = 7,
+                            ReplacementValue = 75.00m
+                        },
+                        new
+                        {
+                            Id = 23,
+                            CategoryId = 3,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "Stud finder with level",
+                            ImageUrl = "/images/tools/stud-kit.jpg",
+                            IsAvailable = true,
+                            Name = "Stud Finder Kit",
+                            OwnerId = 1,
+                            ReplacementValue = 35.99m
+                        },
+                        new
+                        {
+                            Id = 24,
+                            CategoryId = 3,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "9\" torpedo level",
+                            ImageUrl = "/images/tools/torpedo-level.jpg",
+                            IsAvailable = true,
+                            Name = "Torpedo Level",
+                            OwnerId = 2,
+                            ReplacementValue = 16.50m
+                        },
+                        new
+                        {
+                            Id = 25,
+                            CategoryId = 2,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "24-piece ratchet socket set",
+                            ImageUrl = "/images/tools/ratchet-set.jpg",
+                            IsAvailable = true,
+                            Name = "Ratchet Set",
+                            OwnerId = 3,
+                            ReplacementValue = 55.00m
+                        },
+                        new
+                        {
+                            Id = 26,
+                            CategoryId = 2,
+                            Condition = 2,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "4\" bench vise with swivel base",
+                            ImageUrl = "/images/tools/bench-vise.jpg",
+                            IsAvailable = true,
+                            Name = "Bench Vise",
+                            OwnerId = 4,
+                            ReplacementValue = 65.00m
+                        },
+                        new
+                        {
+                            Id = 27,
+                            CategoryId = 1,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "4.5\" angle grinder",
+                            ImageUrl = "/images/tools/angle-grinder.jpg",
+                            IsAvailable = true,
+                            Name = "Angle Grinder",
+                            OwnerId = 5,
+                            ReplacementValue = 85.99m
+                        },
+                        new
+                        {
+                            Id = 28,
+                            CategoryId = 1,
+                            Condition = 2,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "Pneumatic finishing nailer",
+                            ImageUrl = "/images/tools/pneumatic-nailer.jpg",
+                            IsAvailable = true,
+                            Name = "Pneumatic Nailer",
+                            OwnerId = 6,
+                            ReplacementValue = 60.00m
+                        },
+                        new
+                        {
+                            Id = 29,
+                            CategoryId = 3,
+                            Condition = 0,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "24\" magnetic level",
+                            ImageUrl = "/images/tools/magnetic-level.jpg",
+                            IsAvailable = true,
+                            Name = "Magnetic Level",
+                            OwnerId = 7,
+                            ReplacementValue = 21.99m
+                        },
+                        new
+                        {
+                            Id = 30,
+                            CategoryId = 1,
+                            Condition = 3,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "Portable circular power saw",
+                            ImageUrl = "/images/tools/power-saw.jpg",
+                            IsAvailable = true,
+                            Name = "Power Saw",
+                            OwnerId = 1,
+                            ReplacementValue = 55.00m
+                        },
+                        new
+                        {
+                            Id = 31,
+                            CategoryId = 2,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "Complete hex key set",
+                            ImageUrl = "/images/tools/allen-key-set.jpg",
+                            IsAvailable = true,
+                            Name = "Allen Key Set",
+                            OwnerId = 2,
+                            ReplacementValue = 14.99m
+                        },
+                        new
+                        {
+                            Id = 32,
+                            CategoryId = 2,
+                            Condition = 2,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "18\" adjustable pipe wrench",
+                            ImageUrl = "/images/tools/pipe-wrench.jpg",
+                            IsAvailable = true,
+                            Name = "Pipe Wrench",
+                            OwnerId = 3,
+                            ReplacementValue = 32.50m
+                        },
+                        new
+                        {
+                            Id = 33,
+                            CategoryId = 2,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "12\" hacksaw with blade",
+                            ImageUrl = "/images/tools/hacksaw.jpg",
+                            IsAvailable = true,
+                            Name = "Hacksaw",
+                            OwnerId = 4,
+                            ReplacementValue = 13.00m
+                        },
+                        new
+                        {
+                            Id = 34,
+                            CategoryId = 2,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "30-piece drill bit set",
+                            ImageUrl = "/images/tools/drill-bit-set.jpg",
+                            IsAvailable = true,
+                            Name = "Drill Bit Set",
+                            OwnerId = 5,
+                            ReplacementValue = 18.50m
+                        },
+                        new
+                        {
+                            Id = 35,
+                            CategoryId = 3,
+                            Condition = 0,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "12\" combination square",
+                            ImageUrl = "/images/tools/combination-square.jpg",
+                            IsAvailable = true,
+                            Name = "Combination Square",
+                            OwnerId = 6,
+                            ReplacementValue = 19.99m
+                        },
+                        new
+                        {
+                            Id = 36,
+                            CategoryId = 3,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "Set of 3 LED flashlights",
+                            ImageUrl = "/images/tools/flashlight-set.jpg",
+                            IsAvailable = true,
+                            Name = "Flashlight Set",
+                            OwnerId = 7,
+                            ReplacementValue = 35.00m
+                        },
+                        new
+                        {
+                            Id = 37,
+                            CategoryId = 2,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "15\" flat pry bar",
+                            ImageUrl = "/images/tools/pry-bar.jpg",
+                            IsAvailable = true,
+                            Name = "Pry Bar",
+                            OwnerId = 1,
+                            ReplacementValue = 14.50m
+                        },
+                        new
+                        {
+                            Id = 38,
+                            CategoryId = 1,
+                            Condition = 0,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "Cordless oscillating tool with accessories",
+                            ImageUrl = "/images/tools/multi-tool.jpg",
+                            IsAvailable = true,
+                            Name = "Oscillating Multi-Tool",
+                            OwnerId = 2,
+                            ReplacementValue = 129.99m
+                        },
+                        new
+                        {
+                            Id = 39,
+                            CategoryId = 2,
+                            Condition = 2,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "Set of 2 bar clamps (12\" and 24\")",
+                            ImageUrl = "/images/tools/bar-clamp-set.jpg",
+                            IsAvailable = true,
+                            Name = "Bar Clamp Set",
+                            OwnerId = 3,
+                            ReplacementValue = 42.00m
+                        },
+                        new
+                        {
+                            Id = 40,
+                            CategoryId = 1,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "Electric nail gun",
+                            ImageUrl = "/images/tools/nail-gun.jpg",
+                            IsAvailable = false,
+                            Name = "Nail Gun",
+                            OwnerId = 4,
+                            ReplacementValue = 79.99m
+                        },
+                        new
+                        {
+                            Id = 41,
+                            CategoryId = 3,
+                            Condition = 3,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "24\" carpenter's speed square",
+                            ImageUrl = "/images/tools/carpenters-square.jpg",
+                            IsAvailable = true,
+                            Name = "Carpenter's Square",
+                            OwnerId = 5,
+                            ReplacementValue = 11.00m
+                        },
+                        new
+                        {
+                            Id = 42,
+                            CategoryId = 1,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "Shop dust extractor",
+                            ImageUrl = "/images/tools/dust-extractor.jpg",
+                            IsAvailable = true,
+                            Name = "Dust Extractor",
+                            OwnerId = 6,
+                            ReplacementValue = 125.00m
+                        },
+                        new
+                        {
+                            Id = 43,
+                            CategoryId = 3,
+                            Condition = 0,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "6\" adjustable square",
+                            ImageUrl = "/images/tools/adjustable-square.jpg",
+                            IsAvailable = true,
+                            Name = "Adjustable Square",
+                            OwnerId = 7,
+                            ReplacementValue = 17.50m
+                        },
+                        new
+                        {
+                            Id = 44,
+                            CategoryId = 2,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "Heavy-duty cable protector",
+                            ImageUrl = "/images/tools/cable-protector.jpg",
+                            IsAvailable = true,
+                            Name = "Cable Protector",
+                            OwnerId = 1,
+                            ReplacementValue = 28.00m
+                        },
+                        new
+                        {
+                            Id = 45,
+                            CategoryId = 1,
+                            Condition = 2,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "6\" bench grinder",
+                            ImageUrl = "/images/tools/bench-grinder.jpg",
+                            IsAvailable = true,
+                            Name = "Bench Grinder",
+                            OwnerId = 2,
+                            ReplacementValue = 95.00m
+                        },
+                        new
+                        {
+                            Id = 46,
+                            CategoryId = 2,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "Set of 4 wood chisels",
+                            ImageUrl = "/images/tools/chisel-set.jpg",
+                            IsAvailable = true,
+                            Name = "Chisel Set",
+                            OwnerId = 3,
+                            ReplacementValue = 24.50m
+                        },
+                        new
+                        {
+                            Id = 47,
+                            CategoryId = 3,
+                            Condition = 0,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "30m measuring wheel",
+                            ImageUrl = "/images/tools/measuring-wheel.jpg",
+                            IsAvailable = true,
+                            Name = "Retractable Measuring Wheel",
+                            OwnerId = 4,
+                            ReplacementValue = 35.99m
+                        },
+                        new
+                        {
+                            Id = 48,
+                            CategoryId = 2,
+                            Condition = 2,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "Sheet metal cutting shears",
+                            ImageUrl = "/images/tools/sheet-metal-shears.jpg",
+                            IsAvailable = true,
+                            Name = "Sheet Metal Shears",
+                            OwnerId = 5,
+                            ReplacementValue = 33.00m
+                        },
+                        new
+                        {
+                            Id = 49,
+                            CategoryId = 3,
+                            Condition = 0,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "Digital angle finder",
+                            ImageUrl = "/images/tools/angle-finder.jpg",
+                            IsAvailable = true,
+                            Name = "Angle Finder",
+                            OwnerId = 6,
+                            ReplacementValue = 38.50m
+                        },
+                        new
+                        {
+                            Id = 50,
+                            CategoryId = 1,
+                            Condition = 1,
+                            DateAdded = new DateOnly(2026, 9, 22),
+                            Description = "Complete rotary tool kit with accessories",
+                            ImageUrl = "/images/tools/rotary-tool-kit.jpg",
+                            IsAvailable = true,
+                            Name = "Rotary Tool Kit",
+                            OwnerId = 7,
+                            ReplacementValue = 89.99m
+                        });
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -224,6 +1267,44 @@ namespace CommuniLend.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("CommuniLend.Data.Models.Loan", b =>
+                {
+                    b.HasOne("CommuniLend.Data.Models.Member", "Borrower")
+                        .WithMany("Loans")
+                        .HasForeignKey("BorrowerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CommuniLend.Data.Models.Tool", "Tool")
+                        .WithMany("Loans")
+                        .HasForeignKey("ToolId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Borrower");
+
+                    b.Navigation("Tool");
+                });
+
+            modelBuilder.Entity("CommuniLend.Data.Models.Tool", b =>
+                {
+                    b.HasOne("CommuniLend.Data.Models.Category", "Category")
+                        .WithMany("Tools")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CommuniLend.Data.Models.Member", "Owner")
+                        .WithMany("Tools")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Owner");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -273,6 +1354,23 @@ namespace CommuniLend.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CommuniLend.Data.Models.Category", b =>
+                {
+                    b.Navigation("Tools");
+                });
+
+            modelBuilder.Entity("CommuniLend.Data.Models.Member", b =>
+                {
+                    b.Navigation("Loans");
+
+                    b.Navigation("Tools");
+                });
+
+            modelBuilder.Entity("CommuniLend.Data.Models.Tool", b =>
+                {
+                    b.Navigation("Loans");
                 });
 #pragma warning restore 612, 618
         }
