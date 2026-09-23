@@ -1,66 +1,40 @@
-﻿@model IEnumerable<MemberViewModel>
-
+﻿@model IEnumerable<MemberIndexViewModel>
 @{
-    ViewData["Title"] = "Members";
+    ViewData["Title"] = "Member Directory";
 }
-
-
-
-
-
-<!-- Main Content -->
-<div class="container mt-5">
-
-    <h1 class="display-4 fw-bold text-dark mb-0">
-        Member Directory
-    </h1>
-
-    <p class="text-secondary fs-4 mb-4">
-        Everyone participating in the tool library
-    </p>
-
-    <div class="card border-0 shadow-sm">
-
-        <div class="card-header bg-dark text-white py-3">
-            <div class="row fw-bold">
-                <div class="col-3">Name</div>
-                <div class="col-4">Email</div>
-                <div class="col-2">Tools Shared</div>
-                <div class="col-2">Active Loans</div>
-                <div class="col-1">Member Since</div>
-            </div>
-        </div>
-
-        <div class="card-body p-0">
-
-            @foreach (var member in Model)
-            {
-                <div class="row border-bottom align-items-center py-3 px-3">
-                    <div class="col-3">
+<h2>Member Directory</h2>
+<p class="text-muted">Everyone participating in the tool library</p>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Tools Shared</th>
+            <th>Active Loans</th>
+            <th>Member Since</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var member in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Details" asp-route-id="@member.Id">
                         @member.FullName
-                    </div>
-
-                    <div class="col-4">
-                        @member.Email
-                    </div>
-
-                    <div class="col-2">
-                        @member.ToolsShared
-                    </div>
-
-                    <div class="col-2">
-                        @member.ActiveLoans
-                    </div>
-
-                    <div class="col-1">
-                        @member.MemberSince
-                    </div>
-                </div>
-            }
-
-        </div>
-
-    </div>
-
-</div>
-
+                    </a>
+                </td>
+                <td>@member.Email</td>
+                <td>@member.ToolsShared</td>
+                <td>@member.ActiveLoans</td>
+                <td>@member.MemberSince</td>
+                <td>
+                    <a class="btn btn-outline-secondary btn-sm"
+                       asp-action="Details" asp-route-id="@member.Id">
+                        Details
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
