@@ -1,7 +1,11 @@
 ﻿namespace CommuniLend.Models
 {
-    public class MemberViewModel
+    public class MemberIndexViewModel
     {
+
+
+        public int Id { get; set; }
+
         public string FullName { get; set; } = null!;
 
         public string Email { get; set; } = null!;
