@@ -1,0 +1,64 @@
+﻿@model MemberDetailsViewModel
+@{
+    ViewData["Title"] = Model.FullName;
+}
+<div class="d-flex justify-content-between align-items-start mb-3">
+    <div>
+        <h2>@Model.FullName</h2>
+        <p class="text-muted mb-0">@Model.Email</p>
+        @if (!string.IsNullOrEmpty(Model.PhoneNumber))
+        {
+            <p class="text-muted small mb-0">@Model.PhoneNumber</p>
+        }
+        <p class="text-muted small">
+            Member since @Model.MemberSince
+            ·
+            <span class="badge @(Model.IsActive ? "bg-success" : "bg-secondary")">
+                @(Model.IsActive ? "Active" : "Inactive")
+            </span>
+        </p>
+    </div>
+    <a class="btn btn-outline-secondary btn-sm" asp-action="Index">Back to Directory</a>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h5>Tools Shared (@Model.Tools.Count())</h5>
+        <table class="table table-sm">
+            <thead><tr><th>Tool</th><th>Category</th><th>Status</th></tr></thead>
+            <tbody>
+                @foreach (var tool in Model.Tools)
+                {
+                    <tr>
+                        <td>
+                            <a asp-controller="Tools" asp-action="Details" asp-route-id="@tool.Id">
+                                @tool.Name
+                            </a>
+                        </td>
+                        <td>@tool.CategoryName</td>
+                        <td>
+                            <span class="badge @(tool.IsAvailable ? "bg-success" : "bg-warning text-dark")">
+                                @(tool.IsAvailable ? "Available" : "On Loan")
+                            </span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <h5>Loan History (@Model.Loans.Count())</h5>
+        <table class="table table-sm">
+            <thead><tr><th>Tool</th><th>Due</th><th>Status</th></tr></thead>
+            <tbody>
+                @foreach (var loan in Model.Loans.OrderByDescending(l => l.LoanDate))
+                {
+                    <tr>
+                        <td>@loan.ToolName</td>
+                        <td>@loan.DueDate</td>
+                        <td>@loan.Status</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
