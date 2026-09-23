@@ -1,0 +1,65 @@
+﻿@model IEnumerable<ToolIndexViewModel>
+
+
+@{
+    ViewData["Title"] = "Tool Catalog";
+}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h2>Tool Catalog</h2>
+        <p class="text-muted">Browse tools shared by your neighbors</p>
+    </div>
+    <a class="btn btn-success" asp-action="Create">+ Add a Tool</a>
+</div>
+<form method="get" class="row g-2 mb-4">
+    <div class="col-md-6">
+        <input type="text" name="search" value="@Context.Request.Query["search"]"
+               class="form-control" placeholder="Search tools (e.g. 'ladder', 'drill')" />
+    </div>
+    <div class="col-md-3">
+        <select name="categoryId" class="form-select" asp-items="ViewBag.Categories as SelectList">
+            <option value="">All categories</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <button type="submit" class="btn btn-outline-primary w-100">Filter</button>
+    </div>
+</form>
+<div class="row">
+    @foreach (var tool in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-img-top bg-light text-center py-5 text-muted">
+                    
+                    @if (string.IsNullOrEmpty(tool.ImageUrl))
+                    {
+                        <span>[ no image ]</span>
+                    }
+                    else
+                    {
+                        <img src="@tool.ImageUrl" alt="@tool.Name" class="img-fluid" />
+                    }
+
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">@tool.Name</h5>
+                    <p class="card-text text-muted small">
+                        @tool.CategoryName &middot; Owner: @tool.OwnerFullName
+                    </p>
+                    <span class="badge @(tool.IsAvailable ? "bg-success" : "bg-warning text-dark")">
+                        @(tool.IsAvailable ? "Available" : "On Loan")
+                    </span>
+                </div>
+                <div class="card-footer bg-white border-0">
+                    <a class="btn btn-outline-secondary btn-sm"
+                       asp-controller="Tools" asp-action="Details" asp-route-id="@tool.Id">
+                        Details
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
