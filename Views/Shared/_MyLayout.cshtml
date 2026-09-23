@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CommuniLend</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-custom px-4">
+
+            <a class="navbar-brand fw-bold fs-2" asp-controller="Home" asp-action="Index">
+                CommuniLend
+            </a>
+
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mx-auto">
+
+                    <li class="nav-item mx-4">
+                        <a class="nav-link btn-like" asp-controller="Tools" asp-action="Index">
+                            Tools
+                        </a>
+                    </li>
+
+                    <li class="nav-item mx-4">
+                        <a class="nav-link" asp-controller="Loans" asp-action="Index">
+                            Loans
+                        </a>
+                    </li>
+
+                    <li class="nav-item mx-4">
+                        <a class="nav-link active" asp-controller="Members" asp-action="Index">
+                            Members
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container mt-4">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="page-footer">
+        <div class="container">&copy; 2026 CommuniLend - Neighborhood Tool Library</div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
