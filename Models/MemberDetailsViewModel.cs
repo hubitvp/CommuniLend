@@ -5,22 +5,22 @@ namespace CommuniLend.Models
 
     public class MemberDetailsToolViewModel
     {
-        public int Id { get; set; }
+        public required int Id { get; set; }
 
-        public string Name { get; set; } = null!;
+        public required string Name { get; set; }
 
-        public bool IsAvailable { get; set; }
+        public required bool IsAvailable { get; set; }
 
-        public string CategoryName { get; set; } = null!;
+        public required string CategoryName { get; set; }
     }
 
     public class MemberDetailsLoanViewModel
     {
-        public string ToolName { get; set; } = null!;
+        public required string ToolName { get; set; }
 
-        public string LoanDate { get; set; } = null!;
-        public string DueDate { get; set; } = null!;
-        public string Status { get; set; } = null!;
+        public required string LoanDate { get; set; }
+        public required string DueDate { get; set; }
+        public required string Status { get; set; }
     }
 
 
@@ -28,24 +28,24 @@ namespace CommuniLend.Models
     public class MemberDetailsViewModel
     {
 
-        public string FullName { get; set; } = null!;
+        public required string FullName { get; set; }
 
 
-        public string Email { get; set; } = null!;
+        public required string Email { get; set; }
 
-        public string PhoneNumber { get; set; } = null!;
+        public required string PhoneNumber { get; set; }
 
-        public string MemberSince { get; set; } = null!;
+        public required string MemberSince { get; set; }
 
-        public bool IsActive { get; set; }
+        public required bool IsActive { get; set; }
 
 
-        public int ToolsCount { get; set; }
+        public required int ToolsCount { get; set; }
 
-        public int LoansCount { get; set; }
+        public required int LoansCount { get; set; }
 
-        public IEnumerable<MemberDetailsToolViewModel> Tools { get; set; } = null!;
+        public required IEnumerable<MemberDetailsToolViewModel> Tools { get; set; }
 
-        public IEnumerable<MemberDetailsLoanViewModel> Loans { get; set; } = null!;
+        public required IEnumerable<MemberDetailsLoanViewModel> Loans { get; set; }
     }
 }

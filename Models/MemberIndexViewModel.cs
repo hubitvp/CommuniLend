@@ -2,18 +2,16 @@
 {
     public class MemberIndexViewModel
     {
+        public required int Id { get; set; }
 
+        public required string FullName { get; set; }
 
-        public int Id { get; set; }
+        public required string Email { get; set; }
 
-        public string FullName { get; set; } = null!;
+        public required int ToolsShared { get; set; }
 
-        public string Email { get; set; } = null!;
+        public required int ActiveLoans { get; set; }
 
-        public int ToolsShared { get; set; }
-
-        public int ActiveLoans { get; set; }
-
-        public string MemberSince { get; set; } = null!;
+        public required string MemberSince { get; set; }
     }
 }

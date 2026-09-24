@@ -4,18 +4,20 @@
     {
 
 
-        public int Id { get; set; }
+        public required int Id { get; set; }
 
-        public string Name { get; set; } = null!;
+        public required string Name { get; set; }
 
-        public string OwnerFullName { get; set; } = null!;
+        public required string OwnerFullName { get; set; }
 
-        public string? ImageUrl { get; set; }
-
-
-        public bool IsAvailable { get; set; }
+        public required string? ImageUrl { get; set; }
 
 
-        public string CategoryName { get; set; } = null!;
+        public required bool IsAvailable { get; set; }
+
+
+        public required string CategoryName { get; set; }
+
+
     }
 }

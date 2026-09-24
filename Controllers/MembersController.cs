@@ -77,6 +77,7 @@ namespace CommuniLend.Controllers
                     })
                     .ToList(),
                 LoansCount = databaseMember.Loans.Count,
+                IsActive = databaseMember.IsActive,
                 MemberSince = databaseMember.JoinDate.ToString("MMM yyyy")
             };
 
