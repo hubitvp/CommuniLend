@@ -1,0 +1,84 @@
+﻿@model IEnumerable<LoanIndexViewModel>
+
+
+@{
+    ViewData["Title"] = "Loans";
+    var active = Model.Where(l => l.Status == LoanStatus.Active);
+    var overdue = Model.Where(l => l.Status == LoanStatus.Overdue);
+    var returned = Model.Where(l => l.Status == LoanStatus.Returned);
+}
+<h2>My Loans</h2>
+<p class="text-muted">Tools you're borrowing and lending</p>
+<ul class="nav nav-pills mb-3" id="loanTabs">
+    <li class="nav-item">
+        <a class="nav-link active" data-bs-toggle="pill" href="#active">
+            Active (@active.Count())
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="pill" href="#overdue">
+            Overdue (@overdue.Count())
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="pill" href="#returned">
+            Returned (@returned.Count())
+        </a>
+    </li>
+</ul>
+<div class="tab-content">
+    @foreach (var (paneId, loans) in new[] {
+("active", active), ("overdue", overdue), ("returned", returned) })
+    {
+        <div class="tab-pane fade @(paneId == "active" ? "show active" : "")" id="@paneId">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Tool</th>
+                        <th>Borrower</th>
+                        <th>Loan Date</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var loan in loans)
+                    {
+                        <tr>
+                            <td>
+                                <a asp-controller="Tools" asp-action="Details" asp-route-id="@loan.ToolId">
+                                    @loan.ToolName
+                                </a>
+                            </td>
+                            <td>@loan.BorrowerFullName</td>
+                            <td>@loan.LoanDate</td>
+                            <td>@loan.DueDate</td>
+                            <td>
+                                <span class="badge @(loan.Status switch
+                                      {
+                                          LoanStatus.Overdue => "bg-danger",
+                                          LoanStatus.Returned => "bg-secondary",
+                                          _ => "bg-success"
+                                      })">
+                                    @loan.Status
+                                </span>
+                            </td>
+                            <td>
+                                @if (loan.Status != LoanStatus.Returned)
+                                {
+                                    <form asp-action="Return" asp-route-id="@loan.Id" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-outline-secondary btn-sm">
+                                            Mark Returned
+                                        </button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
