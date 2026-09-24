@@ -1,7 +1,11 @@
 ﻿using CommuniLend.Data;
+using CommuniLend.Data.Models;
+using CommuniLend.Data.Models.Enums;
 using CommuniLend.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing;
 
 namespace CommuniLend.Controllers
 {
@@ -70,5 +74,68 @@ namespace CommuniLend.Controllers
             return View(toolViewModel);
         }
 
+        [HttpGet]
+        public IActionResult Create()
+        {
+            var model = CreateToolCreateInputViewModel();
+
+            return View(model);
+        }
+
+
+
+        [HttpPost]
+        public IActionResult Create(ToolCreateInputViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var returnModel = CreateToolCreateInputViewModel();
+
+                return View(returnModel);
+            }
+
+            var databaseModel = new Tool
+            {
+                Name = model.InputDataModel.Name,
+                Description = model.InputDataModel.Description,
+                Condition = (ToolCondition)model.InputDataModel.ConditionId,
+                ReplacementValue = decimal.Parse(model.InputDataModel.ReplacementValue),
+                ImageUrl = model.InputDataModel.ImageUrl,
+                IsAvailable = true,
+                DateAdded = DateOnly.FromDateTime(DateTime.UtcNow),
+                CategoryId = model.InputDataModel.CategoryId,
+                OwnerId = 1
+            };
+
+            context.Tools.Add(databaseModel);
+            context.SaveChanges();
+
+            return RedirectToAction("Details", new { id = databaseModel.Id });
+        }
+
+
+
+        private ToolCreateInputViewModel CreateToolCreateInputViewModel()
+        {
+            var categories = context.Categories
+                .AsNoTracking()
+                .Select(x => new SelectListItem(x.Name, x.Id.ToString()))
+                .ToList();
+
+            var conditionOptions = Enum.GetValues<ToolCondition>()
+                .Select(value => new SelectListItem(value.ToString(), ((int)value).ToString()))
+                .ToList();
+
+            var model = new ToolCreateInputViewModel
+            {
+                OutputDataModel = new OutputDataModel
+                {
+                    Categories = categories,
+                    ConditionOptions = conditionOptions
+                }
+            };
+
+            return model;
+        }
     }
 }

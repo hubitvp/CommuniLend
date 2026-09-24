@@ -1,0 +1,60 @@
+﻿@model ToolCreateInputViewModel
+
+
+
+@{
+    ViewData["Title"] = "Add a Tool";
+}
+
+
+<h2>Add a Tool</h2>
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3">
+        <label asp-for="InputDataModel.Name" class="form-label"></label>
+        <input asp-for="InputDataModel.Name" class="form-control" />
+        <span asp-validation-for="InputDataModel.Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="InputDataModel.CategoryId" class="form-label">Category</label>
+        <select asp-for="InputDataModel.CategoryId" asp-items="@Model.OutputDataModel!.Categories" class="form-select">
+            <option value="">-- Select a category --</option>
+        </select>
+        <span asp-validation-for="InputDataModel.CategoryId" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="InputDataModel.Description" class="form-label"></label>
+        <textarea asp-for="InputDataModel.Description" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="InputDataModel.Description" class="text-danger"></span>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="InputDataModel.ConditionId" class="form-label">Condition</label>
+
+            <select asp-for="InputDataModel.ConditionId" class="form-select"
+                    asp-items="@Model.OutputDataModel!.ConditionOptions">
+                    <option value="">-- Select tool condition --</option>
+            </select>
+            <span asp-validation-for="InputDataModel.ConditionId" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="InputDataModel.ReplacementValue" class="form-label"></label>
+            <input asp-for="InputDataModel.ReplacementValue" class="form-control" />
+            <span asp-validation-for="InputDataModel.ReplacementValue" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="InputDataModel.ImageUrl" class="form-label">Photo URL</label>
+        <input asp-for="InputDataModel.ImageUrl" class="form-control" />
+        <span asp-validation-for="InputDataModel.ImageUrl" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-success">Save Tool</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+</form>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
