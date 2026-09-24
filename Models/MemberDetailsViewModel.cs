@@ -42,6 +42,8 @@ namespace CommuniLend.Models
 
         public int ToolsCount { get; set; }
 
+        public int LoansCount { get; set; }
+
         public IEnumerable<MemberDetailsToolViewModel> Tools { get; set; } = null!;
 
         public IEnumerable<MemberDetailsLoanViewModel> Loans { get; set; } = null!;

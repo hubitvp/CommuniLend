@@ -76,6 +76,7 @@ namespace CommuniLend.Controllers
                         Status = x.ReturnDate.HasValue ? "Returned" : "Active"
                     })
                     .ToList(),
+                LoansCount = databaseMember.Loans.Count,
                 MemberSince = databaseMember.JoinDate.ToString("MMM yyyy")
             };
 
