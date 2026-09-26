@@ -33,7 +33,7 @@
 
             <select asp-for="InputDataModel.ConditionId" class="form-select"
                     asp-items="@Model.OutputDataModel!.ConditionOptions">
-                    <option value="">-- Select tool condition --</option>
+                <option value="">-- Select tool condition --</option>
             </select>
             <span asp-validation-for="InputDataModel.ConditionId" class="text-danger"></span>
         </div>
@@ -53,8 +53,7 @@
 </form>
 
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
 }

@@ -5,6 +5,7 @@ using CommuniLend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using System.Drawing;
 
 namespace CommuniLend.Controllers
@@ -47,6 +48,7 @@ namespace CommuniLend.Controllers
                 .AsNoTracking()
                 .Include(x => x.Category)
                 .Include(x => x.Owner)
+                .AsSplitQuery()
                 .SingleOrDefault(x => x.Id == id);
 
 
@@ -87,12 +89,24 @@ namespace CommuniLend.Controllers
         [HttpPost]
         public IActionResult Create(ToolCreateInputViewModel model)
         {
+            bool isCategoryIdValid = context.Categories.Any(x => x.Id == model.InputDataModel.CategoryId);
+            if (!isCategoryIdValid)
+            {
+                ModelState.AddModelError(nameof(model.InputDataModel.CategoryId), "Category is not valid");
+            }
+
+            bool isConditionIdValid = Enum.IsDefined(typeof(ToolCondition), model.InputDataModel.ConditionId);
+            if (!isCategoryIdValid)
+            {
+                ModelState.AddModelError(nameof(model.InputDataModel.ConditionId), "Condition is not valid");
+            }
+
             if (!ModelState.IsValid)
             {
                 var returnModel = CreateToolCreateInputViewModel();
-
                 return View(returnModel);
             }
+
 
             var databaseModel = new Tool
             {

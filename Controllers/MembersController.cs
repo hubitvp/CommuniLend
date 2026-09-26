@@ -43,6 +43,7 @@ namespace CommuniLend.Controllers
                 .ThenInclude(x => x.Category)
                 .Include(x => x.Loans)
                 .ThenInclude(x => x.Tool)
+                .AsSplitQuery()
                 .SingleOrDefault(x => x.Id == id);
 
 
