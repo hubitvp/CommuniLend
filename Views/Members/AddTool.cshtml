@@ -1,4 +1,4 @@
-﻿@model ToolCreateInputViewModel
+﻿@model MemberAddToolInputViewModel
 
 
 
@@ -7,8 +7,25 @@
 }
 
 
-<h2>Add a Tool</h2>
-<form asp-action="Create" method="post">
+<div>
+    <h2>
+        Owner: @(Model.OutputDataModel!.OwnerFullName)
+        <span class="badge @(Model.OutputDataModel!.IsActive ? "bg-success" : "bg-secondary")">
+            @(Model.OutputDataModel!.IsActive ? "Active" : "Inactive")
+        </span>
+    </h2>
+    <p class="text-muted mb-0">Email: @Model.OutputDataModel!.Email</p>
+    <p class="text-muted small mb-0">Phone Number: @Model.OutputDataModel!.PhoneNumber</p>
+
+    <p class="text-muted small mb-0">Address: @(Model.OutputDataModel!.Address ?? "none")</p>
+
+    <p class="text-muted small">
+        Member since @(Model.OutputDataModel!.MemberSince)
+    </p>
+</div>
+
+<h2>Add new Tool</h2>
+<form asp-controller="Members" asp-action="AddTool" asp-route-id="@Model.OutputDataModel!.OwnerId" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="mb-3">
         <label asp-for="InputDataModel.Name" class="form-label"></label>

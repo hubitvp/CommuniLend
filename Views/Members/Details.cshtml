@@ -4,20 +4,22 @@
 }
 <div class="d-flex justify-content-between align-items-start mb-3">
     <div>
-        <h2>@Model.FullName</h2>
-        <p class="text-muted mb-0">@Model.Email</p>
-        @if (!string.IsNullOrEmpty(Model.PhoneNumber))
-        {
-            <p class="text-muted small mb-0">@Model.PhoneNumber</p>
-        }
-        <p class="text-muted small">
-            Member since @Model.MemberSince
-            ·
+        <h2>
+            Member: @Model.FullName
             <span class="badge @(Model.IsActive ? "bg-success" : "bg-secondary")">
                 @(Model.IsActive ? "Active" : "Inactive")
             </span>
+        </h2>
+        <p class="text-muted mb-0">Email: @Model.Email</p>
+        <p class="text-muted small mb-0">Phone Number: @Model.PhoneNumber</p>
+
+        <p class="text-muted small mb-0">Address: @(Model.Address ?? "none")</p>
+
+        <p class="text-muted small">
+            Member since @Model.MemberSince
         </p>
     </div>
+    <a class="btn btn-success" asp-controller="Members" asp-action="AddTool" asp-route-id="@Model.Id">+ Add new Tool</a>
     <a class="btn btn-outline-secondary btn-sm" asp-action="Index">Back to Directory</a>
 </div>
 <div class="row">

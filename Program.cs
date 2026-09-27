@@ -40,10 +40,34 @@ namespace CommuniLend
             app.UseAuthorization();
 
             app.MapStaticAssets();
+
+
+            app.MapControllerRoute(
+                name: "member-add-tool",
+                pattern: "Members/{id}/AddTool",
+                defaults: new
+                {
+                    controller = "Members",
+                    action = "AddTool"
+                })
+                .WithStaticAssets();
+
+            app.MapControllerRoute(
+                name: "member-details",
+                pattern: "Members/{id}",
+                defaults: new
+                {
+                    controller = "Members",
+                    action = "Details"
+                })
+                .WithStaticAssets();
+
+
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
+                pattern: "{controller=Tools}/{action=Index}/{id?}")
                 .WithStaticAssets();
+
             app.MapRazorPages()
                .WithStaticAssets();
 
