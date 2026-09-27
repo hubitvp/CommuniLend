@@ -128,6 +128,51 @@ namespace CommuniLend.Controllers
         }
 
 
+        [HttpGet]
+        [ActionName("Delete")]
+        public IActionResult DeleteGet(int id)
+        {
+            var databaseTool = context.Tools
+                .AsNoTracking()
+                .Include(x => x.Category)
+                .Include(x => x.Owner)
+                .AsSplitQuery()
+                .SingleOrDefault(x => x.Id == id);
+
+
+            if (databaseTool == null)
+            {
+                return NotFound();
+            }
+
+            int loansCount = context.Loans.Count(x => x.ToolId == databaseTool.Id);
+
+            var toolViewModel = new ToolDeleteViewModel
+            {
+                Id = databaseTool.Id,
+                Name = databaseTool.Name,
+                CategoryName = databaseTool.Category.Name,
+                OwnerFullName = databaseTool.Owner.FullName,
+                ActiveLoans = loansCount,
+            };
+
+            return View(toolViewModel);
+        }
+
+
+
+
+        [HttpPost]
+        [ActionName("Delete")]
+        public IActionResult DeletePost(int id)
+        {
+            context.Tools.Where(x => x.Id == id).ExecuteDelete();
+
+            return RedirectToAction("Index", "Tools");
+        }
+
+
+
 
         private ToolCreateInputViewModel CreateToolCreateInputViewModel()
         {
