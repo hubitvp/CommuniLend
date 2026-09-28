@@ -46,9 +46,10 @@ namespace CommuniLend.Controllers
 
             var databaseTool = context.Tools
                 .AsNoTracking()
+                .AsSplitQuery()
+                .Include(x => x.OpenLoan)
                 .Include(x => x.Category)
                 .Include(x => x.Owner)
-                .AsSplitQuery()
                 .SingleOrDefault(x => x.Id == id);
 
 

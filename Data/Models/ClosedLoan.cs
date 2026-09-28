@@ -18,6 +18,13 @@ namespace CommuniLend.Data.Models
         public virtual Tool Tool { get; set; } = null!;
 
 
+        [Required]
+        public required int OwnerId { get; set; }
+
+
+        [ForeignKey(nameof(OwnerId))]
+        public virtual Member Owner { get; set; } = null!;
+
 
         [Required]
         public required int BorrowerId { get; set; }

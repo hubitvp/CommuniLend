@@ -85,6 +85,9 @@ namespace CommuniLend.Data.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
+                    b.Property<int>("OwnerId")
+                        .HasColumnType("int");
+
                     b.Property<DateOnly>("ReturnDate")
                         .HasColumnType("date");
 
@@ -94,6 +97,8 @@ namespace CommuniLend.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BorrowerId");
+
+                    b.HasIndex("OwnerId");
 
                     b.HasIndex("ToolId");
 
@@ -107,6 +112,7 @@ namespace CommuniLend.Data.Migrations
                             DueDate = new DateOnly(2026, 9, 2),
                             LoanDate = new DateOnly(2026, 8, 19),
                             Notes = "Shelf installation",
+                            OwnerId = 3,
                             ReturnDate = new DateOnly(2026, 9, 3),
                             ToolId = 4
                         },
@@ -117,6 +123,7 @@ namespace CommuniLend.Data.Migrations
                             DueDate = new DateOnly(2026, 9, 2),
                             LoanDate = new DateOnly(2026, 8, 19),
                             Notes = "Picture frame hanging",
+                            OwnerId = 1,
                             ReturnDate = new DateOnly(2026, 9, 3),
                             ToolId = 9
                         },
@@ -127,6 +134,7 @@ namespace CommuniLend.Data.Migrations
                             DueDate = new DateOnly(2026, 9, 14),
                             LoanDate = new DateOnly(2026, 8, 31),
                             Notes = "Fence repair",
+                            OwnerId = 4,
                             ReturnDate = new DateOnly(2026, 9, 15),
                             ToolId = 5
                         },
@@ -137,6 +145,7 @@ namespace CommuniLend.Data.Migrations
                             DueDate = new DateOnly(2026, 9, 24),
                             LoanDate = new DateOnly(2026, 9, 10),
                             Notes = "Wall stud detection",
+                            OwnerId = 5,
                             ReturnDate = new DateOnly(2026, 9, 25),
                             ToolId = 13
                         },
@@ -147,6 +156,7 @@ namespace CommuniLend.Data.Migrations
                             DueDate = new DateOnly(2026, 9, 18),
                             LoanDate = new DateOnly(2026, 9, 4),
                             Notes = "Deck board cutting",
+                            OwnerId = 1,
                             ReturnDate = new DateOnly(2026, 9, 19),
                             ToolId = 2
                         },
@@ -157,6 +167,7 @@ namespace CommuniLend.Data.Migrations
                             DueDate = new DateOnly(2026, 9, 24),
                             LoanDate = new DateOnly(2026, 9, 10),
                             Notes = "Molding and trim work",
+                            OwnerId = 2,
                             ReturnDate = new DateOnly(2026, 9, 25),
                             ToolId = 10
                         },
@@ -167,6 +178,7 @@ namespace CommuniLend.Data.Migrations
                             DueDate = new DateOnly(2026, 9, 7),
                             LoanDate = new DateOnly(2026, 8, 24),
                             Notes = "Tree removal branch cutting",
+                            OwnerId = 1,
                             ReturnDate = new DateOnly(2026, 9, 8),
                             ToolId = 16
                         },
@@ -177,6 +189,7 @@ namespace CommuniLend.Data.Migrations
                             DueDate = new DateOnly(2026, 9, 14),
                             LoanDate = new DateOnly(2026, 8, 31),
                             Notes = "Floor sanding",
+                            OwnerId = 2,
                             ReturnDate = new DateOnly(2026, 9, 15),
                             ToolId = 17
                         },
@@ -187,6 +200,7 @@ namespace CommuniLend.Data.Migrations
                             DueDate = new DateOnly(2026, 9, 20),
                             LoanDate = new DateOnly(2026, 9, 6),
                             Notes = "Finishing hardwood",
+                            OwnerId = 3,
                             ReturnDate = new DateOnly(2026, 9, 21),
                             ToolId = 18
                         });
@@ -323,12 +337,17 @@ namespace CommuniLend.Data.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
+                    b.Property<int>("OwnerId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ToolId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BorrowerId");
+
+                    b.HasIndex("OwnerId");
 
                     b.HasIndex("ToolId")
                         .IsUnique();
@@ -343,6 +362,7 @@ namespace CommuniLend.Data.Migrations
                             DueDate = new DateOnly(2026, 10, 5),
                             LoanDate = new DateOnly(2026, 9, 14),
                             Notes = "Borrowed for home renovation project",
+                            OwnerId = 2,
                             ToolId = 3
                         },
                         new
@@ -352,6 +372,7 @@ namespace CommuniLend.Data.Migrations
                             DueDate = new DateOnly(2026, 10, 9),
                             LoanDate = new DateOnly(2026, 9, 18),
                             Notes = "Needed for measuring deck",
+                            OwnerId = 6,
                             ToolId = 7
                         },
                         new
@@ -361,6 +382,7 @@ namespace CommuniLend.Data.Migrations
                             DueDate = new DateOnly(2026, 10, 11),
                             LoanDate = new DateOnly(2026, 9, 20),
                             Notes = "Cabinet installation",
+                            OwnerId = 3,
                             ToolId = 11
                         },
                         new
@@ -370,6 +392,7 @@ namespace CommuniLend.Data.Migrations
                             DueDate = new DateOnly(2026, 10, 14),
                             LoanDate = new DateOnly(2026, 9, 23),
                             Notes = "Basement repair work",
+                            OwnerId = 6,
                             ToolId = 14
                         },
                         new
@@ -379,6 +402,7 @@ namespace CommuniLend.Data.Migrations
                             DueDate = new DateOnly(2026, 10, 16),
                             LoanDate = new DateOnly(2026, 9, 25),
                             Notes = "Caulking bathroom tiles",
+                            OwnerId = 4,
                             ToolId = 19
                         },
                         new
@@ -388,6 +412,7 @@ namespace CommuniLend.Data.Migrations
                             DueDate = new DateOnly(2026, 10, 17),
                             LoanDate = new DateOnly(2026, 9, 26),
                             Notes = "Engine repair project",
+                            OwnerId = 7,
                             ToolId = 8
                         },
                         new
@@ -397,6 +422,7 @@ namespace CommuniLend.Data.Migrations
                             DueDate = new DateOnly(2026, 10, 18),
                             LoanDate = new DateOnly(2026, 9, 27),
                             Notes = "Measuring for new flooring",
+                            OwnerId = 7,
                             ToolId = 15
                         });
                 });
@@ -1253,8 +1279,14 @@ namespace CommuniLend.Data.Migrations
             modelBuilder.Entity("CommuniLend.Data.Models.ClosedLoan", b =>
                 {
                     b.HasOne("CommuniLend.Data.Models.Member", "Borrower")
-                        .WithMany("ClosedLoans")
+                        .WithMany()
                         .HasForeignKey("BorrowerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CommuniLend.Data.Models.Member", "Owner")
+                        .WithMany("ClosedLoans")
+                        .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1266,14 +1298,22 @@ namespace CommuniLend.Data.Migrations
 
                     b.Navigation("Borrower");
 
+                    b.Navigation("Owner");
+
                     b.Navigation("Tool");
                 });
 
             modelBuilder.Entity("CommuniLend.Data.Models.OpenLoan", b =>
                 {
                     b.HasOne("CommuniLend.Data.Models.Member", "Borrower")
-                        .WithMany("OpenLoans")
+                        .WithMany()
                         .HasForeignKey("BorrowerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CommuniLend.Data.Models.Member", "Owner")
+                        .WithMany("OpenLoans")
+                        .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1284,6 +1324,8 @@ namespace CommuniLend.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Borrower");
+
+                    b.Navigation("Owner");
 
                     b.Navigation("Tool");
                 });

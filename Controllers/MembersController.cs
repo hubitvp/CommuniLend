@@ -44,11 +44,20 @@ namespace CommuniLend.Controllers
         {
 
             var databaseMember = context.Members
+                .AsNoTracking()
+                .AsSplitQuery()
+                .Include(x => x.ClosedLoans)
+                .ThenInclude(x => x.Borrower)
+                .Include(x => x.ClosedLoans)
+                .ThenInclude(x => x.Tool)
                 .Include(x => x.OwnedTools)
                 .ThenInclude(x => x.Category)
+                .Include(x => x.OwnedTools)
+                .ThenInclude(x => x.OpenLoan)
                 .Include(x => x.OpenLoans)
                 .ThenInclude(x => x.Tool)
-                .AsSplitQuery()
+                .Include(x => x.OpenLoans)
+                .ThenInclude(x => x.Borrower)
                 .SingleOrDefault(x => x.Id == id);
 
 
@@ -58,48 +67,100 @@ namespace CommuniLend.Controllers
             }
 
 
+            var borrowedTools = context.OpenLoans
+                .AsNoTracking()
+                .Where(x => x.BorrowerId == databaseMember.Id)
+                .Select(x => new MemberDetailsBorrowedToolViewModel
+                {
+                    ToolId = x.ToolId,
+                    ToolName = x.Tool.Name,
+                    LoanDate = x.LoanDate.ToString("dd MMMM yyyy"),
+                    DueDate = x.DueDate.ToString("dd MMMM yyyy"),
+                    Status = "On Loan",
+                    OwnerId = x.OwnerId,
+                    OwnerFullName = x.Owner.FullName,
+                }).ToList();
+
+
+            var closedBorrowedLoans = context.ClosedLoans
+                .AsNoTracking()
+                .Where(x => x.BorrowerId == databaseMember.Id)
+                .Select(x => new MemberDetailsClosedBorrowedLoanViewModel
+                {
+                    ToolId = x.ToolId,
+                    ToolName = x.Tool.Name,
+                    LoanDate = x.LoanDate.ToString("dd MMMM yyyy"),
+                    DueDate = x.DueDate.ToString("dd MMMM yyyy"),
+                    ReturnDate = x.ReturnDate.ToString("dd MMMM yyyy"),
+                    Status = "Returned",
+                    OwnerId = x.OwnerId,
+                    OwnerFullName = x.Owner.FullName,
+
+                }).ToList();
+
+
+
             var memberViewModel = new MemberDetailsViewModel
             {
-                Id = databaseMember.Id,
+                MemberId = databaseMember.Id,
                 FullName = databaseMember.FullName,
                 Email = databaseMember.Email,
                 PhoneNumber = databaseMember.PhoneNumber,
                 Address = databaseMember.Address,
                 OwnedTools = databaseMember.OwnedTools
-                    .Select(x => new MemberDetailsToolViewModel
+                    .Select(x => new MemberDetailsOwnedToolViewModel
                     {
-                        Id = x.Id,
-                        Name = x.Name,
+                        ToolId = x.Id,
+                        ToolName = x.Name,
                         CategoryName = x.Category.Name,
                         IsAvailable = x.OpenLoan == null
                     })
                     .ToList(),
                 OwnedToolsCount = databaseMember.OwnedTools.Count,
+
+
                 OpenLoans = databaseMember.OpenLoans
                     .Select(x => new MemberDetailsOpenLoanViewModel
                     {
+                        ToolId = x.ToolId,
                         ToolName = x.Tool.Name,
                         LoanDate = x.LoanDate.ToString("dd MMMM yyyy"),
                         DueDate = x.DueDate.ToString("dd MMMM yyyy"),
-                        Status = "Active"
+                        BorrowerId = x.BorrowerId,
+                        BorrowerFullName = x.Borrower.FullName,
+                        Status = "On Loan"
                     })
                     .ToList(),
 
                 OpenLoansCount = databaseMember.OpenLoans.Count,
 
 
+                BorrowedTools = borrowedTools,
+                BorrowedToolsCount = borrowedTools.Count,
+
+
                 ClosedLoans = databaseMember.ClosedLoans
                     .Select(x => new MemberDetailsClosedLoanViewModel
                     {
+                        ToolId = x.ToolId,
                         ToolName = x.Tool.Name,
                         LoanDate = x.LoanDate.ToString("dd MMMM yyyy"),
                         DueDate = x.DueDate.ToString("dd MMMM yyyy"),
                         ReturnDate = x.ReturnDate.ToString("dd MMMM yyyy"),
-                        Status = "Returned"
+                        Status = "Returned",
+                        BorrowerId = x.BorrowerId,
+                        BorrowerFullName = x.Borrower.FullName,
                     })
                     .ToList(),
 
                 ClosedLoansCount = databaseMember.ClosedLoans.Count,
+
+
+
+                ClosedBorrowedLoans = closedBorrowedLoans,
+                ClosedBorrowedLoansCount = closedBorrowedLoans.Count,
+
+
 
                 IsActive = databaseMember.IsActive,
                 MemberSince = databaseMember.JoinDate.ToString("dd MMMM yyyy")
