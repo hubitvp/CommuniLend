@@ -29,8 +29,8 @@ namespace CommuniLend.Controllers
                     Id = x.Id,
                     FullName = x.FullName,
                     Email = x.Email,
-                    ToolsShared = x.Tools.Count(),
-                    ActiveLoans = x.OpenLoans.Count(),
+                    ToolsShared = x.OwnedTools.Count,
+                    ActiveLoans = x.OpenLoans.Count,
                     MemberSince = x.JoinDate.ToString("dd MMMM yyyy")
                 })
                 .ToList();
@@ -44,7 +44,7 @@ namespace CommuniLend.Controllers
         {
 
             var databaseMember = context.Members
-                .Include(x => x.Tools)
+                .Include(x => x.OwnedTools)
                 .ThenInclude(x => x.Category)
                 .Include(x => x.OpenLoans)
                 .ThenInclude(x => x.Tool)
@@ -65,7 +65,7 @@ namespace CommuniLend.Controllers
                 Email = databaseMember.Email,
                 PhoneNumber = databaseMember.PhoneNumber,
                 Address = databaseMember.Address,
-                Tools = databaseMember.Tools
+                OwnedTools = databaseMember.OwnedTools
                     .Select(x => new MemberDetailsToolViewModel
                     {
                         Id = x.Id,
@@ -74,7 +74,7 @@ namespace CommuniLend.Controllers
                         IsAvailable = x.IsAvailable
                     })
                     .ToList(),
-                ToolsCount = databaseMember.Tools.Count,
+                OwnedToolsCount = databaseMember.OwnedTools.Count,
                 OpenLoans = databaseMember.OpenLoans
                     .Select(x => new MemberDetailsOpenLoanViewModel
                     {
@@ -166,7 +166,7 @@ namespace CommuniLend.Controllers
                 DateAdded = DateOnly.FromDateTime(DateTime.UtcNow),
                 CategoryId = model.InputDataModel.CategoryId,
                 OwnerId = id,
-                OpenLoanId = null
+                BorrowerId = null,
             };
 
             context.Tools.Add(databaseModel);

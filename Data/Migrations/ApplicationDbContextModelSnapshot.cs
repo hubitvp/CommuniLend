@@ -41,7 +41,7 @@ namespace CommuniLend.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
 
                     b.HasData(
                         new
@@ -97,7 +97,7 @@ namespace CommuniLend.Data.Migrations
 
                     b.HasIndex("ToolId");
 
-                    b.ToTable("Loans");
+                    b.ToTable("Loans", (string)null);
 
                     b.HasData(
                         new
@@ -290,7 +290,7 @@ namespace CommuniLend.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Members");
+                    b.ToTable("Members", (string)null);
 
                     b.HasData(
                         new
@@ -410,7 +410,7 @@ namespace CommuniLend.Data.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("Tools");
+                    b.ToTable("Tools", (string)null);
 
                     b.HasData(
                         new

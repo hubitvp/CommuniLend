@@ -57,10 +57,6 @@ namespace CommuniLend.Data.Models
         public virtual Member Owner { get; set; } = null!;
 
 
-        public required int? OpenLoanId { get; set; }
-
-
-        [ForeignKey(nameof(OpenLoanId))]
         public virtual OpenLoan? OpenLoan { get; set; }
 
 

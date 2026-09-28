@@ -8,18 +8,13 @@ namespace CommuniLend.Data.Models.Configurations
     {
         public void Configure(EntityTypeBuilder<OpenLoan> builder)
         {
+            builder.HasIndex(l => l.ToolId)
+                .IsUnique();
+
             builder.HasOne(l => l.Borrower)
                 .WithMany(m => m.OpenLoans)
                 .HasForeignKey(l => l.BorrowerId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(l => l.Tool)
-                .WithOne(t => t.OpenLoan)
-                .HasForeignKey<OpenLoan>(l => l.ToolId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasIndex(l => l.ToolId)
-                .IsUnique();
 
             builder.HasData(GetSeedData());
         }

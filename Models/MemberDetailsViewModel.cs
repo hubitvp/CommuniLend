@@ -56,12 +56,12 @@ namespace CommuniLend.Models
         public required bool IsActive { get; set; }
 
 
-        public required int ToolsCount { get; set; }
+        public required int OwnedToolsCount { get; set; }
 
         public required int ClosedLoansCount { get; set; }
         public required int OpenLoansCount { get; set; }
 
-        public required IEnumerable<MemberDetailsToolViewModel> Tools { get; set; }
+        public required IEnumerable<MemberDetailsToolViewModel> OwnedTools { get; set; }
 
         public required IEnumerable<MemberDetailsClosedLoanViewModel> ClosedLoans { get; set; }
 

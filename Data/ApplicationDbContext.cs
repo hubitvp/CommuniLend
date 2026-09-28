@@ -21,6 +21,7 @@ namespace CommuniLend.Data
 
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new ClosedLoanConfiguration());
+            modelBuilder.ApplyConfiguration(new OpenLoanConfiguration());
             modelBuilder.ApplyConfiguration(new MemberConfiguration());
             modelBuilder.ApplyConfiguration(new ToolConfiguration());
         }

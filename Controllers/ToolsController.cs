@@ -61,12 +61,10 @@ namespace CommuniLend.Controllers
             ClosedLoan? loan = null;
             if (!databaseTool.IsAvailable)
             {
-                loan = context.Loans
+                loan = context.ClosedLoans
                    .Include(x => x.Borrower)
                    .AsNoTracking()
-                   .SingleOrDefault(x =>
-                       x.ToolId == databaseTool.Id
-                       && x.ReturnDate == null);
+                   .SingleOrDefault(x => x.ToolId == databaseTool.Id);
             }
 
             var toolViewModel = new ToolDetailsViewModel
@@ -77,76 +75,17 @@ namespace CommuniLend.Controllers
                 CategoryName = databaseTool.Category.Name,
                 IsAvailable = databaseTool.IsAvailable,
                 Description = databaseTool.Description,
-                ReplacementValue = databaseTool.ReplacementValue.ToString("C", CultureInfo.InvariantCulture),
+                ReplacementValue = databaseTool.ReplacementValue.ToString("C"),
                 Condition = databaseTool.Condition.ToString(),
                 OwnerFullName = databaseTool.Owner.FullName,
                 OwnerId = databaseTool.OwnerId,
                 IsInUseBy = loan?.Borrower.FullName
             };
 
-
-
-
             return View(toolViewModel);
         }
 
 
-
-
-        //[HttpGet]
-        //public IActionResult Create(int ownerId)
-        //{
-
-
-
-        //    ToolCreateInputViewModel model = CreateToolCreateInputViewModel(ownerId);
-
-        //    return View(model);
-        //}
-
-
-
-        //[HttpPost]
-        //public IActionResult Create(ToolCreateInputViewModel model)
-        //{
-        //    bool isCategoryIdValid = context.Categories.Any(x => x.Id == model.InputDataModel.CategoryId);
-        //    if (!isCategoryIdValid)
-        //    {
-        //        ModelState.AddModelError(nameof(model.InputDataModel.CategoryId), "Category is not valid");
-        //    }
-
-        //    bool isConditionIdValid = Enum.IsDefined(typeof(ToolCondition), model.InputDataModel.ConditionId);
-        //    if (!isCategoryIdValid)
-        //    {
-        //        ModelState.AddModelError(nameof(model.InputDataModel.ConditionId), "Condition is not valid");
-        //    }
-
-
-        //    if (!ModelState.IsValid)
-        //    {
-        //        var returnModel = CreateToolCreateInputViewModel();
-        //        return View(returnModel);
-        //    }
-
-
-        //    var databaseModel = new Tool
-        //    {
-        //        Name = model.InputDataModel.Name,
-        //        Description = model.InputDataModel.Description,
-        //        Condition = (ToolCondition)model.InputDataModel.ConditionId,
-        //        ReplacementValue = decimal.Parse(model.InputDataModel.ReplacementValue),
-        //        ImageUrl = model.InputDataModel.ImageUrl,
-        //        IsAvailable = true,
-        //        DateAdded = DateOnly.FromDateTime(DateTime.UtcNow),
-        //        CategoryId = model.InputDataModel.CategoryId,
-        //        OwnerId = 1
-        //    };
-
-        //    context.Tools.Add(databaseModel);
-        //    context.SaveChanges();
-
-        //    return RedirectToAction("Details", new { id = databaseModel.Id });
-        //}
 
 
         [HttpGet]
@@ -166,7 +105,7 @@ namespace CommuniLend.Controllers
                 return NotFound();
             }
 
-            int loansCount = context.Loans.Count(x => x.ToolId == databaseTool.Id);
+            int loansCount = context.OpenLoans.Count(x => x.ToolId == databaseTool.Id);
 
             var toolViewModel = new ToolDeleteViewModel
             {

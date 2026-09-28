@@ -24,11 +24,11 @@
 </div>
 <div class="row">
     <div class="col-md-6">
-        <h5>Tools Shared (@Model.ToolsCount)</h5>
+        <h5>Tools Shared (@Model.OwnedToolsCount)</h5>
         <table class="table table-sm">
             <thead><tr><th>Tool</th><th>Category</th><th>Status</th></tr></thead>
             <tbody>
-                @foreach (var tool in Model.Tools)
+                @foreach (var tool in Model.OwnedTools)
                 {
                     <tr>
                         <td>
@@ -48,11 +48,11 @@
         </table>
     </div>
     <div class="col-md-6">
-        <h5>Loan History (@Model.LoansCount)</h5>
+        <h5>Loan History (@Model.OpenLoansCount)</h5>
         <table class="table table-sm">
             <thead><tr><th>Tool</th><th>Due</th><th>Status</th></tr></thead>
             <tbody>
-                @foreach (var loan in Model.Loans)
+                @foreach (var loan in Model.OpenLoans)
                 {
                     <tr>
                         <td>@loan.ToolName</td>

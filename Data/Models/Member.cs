@@ -39,7 +39,13 @@ namespace CommuniLend.Data.Models
 
 
 
-        public virtual ICollection<Tool> Tools { get; set; } = new List<Tool>();
+
+
+        public virtual ICollection<Tool> OwnedTools { get; set; } = new List<Tool>();
+
+
+        public virtual ICollection<Tool> BorrowedTools { get; set; } = new List<Tool>();
+
 
         public virtual ICollection<OpenLoan> OpenLoans { get; set; } = new List<OpenLoan>();
 

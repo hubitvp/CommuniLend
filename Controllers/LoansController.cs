@@ -17,19 +17,31 @@ namespace CommuniLend.Controllers
 
         public IActionResult Index()
         {
-            var loans = context.Loans
+            var activeLoans = context.OpenLoans
                 .AsNoTracking()
-                .Select(x => new LoanIndexViewModel
+                .AsSplitQuery()
+                .Select(x => new ActiveLoanIndexViewModel
                 {
                     Id = x.Id,
                     ToolId = x.ToolId,
                     ToolName = x.Tool.Name,
-                    BorrowerFullName = x.Borrower.FullName,
+                    ToolOwnerId = x.Tool.OwnerId,
+                    ToolOwnerFullName = x.Tool.Owner.FullName,
+                    ToolBorrowerId = x.BorrowerId,
+                    ToolBorrowerFullName = x.Borrower.FullName,
+
                     LoanDate = x.LoanDate.ToString("dd MMMM yyyy"),
                     DueDate = x.DueDate.ToString("dd MMMM yyyy"),
-                    Status = x.ReturnDate == null ? LoanStatus.Active : LoanStatus.Returned
+                    //Status = LoanStatus.Active
                 })
                 .ToList();
+
+
+            var loans = new LoanIndexViewModel
+            {
+                ActiveLoans = activeLoans
+            };
+
 
             return View(loans);
         }

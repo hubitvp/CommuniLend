@@ -1,40 +1,77 @@
-﻿@model IEnumerable<LoanIndexViewModel>
+﻿@model LoanIndexViewModel
 
 
 @{
     ViewData["Title"] = "Loans";
-    var active = Model.Where(l => l.Status == LoanStatus.Active);
-    var overdue = Model.Where(l => l.Status == LoanStatus.Overdue);
-    var returned = Model.Where(l => l.Status == LoanStatus.Returned);
 }
-<h2>My Loans</h2>
-<p class="text-muted">Tools you're borrowing and lending</p>
-<ul class="nav nav-pills mb-3" id="loanTabs">
-    <li class="nav-item">
-        <a class="nav-link active" data-bs-toggle="pill" href="#active">
-            Active (@active.Count())
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="pill" href="#overdue">
-            Overdue (@overdue.Count())
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="pill" href="#returned">
-            Returned (@returned.Count())
-        </a>
-    </li>
+
+
+<h2>Loans</h2>
+
+
+<p class="text-muted">Active</p>
+
+
+<div class="tab-pane">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tool</th>
+                <th>Owner</th>
+                <th>Borrower</th>
+                <th>Loan Date</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var activeLoan in Model.ActiveLoans)
+            {
+                <tr>
+                    <td><a asp-controller="Tools" asp-action="Details" asp-route-id="@activeLoan.ToolId">@activeLoan.ToolName</a></td>
+                    <td>
+                        <a asp-controller="Members" asp-action="Details" asp-route-id="@activeLoan.ToolOwnerId">
+                            @activeLoan.ToolOwnerFullName
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-controller="Members" asp-action="Details" asp-route-id="@activeLoan.ToolBorrowerId">
+                            @activeLoan.ToolBorrowerFullName
+                        </a>
+                    </td>
+                    <td>@activeLoan.LoanDate</td>
+                    <td>@activeLoan.DueDate</td>
+                    <td><span class="badge bg-warning">"Active"</span></td>
+                    <td>
+                        <form asp-action="Return" asp-route-id="@activeLoan.Id" method="post">
+                            <button type="submit" class="btn btn-outline-secondary btn-sm">Mark Returned</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@* 
+<p class="text-muted">Tools</p>
+<ul class="nav nav-pills mb-3">
+    <li class="nav-item"><a class="nav-link active" data-bs-toggle="pill" href="#active">Active (@Model.Active.Count)</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#overdue">Overdue (@Model.Overdue.Count)</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#returned">Returned (@Model.Returned.Count)</a></li>
 </ul>
 <div class="tab-content">
-    @foreach (var (paneId, loans) in new[] {
-("active", active), ("overdue", overdue), ("returned", returned) })
+    @foreach (var (paneId, loans, badge) in new[] {
+("active", Model.Active, "bg-success"), ("overdue", Model.Overdue, "bg-danger") })
     {
         <div class="tab-pane fade @(paneId == "active" ? "show active" : "")" id="@paneId">
             <table class="table">
                 <thead>
                     <tr>
                         <th>Tool</th>
+                        <th>Owner</th>
                         <th>Borrower</th>
                         <th>Loan Date</th>
                         <th>Due Date</th>
@@ -46,34 +83,24 @@
                     @foreach (var loan in loans)
                     {
                         <tr>
+                            <td><a asp-controller="Tools" asp-action="Details" asp-route-id="@loan.ToolId">@loan.Tool.Name</a></td>
                             <td>
-                                <a asp-controller="Tools" asp-action="Details" asp-route-id="@loan.ToolId">
-                                    @loan.ToolName
+                                <a asp-controller="Members" asp-action="Details" asp-route-id="@loan.Tool.OwnerId">
+                                    @loan.Tool.Owner?.FullName
                                 </a>
                             </td>
-                            <td>@loan.BorrowerFullName</td>
-                            <td>@loan.LoanDate</td>
-                            <td>@loan.DueDate</td>
                             <td>
-                                <span class="badge @(loan.Status switch
-                                      {
-                                          LoanStatus.Overdue => "bg-danger",
-                                          LoanStatus.Returned => "bg-secondary",
-                                          _ => "bg-success"
-                                      })">
-                                    @loan.Status
-                                </span>
+                                <a asp-controller="Members" asp-action="Details" asp-route-id="@loan.BorrowerId">
+                                    @loan.Borrower.FullName
+                                </a>
                             </td>
+                            <td>@loan.LoanDate.ToShortDateString()</td>
+                            <td>@loan.DueDate.ToShortDateString()</td>
+                            <td><span class="badge @badge">@(paneId == "active" ? "Active" : "Overdue")</span></td>
                             <td>
-                                @if (loan.Status != LoanStatus.Returned)
-                                {
-                                    <form asp-action="Return" asp-route-id="@loan.Id" method="post">
-                                        @Html.AntiForgeryToken()
-                                        <button type="submit" class="btn btn-outline-secondary btn-sm">
-                                            Mark Returned
-                                        </button>
-                                    </form>
-                                }
+                                <form asp-action="Return" asp-route-id="@loan.Id" method="post">
+                                    <button type="submit" class="btn btn-outline-secondary btn-sm">Mark Returned</button>
+                                </form>
                             </td>
                         </tr>
                     }
@@ -81,4 +108,39 @@
             </table>
         </div>
     }
-</div>
+    <div class="tab-pane fade" id="returned">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Tool</th>
+                    <th>Owner</th>
+                    <th>Borrower</th>
+                    <th>Loan Date</th>
+                    <th>Due Date</th>
+                    <th>Returned</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var loan in Model.Returned)
+                {
+                    <tr>
+                        <td><a asp-controller="Tools" asp-action="Details" asp-route-id="@loan.ToolId">@loan.Tool.Name</a></td>
+                        <td>
+                            <a asp-controller="Members" asp-action="Details" asp-route-id="@loan.Tool.OwnerId">
+                                @loan.Tool.Owner?.FullName
+                            </a>
+                        </td>
+                        <td>
+                            <a asp-controller="Members" asp-action="Details" asp-route-id="@loan.BorrowerId">
+                                @loan.Borrower.FullName
+                            </a>
+                        </td>
+                        <td>@loan.LoanDate.ToShortDateString()</td>
+                        <td>@loan.DueDate.ToShortDateString()</td>
+                        <td>@loan.ReturnDate.ToShortDateString()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div> *@
