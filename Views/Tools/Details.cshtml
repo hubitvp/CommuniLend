@@ -41,6 +41,13 @@
                         @(Model.IsAvailable ? "Available" : "On Loan")
                     </span>
                 </dd>
+
+                @if (!Model.IsAvailable)
+                {
+                    <dt class="col-sm-5">Is in use by</dt>
+                    <dd class="col-sm-7">@Model.IsInUseBy</dd>
+                }
+
             </dl>
             <h6 class="mt-3">Description</h6>
             <p>@Model.Description</p>

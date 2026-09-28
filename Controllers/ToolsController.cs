@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using System.Drawing;
+using System.Globalization;
 
 namespace CommuniLend.Controllers
 {
@@ -38,8 +39,7 @@ namespace CommuniLend.Controllers
             return View(tools);
         }
 
-
-
+        [HttpGet]
         public IActionResult Details(int id)
         {
 
@@ -58,6 +58,17 @@ namespace CommuniLend.Controllers
             }
 
 
+            ClosedLoan? loan = null;
+            if (!databaseTool.IsAvailable)
+            {
+                loan = context.Loans
+                   .Include(x => x.Borrower)
+                   .AsNoTracking()
+                   .SingleOrDefault(x =>
+                       x.ToolId == databaseTool.Id
+                       && x.ReturnDate == null);
+            }
+
             var toolViewModel = new ToolDetailsViewModel
             {
                 Id = databaseTool.Id,
@@ -66,11 +77,15 @@ namespace CommuniLend.Controllers
                 CategoryName = databaseTool.Category.Name,
                 IsAvailable = databaseTool.IsAvailable,
                 Description = databaseTool.Description,
-                ReplacementValue = databaseTool.ReplacementValue.ToString("C"),
+                ReplacementValue = databaseTool.ReplacementValue.ToString("C", CultureInfo.InvariantCulture),
                 Condition = databaseTool.Condition.ToString(),
                 OwnerFullName = databaseTool.Owner.FullName,
-                OwnerId = databaseTool.OwnerId
+                OwnerId = databaseTool.OwnerId,
+                IsInUseBy = loan?.Borrower.FullName
             };
+
+
+
 
             return View(toolViewModel);
         }

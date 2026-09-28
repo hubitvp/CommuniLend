@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CommuniLend.Data.Models
 {
-    public class Loan
+    public class ClosedLoan
     {
 
         [Key]
@@ -34,10 +34,8 @@ namespace CommuniLend.Data.Models
         [Required]
         public DateOnly DueDate { get; set; }
 
-
-
-        public DateOnly? ReturnDate { get; set; }
-
+        [Required]
+        public DateOnly ReturnDate { get; set; }
 
 
         [StringLength(ValidationConstants.Loan.NotesMaxLength)]

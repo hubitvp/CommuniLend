@@ -30,7 +30,7 @@ namespace CommuniLend.Controllers
                     FullName = x.FullName,
                     Email = x.Email,
                     ToolsShared = x.Tools.Count(),
-                    ActiveLoans = x.Loans.Count(),
+                    ActiveLoans = x.OpenLoans.Count(),
                     MemberSince = x.JoinDate.ToString("dd MMMM yyyy")
                 })
                 .ToList();
@@ -46,7 +46,7 @@ namespace CommuniLend.Controllers
             var databaseMember = context.Members
                 .Include(x => x.Tools)
                 .ThenInclude(x => x.Category)
-                .Include(x => x.Loans)
+                .Include(x => x.OpenLoans)
                 .ThenInclude(x => x.Tool)
                 .AsSplitQuery()
                 .SingleOrDefault(x => x.Id == id);
@@ -75,20 +75,35 @@ namespace CommuniLend.Controllers
                     })
                     .ToList(),
                 ToolsCount = databaseMember.Tools.Count,
-                Loans = databaseMember.Loans
-                    .Select(x => new MemberDetailsLoanViewModel
+                OpenLoans = databaseMember.OpenLoans
+                    .Select(x => new MemberDetailsOpenLoanViewModel
                     {
                         ToolName = x.Tool.Name,
                         LoanDate = x.LoanDate.ToString("dd MMMM yyyy"),
                         DueDate = x.DueDate.ToString("dd MMMM yyyy"),
-                        Status = x.ReturnDate.HasValue ? "Returned" : "Active"
+                        Status = "Active"
                     })
                     .ToList(),
-                LoansCount = databaseMember.Loans.Count,
+
+                OpenLoansCount = databaseMember.OpenLoans.Count,
+
+
+                ClosedLoans = databaseMember.ClosedLoans
+                    .Select(x => new MemberDetailsClosedLoanViewModel
+                    {
+                        ToolName = x.Tool.Name,
+                        LoanDate = x.LoanDate.ToString("dd MMMM yyyy"),
+                        DueDate = x.DueDate.ToString("dd MMMM yyyy"),
+                        ReturnDate = x.ReturnDate.ToString("dd MMMM yyyy"),
+                        Status = "Returned"
+                    })
+                    .ToList(),
+
+                ClosedLoansCount = databaseMember.ClosedLoans.Count,
+
                 IsActive = databaseMember.IsActive,
                 MemberSince = databaseMember.JoinDate.ToString("dd MMMM yyyy")
             };
-
 
             return View(memberViewModel);
         }
@@ -150,7 +165,8 @@ namespace CommuniLend.Controllers
                 IsAvailable = true,
                 DateAdded = DateOnly.FromDateTime(DateTime.UtcNow),
                 CategoryId = model.InputDataModel.CategoryId,
-                OwnerId = id
+                OwnerId = id,
+                OpenLoanId = null
             };
 
             context.Tools.Add(databaseModel);

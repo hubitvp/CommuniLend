@@ -41,8 +41,9 @@ namespace CommuniLend.Data.Models
 
         public virtual ICollection<Tool> Tools { get; set; } = new List<Tool>();
 
+        public virtual ICollection<OpenLoan> OpenLoans { get; set; } = new List<OpenLoan>();
 
-        public virtual ICollection<Loan> Loans { get; set; } = new List<Loan>();
+        public virtual ICollection<ClosedLoan> ClosedLoans { get; set; } = new List<ClosedLoan>();
 
     }
 }

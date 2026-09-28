@@ -48,6 +48,7 @@ namespace CommuniLend.Data.Models
         [ForeignKey(nameof(CategoryId))]
         public virtual Category Category { get; set; } = null!;
 
+
         [Required]
         public required int OwnerId { get; set; }
 
@@ -56,6 +57,13 @@ namespace CommuniLend.Data.Models
         public virtual Member Owner { get; set; } = null!;
 
 
-        public virtual ICollection<Loan> Loans { get; set; } = new List<Loan>();
+        public required int? OpenLoanId { get; set; }
+
+
+        [ForeignKey(nameof(OpenLoanId))]
+        public virtual OpenLoan? OpenLoan { get; set; }
+
+
+        public virtual ICollection<ClosedLoan> ClosedLoans { get; set; } = new List<ClosedLoan>();
     }
 }

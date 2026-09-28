@@ -11,14 +11,16 @@ namespace CommuniLend.Data
         public virtual DbSet<Member> Members { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Tool> Tools { get; set; } = null!;
-        public virtual DbSet<Loan> Loans { get; set; } = null!;
+        public virtual DbSet<ClosedLoan> ClosedLoans { get; set; } = null!;
+        public virtual DbSet<OpenLoan> OpenLoans { get; set; } = null!;
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
-            modelBuilder.ApplyConfiguration(new LoanConfiguration());
+            modelBuilder.ApplyConfiguration(new ClosedLoanConfiguration());
             modelBuilder.ApplyConfiguration(new MemberConfiguration());
             modelBuilder.ApplyConfiguration(new ToolConfiguration());
         }

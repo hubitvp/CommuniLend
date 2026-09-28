@@ -26,5 +26,8 @@
 
         public required int OwnerId { get; set; }
 
+
+        public required string? IsInUseBy { get; set; }
+
     }
 }
