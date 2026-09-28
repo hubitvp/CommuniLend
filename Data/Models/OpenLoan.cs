@@ -14,7 +14,7 @@ namespace CommuniLend.Data.Models
         [Required]
         public required int ToolId { get; set; }
 
-
+        [ForeignKey(nameof(ToolId))]
         public virtual Tool Tool { get; set; } = null!;
 
 

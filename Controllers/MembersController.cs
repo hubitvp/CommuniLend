@@ -71,7 +71,7 @@ namespace CommuniLend.Controllers
                         Id = x.Id,
                         Name = x.Name,
                         CategoryName = x.Category.Name,
-                        IsAvailable = x.IsAvailable
+                        IsAvailable = x.OpenLoan == null
                     })
                     .ToList(),
                 OwnedToolsCount = databaseMember.OwnedTools.Count,
@@ -162,11 +162,9 @@ namespace CommuniLend.Controllers
                 Condition = (ToolCondition)model.InputDataModel.ConditionId,
                 ReplacementValue = decimal.Parse(model.InputDataModel.ReplacementValue, CultureInfo.InvariantCulture),
                 ImageUrl = model.InputDataModel.ImageUrl,
-                IsAvailable = true,
                 DateAdded = DateOnly.FromDateTime(DateTime.UtcNow),
                 CategoryId = model.InputDataModel.CategoryId,
                 OwnerId = id,
-                BorrowerId = null,
             };
 
             context.Tools.Add(databaseModel);

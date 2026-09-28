@@ -29,7 +29,7 @@ namespace CommuniLend.Controllers
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    IsAvailable = x.IsAvailable,
+                    IsAvailable = x.OpenLoan == null,
                     ImageUrl = x.ImageUrl,
                     CategoryName = x.Category.Name,
                     OwnerFullName = x.Owner.FullName
@@ -59,7 +59,7 @@ namespace CommuniLend.Controllers
 
 
             ClosedLoan? loan = null;
-            if (!databaseTool.IsAvailable)
+            if (databaseTool.OpenLoan == null)
             {
                 loan = context.ClosedLoans
                    .Include(x => x.Borrower)
@@ -73,7 +73,7 @@ namespace CommuniLend.Controllers
                 Name = databaseTool.Name,
                 ImageUrl = databaseTool.ImageUrl,
                 CategoryName = databaseTool.Category.Name,
-                IsAvailable = databaseTool.IsAvailable,
+                IsAvailable = databaseTool.OpenLoan == null,
                 Description = databaseTool.Description,
                 ReplacementValue = databaseTool.ReplacementValue.ToString("C"),
                 Condition = databaseTool.Condition.ToString(),
