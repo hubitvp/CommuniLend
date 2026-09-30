@@ -57,7 +57,6 @@ namespace CommuniLend.Data.Models
         public virtual OpenLoan? OpenLoan { get; set; }
 
 
-
         public virtual ICollection<ClosedLoan> ClosedLoans { get; set; } = new List<ClosedLoan>();
     }
 }

@@ -9,15 +9,23 @@ namespace CommuniLend.Data.Models.Configurations
         public void Configure(EntityTypeBuilder<ClosedLoan> builder)
         {
 
-            builder.HasOne(l => l.Owner)
-                .WithMany(m => m.ClosedLoans)
-                .HasForeignKey(l => l.OwnerId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             builder.HasOne(l => l.Tool)
                 .WithMany(t => t.ClosedLoans)
                 .HasForeignKey(l => l.ToolId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+
+            builder.HasOne(l => l.Owner)
+                .WithMany(m => m.ClosedLoansProvidedTools)
+                .HasForeignKey(l => l.OwnerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
+            builder.HasOne(l => l.Borrower)
+                .WithMany(m => m.ClosedLoansBorrowedTools)
+                .HasForeignKey(l => l.BorrowerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
 
             builder.HasData(GetSeedData());
         }

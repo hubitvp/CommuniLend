@@ -21,13 +21,6 @@ namespace CommuniLend.Data.Models.Configurations
                 .HasForeignKey(t => t.OwnerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-
-            builder.HasOne(t => t.OpenLoan)
-            .WithOne(l => l.Tool)
-            .HasForeignKey<OpenLoan>(l => l.ToolId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-
             builder.HasData(GetToolSeedData());
         }
 

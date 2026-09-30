@@ -11,6 +11,6 @@
 
         public required string OwnerFullName { get; set; }
 
-        public required int ActiveLoans { get; set; }
+        public required bool IsLoaned { get; set; }
     }
 }

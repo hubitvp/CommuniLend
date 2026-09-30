@@ -22,12 +22,22 @@
         public required string Condition { get; set; }
 
 
-        public required string OwnerFullName { get; set; }
 
         public required int OwnerId { get; set; }
+        public required string OwnerFullName { get; set; }
 
 
-        public required string? IsInUseBy { get; set; }
+
+        public required int? BorrowerId { get; set; }
+        public required string? BorrowerFullName { get; set; }
+
+
+
+
+        public required string? LoanDate { get; set; }
+
+        public required string? DueDate { get; set; }
+
 
     }
 }

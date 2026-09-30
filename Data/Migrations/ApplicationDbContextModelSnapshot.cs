@@ -1279,13 +1279,13 @@ namespace CommuniLend.Data.Migrations
             modelBuilder.Entity("CommuniLend.Data.Models.ClosedLoan", b =>
                 {
                     b.HasOne("CommuniLend.Data.Models.Member", "Borrower")
-                        .WithMany()
+                        .WithMany("ClosedLoansBorrowedTools")
                         .HasForeignKey("BorrowerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("CommuniLend.Data.Models.Member", "Owner")
-                        .WithMany("ClosedLoans")
+                        .WithMany("ClosedLoansProvidedTools")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1306,13 +1306,13 @@ namespace CommuniLend.Data.Migrations
             modelBuilder.Entity("CommuniLend.Data.Models.OpenLoan", b =>
                 {
                     b.HasOne("CommuniLend.Data.Models.Member", "Borrower")
-                        .WithMany()
+                        .WithMany("OpenLoansBorrowedTools")
                         .HasForeignKey("BorrowerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("CommuniLend.Data.Models.Member", "Owner")
-                        .WithMany("OpenLoans")
+                        .WithMany("OpenLoansProvidedTools")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1407,9 +1407,13 @@ namespace CommuniLend.Data.Migrations
 
             modelBuilder.Entity("CommuniLend.Data.Models.Member", b =>
                 {
-                    b.Navigation("ClosedLoans");
+                    b.Navigation("ClosedLoansBorrowedTools");
 
-                    b.Navigation("OpenLoans");
+                    b.Navigation("ClosedLoansProvidedTools");
+
+                    b.Navigation("OpenLoansBorrowedTools");
+
+                    b.Navigation("OpenLoansProvidedTools");
 
                     b.Navigation("OwnedTools");
                 });

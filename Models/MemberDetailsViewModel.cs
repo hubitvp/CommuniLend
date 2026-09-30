@@ -106,30 +106,26 @@ namespace CommuniLend.Models
         public required bool IsActive { get; set; }
 
 
+
+
         public required int OwnedToolsCount { get; set; }
-
-        public required int ClosedLoansCount { get; set; }
-        public required int OpenLoansCount { get; set; }
-        public required int BorrowedToolsCount { get; set; }
-
-
-
-        public required int ClosedBorrowedLoansCount { get; set; }
-
-
-
         public required IEnumerable<MemberDetailsOwnedToolViewModel> OwnedTools { get; set; }
 
-        public required IEnumerable<MemberDetailsOpenLoanViewModel> OpenLoans { get; set; }
+
+        public required int OpenLoansProvidedToolsCount { get; set; }
+        public required IEnumerable<MemberDetailsOpenLoanViewModel> OpenLoansProvidedTools { get; set; }
 
 
-        public required IEnumerable<MemberDetailsBorrowedToolViewModel> BorrowedTools { get; set; }
+        public required int OpenLoansBorrowedToolsCount { get; set; }
+        public required IEnumerable<MemberDetailsBorrowedToolViewModel> OpenLoansBorrowedTools { get; set; }
 
 
-        public required IEnumerable<MemberDetailsClosedLoanViewModel> ClosedLoans { get; set; }
+        public required int ClosedLoansProvidedToolsCount { get; set; }
+        public required IEnumerable<MemberDetailsClosedLoanViewModel> ClosedLoansProvidedTools { get; set; }
 
 
-        public required IEnumerable<MemberDetailsClosedBorrowedLoanViewModel> ClosedBorrowedLoans { get; set; }
+        public required int ClosedLoansBorrowedToolsCount { get; set; }
+        public required IEnumerable<MemberDetailsClosedBorrowedLoanViewModel> ClosedLoansBorrowedTools { get; set; }
 
 
     }

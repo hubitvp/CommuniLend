@@ -8,9 +8,13 @@
 
         public required string Email { get; set; }
 
+
+        public required int ToolsOwned { get; set; }
+
+
         public required int ToolsShared { get; set; }
 
-        public required int ActiveLoans { get; set; }
+        public required int ToolsBorrowed { get; set; }
 
         public required string MemberSince { get; set; }
     }

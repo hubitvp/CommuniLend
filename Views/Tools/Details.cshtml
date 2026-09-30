@@ -44,8 +44,18 @@
 
                 @if (!Model.IsAvailable)
                 {
-                    <dt class="col-sm-5">Is in use by</dt>
-                    <dd class="col-sm-7">@Model.IsInUseBy</dd>
+                    <dt class="col-sm-5">Is in Use by</dt>
+                    <dd class="col-sm-7">
+                        <a asp-controller="Members" asp-action="Details" asp-route-id="@Model.BorrowerId">
+                            @Model.BorrowerFullName
+                        </a>
+                    </dd>
+
+                    <dt class="col-sm-5">Loaned On</dt>
+                    <dd class="col-sm-7">@Model.LoanDate</dd>
+
+                    <dt class="col-sm-5">Due Date</dt>
+                    <dd class="col-sm-7">@Model.DueDate</dd>
                 }
 
             </dl>

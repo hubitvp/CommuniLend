@@ -43,29 +43,18 @@ namespace CommuniLend.Controllers
         public IActionResult Details(int id)
         {
 
-
             var databaseTool = context.Tools
                 .AsNoTracking()
                 .AsSplitQuery()
                 .Include(x => x.OpenLoan)
+                .ThenInclude(x => x!.Borrower)
                 .Include(x => x.Category)
                 .Include(x => x.Owner)
                 .SingleOrDefault(x => x.Id == id);
 
-
             if (databaseTool == null)
             {
                 return NotFound();
-            }
-
-
-            ClosedLoan? loan = null;
-            if (databaseTool.OpenLoan == null)
-            {
-                loan = context.ClosedLoans
-                   .Include(x => x.Borrower)
-                   .AsNoTracking()
-                   .SingleOrDefault(x => x.ToolId == databaseTool.Id);
             }
 
             var toolViewModel = new ToolDetailsViewModel
@@ -80,7 +69,13 @@ namespace CommuniLend.Controllers
                 Condition = databaseTool.Condition.ToString(),
                 OwnerFullName = databaseTool.Owner.FullName,
                 OwnerId = databaseTool.OwnerId,
-                IsInUseBy = loan?.Borrower.FullName
+
+
+                BorrowerId = databaseTool.OpenLoan?.Borrower?.Id,
+                BorrowerFullName = databaseTool.OpenLoan?.Borrower?.FullName,
+
+                LoanDate = databaseTool.OpenLoan?.LoanDate.ToString("dd MMMM yyyy", CultureInfo.InvariantCulture),
+                DueDate = databaseTool.OpenLoan?.DueDate.ToString("dd MMMM yyyy", CultureInfo.InvariantCulture),
             };
 
             return View(toolViewModel);
@@ -93,11 +88,19 @@ namespace CommuniLend.Controllers
         [ActionName("Delete")]
         public IActionResult DeleteGet(int id)
         {
+            bool toolExists = context.Tools.Any(x => x.Id == id);
+
+            if (toolExists == false)
+            {
+                return NotFound();
+            }
+
             var databaseTool = context.Tools
                 .AsNoTracking()
+                .AsSplitQuery()
                 .Include(x => x.Category)
                 .Include(x => x.Owner)
-                .AsSplitQuery()
+                .Include(x => x.OpenLoan)
                 .SingleOrDefault(x => x.Id == id);
 
 
@@ -106,7 +109,6 @@ namespace CommuniLend.Controllers
                 return NotFound();
             }
 
-            int loansCount = context.OpenLoans.Count(x => x.ToolId == databaseTool.Id);
 
             var toolViewModel = new ToolDeleteViewModel
             {
@@ -114,7 +116,7 @@ namespace CommuniLend.Controllers
                 Name = databaseTool.Name,
                 CategoryName = databaseTool.Category.Name,
                 OwnerFullName = databaseTool.Owner.FullName,
-                ActiveLoans = loansCount,
+                IsLoaned = databaseTool.OpenLoan != null,
             };
 
             return View(toolViewModel);
@@ -127,6 +129,13 @@ namespace CommuniLend.Controllers
         [ActionName("Delete")]
         public IActionResult DeletePost(int id)
         {
+            int loansCount = context.OpenLoans.Count(x => x.ToolId == id);
+
+            if (loansCount != 0)
+            {
+                return DeleteGet(id);
+            }
+
             context.Tools.Where(x => x.Id == id).ExecuteDelete();
 
             return RedirectToAction("Index", "Tools");

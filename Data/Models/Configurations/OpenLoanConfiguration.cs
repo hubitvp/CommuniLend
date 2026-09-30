@@ -12,12 +12,20 @@ namespace CommuniLend.Data.Models.Configurations
             builder.HasIndex(l => l.ToolId)
                 .IsUnique();
 
+            builder.HasOne(l => l.Tool)
+                .WithOne(t => t.OpenLoan)
+                .HasForeignKey<OpenLoan>(l => l.ToolId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(l => l.Owner)
-                .WithMany(m => m.OpenLoans)
+                .WithMany(m => m.OpenLoansProvidedTools)
                 .HasForeignKey(l => l.OwnerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.HasOne(l => l.Borrower)
+                .WithMany(m => m.OpenLoansBorrowedTools)
+                .HasForeignKey(l => l.BorrowerId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasData(GetSeedData());
         }
