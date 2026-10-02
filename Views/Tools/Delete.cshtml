@@ -22,10 +22,10 @@
 
 <form asp-controller="Tools"
       asp-action="Delete"
-      asp-route-id="@Model.Id"
+      asp-route-id="@Model.ToolId"
       method="post">
     <button type="submit" class="btn btn-danger">Delete</button>
-    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">
+    <a asp-action="Details" asp-route-id="@Model.ToolId" class="btn btn-outline-secondary">
         Cancel
     </a>
 </form>

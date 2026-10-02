@@ -31,7 +31,7 @@
         {
             <tr>
                 <td>
-                    <a asp-action="Details" asp-route-id="@member.Id">
+                    <a asp-action="Details" asp-route-id="@member.MemberId">
                         @member.FullName
                     </a>
                 </td>
@@ -46,14 +46,17 @@
                     </span>
                 </td>
                 <td>
-                    <a class="btn btn-outline-secondary btn-sm" asp-action="Details" asp-route-id="@member.Id">
+                    <a class="btn btn-outline-success" asp-action="Details" asp-route-id="@member.MemberId">
                         Details
                     </a>
 
-                    <a class="btn btn-outline-secondary btn-sm" asp-action="Edit" asp-route-id="@member.Id">
+                    <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@member.MemberId">
                         Edit
                     </a>
 
+                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@member.MemberId">
+                        Delete
+                    </a>
 
                 </td>
             </tr>

@@ -6,7 +6,7 @@ namespace CommuniLend.Models
     {
 
 
-        public required int Id { get; set; }
+        public required int ToolId { get; set; }
 
         public required string Name { get; set; }
 

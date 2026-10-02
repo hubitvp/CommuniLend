@@ -19,14 +19,17 @@ namespace CommuniLend.Controllers
             this.context = context;
         }
 
+
+        [HttpGet]
         public IActionResult Index()
         {
 
             var members = context.Members
                 .AsNoTracking()
+                .AsSplitQuery()
                 .Select(x => new MemberIndexViewModel
                 {
-                    Id = x.Id,
+                    MemberId = x.Id,
                     FullName = x.FullName,
                     Email = x.Email,
                     ToolsOwned = x.OwnedTools.Count,
@@ -234,16 +237,12 @@ namespace CommuniLend.Controllers
         [ActionName("Edit")]
         public IActionResult EditGet(int id)
         {
-
-
             var member = context.Members.Find(id);
 
             if (member == null)
             {
                 return NotFound();
             }
-
-
 
             var model = new MemberEditInputViewModel
             {
@@ -252,9 +251,9 @@ namespace CommuniLend.Controllers
                 Email = member.Email,
                 PhoneNumber = member.PhoneNumber,
                 Address = member.Address,
-                IsActive = member.IsActive
-            };
+                IsActive = member.IsActive,
 
+            };
 
             return View(model);
         }
@@ -277,13 +276,14 @@ namespace CommuniLend.Controllers
                 return NotFound();
             }
 
+
             member.FullName = inputModel.FullName;
             member.Email = inputModel.Email;
             member.PhoneNumber = inputModel.PhoneNumber;
             member.Address = inputModel.Address;
             member.IsActive = inputModel.IsActive;
-            context.SaveChanges();
 
+            context.SaveChanges();
 
             return RedirectToAction("Details", new { id });
         }
@@ -322,6 +322,91 @@ namespace CommuniLend.Controllers
             return RedirectToAction("Details", new { member.Id });
 
         }
+
+
+
+        [HttpGet]
+        [ActionName("Delete")]
+        public IActionResult DeleteGet(int id)
+        {
+            var member = context.Members
+                .AsNoTracking()
+                .AsSplitQuery()
+                .Include(x => x.OpenLoansProvidedTools)
+                .Include(x => x.OpenLoansBorrowedTools)
+                .SingleOrDefault(x => x.Id == id);
+
+            if (member == null)
+            {
+                return NotFound();
+            }
+
+
+            bool openLoansExist = member.OpenLoansProvidedTools.Count != 0
+                || member.OpenLoansBorrowedTools.Count != 0;
+
+            var model = new MemberDeleteViewModel
+            {
+                MemberId = member.Id,
+                FullName = member.FullName,
+                Email = member.Email,
+                PhoneNumber = member.PhoneNumber,
+                Address = member.Address,
+                MemberSince = member.JoinDate.ToString("dd MMMM yyyy"),
+                HasActiveLoans = openLoansExist,
+                ToolsSharedCount = member.OpenLoansProvidedTools.Count,
+                ToolsBorrowedCount = member.OpenLoansBorrowedTools.Count
+            };
+
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [ActionName("Delete")]
+        public IActionResult DeletePost(int id)
+        {
+
+            bool openLoansExist = context.OpenLoans.Any(x => x.OwnerId == id || x.BorrowerId == id);
+
+            if (openLoansExist)
+            {
+                return View();
+            }
+
+
+
+            using var transaction = context.Database.BeginTransaction();
+
+            try
+            {
+                context.ClosedLoans
+                   .Where(x => x.OwnerId == id || x.BorrowerId == id)
+                   .ExecuteDelete();
+
+                context.Tools
+                   .Where(x => x.OwnerId == id)
+                   .ExecuteDelete();
+
+                context.Members
+                   .Where(x => x.Id == id)
+                   .ExecuteDelete();
+
+
+                transaction.Commit();
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
+
+
+            return RedirectToAction("Index");
+        }
+
+
 
 
         private MemberAddToolInputViewModel CreateMemberAddToolInputViewModel(Member owner)

@@ -29,7 +29,7 @@ namespace CommuniLend.Controllers
                 .AsSplitQuery()
                 .Select(x => new ToolIndexViewModel
                 {
-                    Id = x.Id,
+                    ToolId = x.Id,
                     Name = x.Name,
                     ImageUrl = x.ImageUrl,
                     CategoryName = x.Category.Name,
@@ -63,7 +63,7 @@ namespace CommuniLend.Controllers
 
             var toolViewModel = new ToolDetailsViewModel
             {
-                Id = databaseTool.Id,
+                ToolId = databaseTool.Id,
                 Name = databaseTool.Name,
                 ImageUrl = databaseTool.ImageUrl,
                 CategoryName = databaseTool.Category.Name,
@@ -121,7 +121,7 @@ namespace CommuniLend.Controllers
 
             var toolViewModel = new ToolDeleteViewModel
             {
-                Id = databaseTool.Id,
+                ToolId = databaseTool.Id,
                 Name = databaseTool.Name,
                 CategoryName = databaseTool.Category.Name,
                 OwnerFullName = databaseTool.Owner.FullName,

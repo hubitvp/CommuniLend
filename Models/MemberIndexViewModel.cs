@@ -2,7 +2,7 @@
 {
     public class MemberIndexViewModel
     {
-        public required int Id { get; set; }
+        public required int MemberId { get; set; }
 
         public required string FullName { get; set; }
 
@@ -18,6 +18,6 @@
 
         public required string MemberSince { get; set; }
 
-        public required bool IsActive { get; set; } 
+        public required bool IsActive { get; set; }
     }
 }
