@@ -2,8 +2,17 @@
 @{
     ViewData["Title"] = "Member Directory";
 }
-<h2>Member Directory</h2>
-<p class="text-muted">Everyone participating in the tool library</p>
+
+
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h2>Member Directory</h2>
+        <p class="text-muted mb-0">Everyone participating in the tool library</p>
+    </div>
+    <a class="btn btn-success" asp-action="Create">+ Add a Member</a>
+</div>
+
 <table class="table table-hover">
     <thead>
         <tr>
@@ -31,10 +40,15 @@
                 <td>@member.ToolsBorrowed</td>
                 <td>@member.MemberSince</td>
                 <td>
-                    <a class="btn btn-outline-secondary btn-sm"
-                       asp-action="Details" asp-route-id="@member.Id">
+                    <a class="btn btn-outline-secondary btn-sm" asp-action="Details" asp-route-id="@member.Id">
                         Details
                     </a>
+
+                    <a class="btn btn-outline-secondary btn-sm" asp-action="Edit" asp-route-id="@member.Id">
+                        Edit
+                    </a>
+
+
                 </td>
             </tr>
         }

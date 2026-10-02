@@ -229,6 +229,67 @@ namespace CommuniLend.Controllers
         }
 
 
+        [HttpGet]
+        [ActionName("Edit")]
+        public IActionResult EditGet(int id)
+        {
+
+
+            var member = context.Members.Find(id);
+
+            if (member == null)
+            {
+                return NotFound();
+            }
+
+
+
+            var model = new MemberEditViewModel
+            {
+                MemberId = member.Id,
+                FullName = member.FullName,
+                Email = member.Email,
+                PhoneNumber = member.PhoneNumber,
+                Address = member.Address,
+                IsActive = member.IsActive
+            };
+
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [ActionName("Edit")]
+        public IActionResult EditPost(int id, MemberEditViewModel inputModel)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View(inputModel);
+            }
+
+
+            var member = context.Members.Find(id);
+            if (member == null)
+            {
+                return NotFound();
+            }
+
+            member.FullName = inputModel.FullName;
+            member.Email = inputModel.Email;
+            member.PhoneNumber = inputModel.PhoneNumber;
+            member.Address = inputModel.Address;
+            member.IsActive = inputModel.IsActive;
+            context.SaveChanges();
+
+
+            return RedirectToAction("Details", new { id });
+        }
+
+
+
+
 
         private MemberAddToolInputViewModel CreateMemberAddToolInputViewModel(Member owner)
         {

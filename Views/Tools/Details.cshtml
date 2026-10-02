@@ -63,13 +63,15 @@
             <p>@Model.Description</p>
             @if (Model.IsAvailable)
             {
-                <a class="btn btn-success"
-                   asp-controller="Loans" asp-action="Create" asp-route-toolId="@Model.Id">
+                <a class="btn btn-success" asp-controller="Loans" asp-action="Create" asp-route-toolId="@Model.Id">
                     Borrow this tool
+                </a>
+                <a class="btn btn-outline-danger" asp-controller="Tools" asp-action="Delete" asp-route-id="@Model.Id">
+                    Delete
                 </a>
             }
             <a class="btn btn-outline-secondary" asp-action="Index">Back to list</a>
-            <a class="btn btn-outline-danger" asp-controller="Tools" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+
         </div>
     </div>
 </div>

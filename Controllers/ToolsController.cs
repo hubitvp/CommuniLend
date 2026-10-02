@@ -109,6 +109,11 @@ namespace CommuniLend.Controllers
                 return NotFound();
             }
 
+            if (databaseTool.OpenLoan != null)
+            {
+                return View("DeleteNotPossible");
+            }
+
 
             var toolViewModel = new ToolDeleteViewModel
             {
@@ -116,8 +121,9 @@ namespace CommuniLend.Controllers
                 Name = databaseTool.Name,
                 CategoryName = databaseTool.Category.Name,
                 OwnerFullName = databaseTool.Owner.FullName,
-                IsLoaned = databaseTool.OpenLoan != null,
             };
+
+
 
             return View(toolViewModel);
         }

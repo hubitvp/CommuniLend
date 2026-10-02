@@ -11,6 +11,5 @@
 
         public required string OwnerFullName { get; set; }
 
-        public required bool IsLoaned { get; set; }
     }
 }
