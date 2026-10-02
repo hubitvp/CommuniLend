@@ -10,7 +10,7 @@
         <h2>Member Directory</h2>
         <p class="text-muted mb-0">Everyone participating in the tool library</p>
     </div>
-    <a class="btn btn-success" asp-action="Create">+ Add a Member</a>
+    <a class="btn btn-success" asp-action="AddMember">+ Add a Member</a>
 </div>
 
 <table class="table table-hover">
@@ -22,6 +22,7 @@
             <th>Tools Shared</th>
             <th>Tools Borrowed</th>
             <th>Member Since</th>
+            <th>Status</th>
             <th></th>
         </tr>
     </thead>
@@ -39,6 +40,11 @@
                 <td>@member.ToolsShared</td>
                 <td>@member.ToolsBorrowed</td>
                 <td>@member.MemberSince</td>
+                <td>
+                    <span class="badge @(member.IsActive ? "bg-success" : "bg-warning text-dark")">
+                        @(member.IsActive ? "Active" : "Inactive")
+                    </span>
+                </td>
                 <td>
                     <a class="btn btn-outline-secondary btn-sm" asp-action="Details" asp-route-id="@member.Id">
                         Details

@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace CommuniLend.Models
 {
-    public class MemberEditViewModel
+    public class MemberEditInputViewModel
     {
         [Required]
         public required int MemberId { get; set; }

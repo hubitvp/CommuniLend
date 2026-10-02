@@ -32,7 +32,8 @@ namespace CommuniLend.Controllers
                     ToolsOwned = x.OwnedTools.Count,
                     ToolsShared = x.OpenLoansProvidedTools.Count,
                     ToolsBorrowed = x.OpenLoansBorrowedTools.Count,
-                    MemberSince = x.JoinDate.ToString("dd MMMM yyyy")
+                    MemberSince = x.JoinDate.ToString("dd MMMM yyyy"),
+                    IsActive = x.IsActive
                 })
                 .ToList();
 
@@ -244,7 +245,7 @@ namespace CommuniLend.Controllers
 
 
 
-            var model = new MemberEditViewModel
+            var model = new MemberEditInputViewModel
             {
                 MemberId = member.Id,
                 FullName = member.FullName,
@@ -261,7 +262,7 @@ namespace CommuniLend.Controllers
 
         [HttpPost]
         [ActionName("Edit")]
-        public IActionResult EditPost(int id, MemberEditViewModel inputModel)
+        public IActionResult EditPost(int id, MemberEditInputViewModel inputModel)
         {
 
             if (!ModelState.IsValid)
@@ -288,7 +289,39 @@ namespace CommuniLend.Controllers
         }
 
 
+        [HttpGet]
+        [ActionName("AddMember")]
+        public IActionResult AddMemberGet()
+        {
+            return View();
+        }
 
+        [HttpPost]
+        [ActionName("AddMember")]
+        public IActionResult AddMemberPost(MemberAddMemberInputModel inputModel)
+        {
+            if (ModelState.IsValid == false)
+            {
+                return View(inputModel);
+            }
+
+            var member = new Member
+            {
+                FullName = inputModel.FullName,
+                Email = inputModel.Email,
+                PhoneNumber = inputModel.PhoneNumber,
+                Address = inputModel.Address,
+                JoinDate = DateOnly.FromDateTime(DateTime.UtcNow),
+                IsActive = true,
+
+            };
+
+            context.Members.Add(member);
+            context.SaveChanges();
+
+            return RedirectToAction("Details", new { member.Id });
+
+        }
 
 
         private MemberAddToolInputViewModel CreateMemberAddToolInputViewModel(Member owner)

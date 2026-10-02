@@ -17,5 +17,7 @@
         public required int ToolsBorrowed { get; set; }
 
         public required string MemberSince { get; set; }
+
+        public required bool IsActive { get; set; } 
     }
 }

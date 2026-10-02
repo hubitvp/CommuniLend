@@ -37,7 +37,7 @@
 
                         @if (string.IsNullOrEmpty(tool.ImageUrl))
                         {
-                            <span>[ no image ]</span>
+                            <span class="img-fluid">[ no image ]</span>
                         }
                         else
                         {
@@ -51,8 +51,8 @@
                     <p class="card-text text-muted small">
                         @tool.CategoryName &middot; Owner: @tool.OwnerFullName
                     </p>
-                    <span class="badge @(tool.IsAvailable ? "bg-success" : "bg-warning text-dark")">
-                        @(tool.IsAvailable ? "Available" : "On Loan")
+                    <span class="badge @tool.StatusCssClass">
+                        @tool.StatusAsText
                     </span>
                 </div>
                 <div class="card-footer bg-white border-0">

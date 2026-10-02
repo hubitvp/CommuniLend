@@ -2,6 +2,7 @@
 using CommuniLend.Data.Models;
 using CommuniLend.Data.Models.Enums;
 using CommuniLend.Models;
+using CommuniLend.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,19 +21,22 @@ namespace CommuniLend.Controllers
             this.context = context;
         }
 
-
+        [HttpGet]
         public IActionResult Index()
         {
             var tools = context.Tools
                 .AsNoTracking()
+                .AsSplitQuery()
                 .Select(x => new ToolIndexViewModel
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    IsAvailable = x.OpenLoan == null,
                     ImageUrl = x.ImageUrl,
                     CategoryName = x.Category.Name,
-                    OwnerFullName = x.Owner.FullName
+                    OwnerFullName = x.Owner.FullName,
+                    Status = x.Owner.IsActive == false
+                        ? ToolStatus.Locked
+                            : (x.OpenLoan == null ? ToolStatus.Available : ToolStatus.OnLoan)
                 })
                 .ToList();
 
