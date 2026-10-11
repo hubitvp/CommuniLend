@@ -1,6 +1,5 @@
-﻿using CommuniLend.DataConstraints;
+﻿using CommuniLend.Data.DataModelConstraints;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
 
 namespace CommuniLend.Models
 {

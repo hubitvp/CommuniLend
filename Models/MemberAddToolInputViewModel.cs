@@ -1,4 +1,4 @@
-﻿using CommuniLend.DataConstraints;
+﻿using CommuniLend.Data.DataModelConstraints;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 

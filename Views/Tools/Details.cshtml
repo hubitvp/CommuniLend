@@ -37,9 +37,11 @@
                 <dd class="col-sm-7">@Model.ReplacementValue</dd>
                 <dt class="col-sm-5">Status</dt>
                 <dd class="col-sm-7">
-                    <span class="badge @(Model.IsAvailable ? "bg-success" : "bg-warning text-dark")">
-                        @(Model.IsAvailable ? "Available" : "On Loan")
-                    </span>
+                    <partial name="_ToolStatusPartial" model="@Model" />
+
+                    @*                     <span class="badge @Model.StatusCssClass">
+                        @Model.StatusAsText
+                    </span> *@
                 </dd>
 
                 @if (!Model.IsAvailable)

@@ -16,13 +16,13 @@ namespace CommuniLend.Data.Models.Configurations
 
 
             builder.HasOne(l => l.Owner)
-                .WithMany(m => m.ClosedLoansProvidedTools)
+                .WithMany(m => m.ReturnedProvidedTools)
                 .HasForeignKey(l => l.OwnerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
 
             builder.HasOne(l => l.Borrower)
-                .WithMany(m => m.ClosedLoansBorrowedTools)
+                .WithMany(m => m.ReturnedBorrowedTools)
                 .HasForeignKey(l => l.BorrowerId)
                 .OnDelete(DeleteBehavior.Restrict);
 

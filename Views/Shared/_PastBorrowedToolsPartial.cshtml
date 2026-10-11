@@ -1,0 +1,43 @@
+﻿@model MemberDetailsViewModel
+
+
+<dev>
+    <h5>Tools Borrowed History (@Model.ReturnedBorrowedToolsCount)</h5>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Tool</th>
+                <th>Loan Date</th>
+                <th>Due Date</th>
+                <th>Return Date</th>
+                <th>Status</th>
+                <th>Owner</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pastBorrowedTool in Model.ReturnedBorrowedTools)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Tools" asp-action="Details" asp-route-id="@pastBorrowedTool.ToolId">
+                            @pastBorrowedTool.ToolName
+                        </a>
+                    </td>
+                    <td>@pastBorrowedTool.LoanDate</td>
+                    <td>@pastBorrowedTool.DueDate</td>
+                    <td>@pastBorrowedTool.ReturnDate</td>
+                    <td>
+                        <span class="badge bg-info text-dark">
+                            @pastBorrowedTool.Status
+                        </span>
+                    </td>
+                    <td>
+                        <a asp-controller="Members" asp-action="Details" asp-route-id="@pastBorrowedTool.OwnerId">
+                            @pastBorrowedTool.OwnerFullName
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</dev>

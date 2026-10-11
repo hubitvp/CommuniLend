@@ -1,13 +1,8 @@
 ﻿using CommuniLend.Data;
-using CommuniLend.Data.Models;
-using CommuniLend.Data.Models.Enums;
 using CommuniLend.Models;
-using CommuniLend.Models.Enums;
+using CommuniLend.Models.ModelTypes;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
-using System.Drawing;
 using System.Globalization;
 
 namespace CommuniLend.Controllers
@@ -27,16 +22,18 @@ namespace CommuniLend.Controllers
             var tools = context.Tools
                 .AsNoTracking()
                 .AsSplitQuery()
+                .Include(x => x.Owner)
+                .Include(x => x.Category)
+                .WithStatus()
                 .Select(x => new ToolIndexViewModel
                 {
-                    ToolId = x.Id,
-                    Name = x.Name,
-                    ImageUrl = x.ImageUrl,
-                    CategoryName = x.Category.Name,
-                    OwnerFullName = x.Owner.FullName,
-                    Status = x.Owner.IsActive == false
-                        ? ToolStatus.Locked
-                            : (x.OpenLoan == null ? ToolStatus.Available : ToolStatus.OnLoan)
+                    ToolId = x.Tool.Id,
+                    Name = x.Tool.Name,
+                    ImageUrl = x.Tool.ImageUrl,
+                    CategoryName = x.Tool.Category.Name,
+                    OwnerId = x.Tool.OwnerId,
+                    OwnerFullName = x.Tool.Owner.FullName,
+                    Status = x.Status,
                 })
                 .ToList();
 
@@ -49,12 +46,15 @@ namespace CommuniLend.Controllers
 
             var databaseTool = context.Tools
                 .AsNoTracking()
-                .AsSplitQuery()
-                .Include(x => x.OpenLoan)
-                .ThenInclude(x => x!.Borrower)
                 .Include(x => x.Category)
                 .Include(x => x.Owner)
-                .SingleOrDefault(x => x.Id == id);
+                .Include(x => x.OpenLoan)
+                    .ThenInclude(x => x!.Borrower)
+                .Where(tool => tool.Id == id)
+                .WithStatus()
+                .SingleOrDefault();
+
+
 
             if (databaseTool == null)
             {
@@ -63,23 +63,26 @@ namespace CommuniLend.Controllers
 
             var toolViewModel = new ToolDetailsViewModel
             {
-                ToolId = databaseTool.Id,
-                Name = databaseTool.Name,
-                ImageUrl = databaseTool.ImageUrl,
-                CategoryName = databaseTool.Category.Name,
-                IsAvailable = databaseTool.OpenLoan == null,
-                Description = databaseTool.Description,
-                ReplacementValue = databaseTool.ReplacementValue.ToString("C"),
-                Condition = databaseTool.Condition.ToString(),
-                OwnerFullName = databaseTool.Owner.FullName,
-                OwnerId = databaseTool.OwnerId,
+                ToolId = databaseTool.Tool.Id,
+                Name = databaseTool.Tool.Name,
+                ImageUrl = databaseTool.Tool.ImageUrl,
+                CategoryName = databaseTool.Tool.Category.Name,
+                IsAvailable = databaseTool.Tool.OpenLoan == null,
+                Description = databaseTool.Tool.Description,
+                ReplacementValue = databaseTool.Tool.ReplacementValue.ToString("C"),
+                Condition = databaseTool.Tool.Condition.ToString(),
+                OwnerFullName = databaseTool.Tool.Owner.FullName,
+                OwnerId = databaseTool.Tool.OwnerId,
 
 
-                BorrowerId = databaseTool.OpenLoan?.Borrower?.Id,
-                BorrowerFullName = databaseTool.OpenLoan?.Borrower?.FullName,
+                BorrowerId = databaseTool.Tool.OpenLoan?.Borrower?.Id,
+                BorrowerFullName = databaseTool.Tool.OpenLoan?.Borrower?.FullName,
 
-                LoanDate = databaseTool.OpenLoan?.LoanDate.ToString("dd MMMM yyyy", CultureInfo.InvariantCulture),
-                DueDate = databaseTool.OpenLoan?.DueDate.ToString("dd MMMM yyyy", CultureInfo.InvariantCulture),
+                LoanDate = databaseTool.Tool.OpenLoan?.LoanDate.ToString("dd MMMM yyyy", CultureInfo.InvariantCulture),
+                DueDate = databaseTool.Tool.OpenLoan?.DueDate.ToString("dd MMMM yyyy", CultureInfo.InvariantCulture),
+
+                Status = databaseTool.Status,
+
             };
 
             return View(toolViewModel);
@@ -150,6 +153,7 @@ namespace CommuniLend.Controllers
 
             return RedirectToAction("Index", "Tools");
         }
+
 
 
 

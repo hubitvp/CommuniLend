@@ -1,0 +1,42 @@
+﻿@model MemberDetailsViewModel
+
+
+
+<div>
+    <h5>Tools Shared (@Model.ProvidedToolsCount)</h5>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Tool</th>
+                <th>Loan Date</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>User</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var providedTool in Model.ProvidedTools)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Tools" asp-action="Details" asp-route-id="@providedTool.ToolId">
+                            @providedTool.ToolName
+                        </a>
+                    </td>
+                    <td>@providedTool.LoanDate</td>
+                    <td>@providedTool.DueDate</td>
+                    <td>
+                        <partial name="_ToolStatusPartial" model="@providedTool" />
+
+                    </td>
+                    <td>
+                        <a asp-controller="Members" asp-action="Details" asp-route-id="@providedTool.BorrowerId">
+                            @providedTool.BorrowerFullName
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

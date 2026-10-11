@@ -30,108 +30,16 @@
 </div>
 <div class="row">
     <div class="col-md-6">
-        <h5>Tools Owned (@Model.OwnedToolsCount)</h5>
-        <table class="table table-sm">
-            <thead><tr><th>Tool</th><th>Category</th><th>Status</th></tr></thead>
-            <tbody>
-                @foreach (var tool in Model.OwnedTools)
-                {
-                    <tr>
-                        <td>
-                            <a asp-controller="Tools" asp-action="Details" asp-route-id="@tool.ToolId">
-                                @tool.ToolName
-                            </a>
-                        </td>
-                        <td>@tool.CategoryName</td>
-                        <td>
-                            <span class="badge @(tool.IsAvailable ? "bg-success" : "bg-warning text-dark")">
-                                @(tool.IsAvailable ? "Available" : "On Loan")
-                            </span>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+
+        <partial name="_OwnedToolsPartial" model="@Model" />
+
     </div>
     <div class="col-md-6">
-        <div>
-            <h5>Tools Shared (@Model.OpenLoansProvidedToolsCount)</h5>
-            <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th>Tool</th>
-                        <th>Loan Date</th>
-                        <th>Due Date</th>
-                        <th>Status</th>
-                        <th>User</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var loan in Model.OpenLoansProvidedTools)
-                    {
-                        <tr>
-                            <td>
-                                <a asp-controller="Tools" asp-action="Details" asp-route-id="@loan.ToolId">
-                                    @loan.ToolName
-                                </a>
-                            </td>
-                            <td>@loan.LoanDate</td>
-                            <td>@loan.DueDate</td>
-                            <td>
-                                <span class="badge bg-warning text-dark">
-                                    @loan.Status
-                                </span>
-                            </td>
-                            <td>
-                                <a asp-controller="Members" asp-action="Details" asp-route-id="@loan.BorrowerId">
-                                    @loan.BorrowerFullName
-                                </a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
 
-        
-        <div>
-            <h5>Tools Borrowed (@Model.OpenLoansBorrowedToolsCount)</h5>
-            <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th>Tool</th>
-                        <th>Loan Date</th>
-                        <th>Due Date</th>
-                        <th>Status</th>
-                        <th>Owner</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var loan in Model.OpenLoansBorrowedTools)
-                    {
-                        <tr>
-                            <td>
-                                <a asp-controller="Tools" asp-action="Details" asp-route-id="@loan.ToolId">
-                                    @loan.ToolName
-                                </a>
-                            </td>
-                            <td>@loan.LoanDate</td>
-                            <td>@loan.DueDate</td>
-                            <td>
-                                <span class="badge bg-warning text-dark">
-                                    @loan.Status
-                                </span>
-                            </td>
-                            <td>
-                                <a asp-controller="Members" asp-action="Details" asp-route-id="@loan.OwnerId">
-                                    @loan.OwnerFullName
-                                </a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+        <partial name="_ProvidedToolsPartial" model="@Model" />
+
+
+        <partial name="_BorrowedToolsPartial" model="@Model" />
 
     </div>
 </div>
@@ -142,87 +50,13 @@
 <div class="row">
 
     <div class="col-md-6">
-        <h5>Tools Shared History (@Model.ClosedLoansProvidedToolsCount)</h5>
-        <table class="table table-sm">
-            <thead>
-                <tr>
-                    <th>Tool</th>
-                    <th>Loan Date</th>
-                    <th>Due Date</th>
-                    <th>Return Date</th>
-                    <th>Status</th>
-                    <th>User</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var loan in Model.ClosedLoansProvidedTools)
-                {
-                    <tr>
-                        <td>
-                            <a asp-controller="Tools" asp-action="Details" asp-route-id="@loan.ToolId">
-                                @loan.ToolName
-                            </a>
-                        </td>
-                        <td>@loan.LoanDate</td>
-                        <td>@loan.DueDate</td>
-                        <td>@loan.ReturnDate</td>
-                        <td>
-                            <span class="badge bg-info text-dark">
-                                @loan.Status
-                            </span>
-                        </td>
-                        <td>
-                            <a asp-controller="Members" asp-action="Details" asp-route-id="@loan.BorrowerId">
-                                @loan.BorrowerFullName
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <partial name="_PastProvidedToolsPartial" model="@Model" />
     </div>
 
 
 
 
     <div class="col-md-6">
-        <h5>Tools Borrowed History (@Model.ClosedLoansBorrowedToolsCount)</h5>
-        <table class="table table-sm">
-            <thead>
-                <tr>
-                    <th>Tool</th>
-                    <th>Loan Date</th>
-                    <th>Due Date</th>
-                    <th>Return Date</th>
-                    <th>Status</th>
-                    <th>Owner</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var loan in Model.ClosedLoansBorrowedTools)
-                {
-                    <tr>
-                        <td>
-                            <a asp-controller="Tools" asp-action="Details" asp-route-id="@loan.ToolId">
-                                @loan.ToolName
-                            </a>
-                        </td>
-                        <td>@loan.LoanDate</td>
-                        <td>@loan.DueDate</td>
-                        <td>@loan.ReturnDate</td>
-                        <td>
-                            <span class="badge bg-info text-dark">
-                                @loan.Status
-                            </span>
-                        </td>
-                        <td>
-                            <a asp-controller="Members" asp-action="Details" asp-route-id="@loan.OwnerId">
-                                @loan.OwnerFullName
-                            </a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <partial name="_PastBorrowedToolsPartial" model="@Model" />
     </div>
 </div>

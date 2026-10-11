@@ -49,11 +49,18 @@
                 <div class="card-body">
                     <h5 class="card-title">@tool.Name</h5>
                     <p class="card-text text-muted small">
-                        @tool.CategoryName &middot; Owner: @tool.OwnerFullName
+                        @tool.CategoryName &middot;
+                        Owner: @tool.OwnerFullName
+
+
+                        <a asp-controller="Members" asp-action="Details" asp-route-id="@tool.OwnerId">
+                            @tool.OwnerFullName
+                        </a>
+
                     </p>
-                    <span class="badge @tool.StatusCssClass">
-                        @tool.StatusAsText
-                    </span>
+
+                    <partial name="_ToolStatusPartial" model="@tool" />
+
                 </div>
                 <div class="card-footer bg-white border-0">
                     <a class="btn btn-outline-secondary btn-sm"

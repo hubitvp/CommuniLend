@@ -1,4 +1,4 @@
-﻿namespace CommuniLend.DataConstraints
+﻿namespace CommuniLend.Data.DataModelConstraints
 {
     public static class ColumnTypes
     {

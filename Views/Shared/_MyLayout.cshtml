@@ -15,11 +15,17 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark navbar-custom px-4">
 
-            <a class="navbar-brand fw-bold fs-2" asp-controller="Home" asp-action="Index">
+            <a class="navbar-brand fw-bold fs-2" asp-controller="Tools" asp-action="Index">
                 CommuniLend
             </a>
 
-            <div class="collapse navbar-collapse">
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                    aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="navbar-nav mx-auto">
 
                     <li class="nav-item mx-4">
@@ -42,8 +48,8 @@
                             Members
                         </a>
                     </li>
-
                 </ul>
+                <partial name="_LoginPartial" />
             </div>
         </nav>
     </header>

@@ -1,8 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CommuniLend.Data.Models.Enums;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using static CommuniLend.Data.Models.Configurations.StaticSeedData.ReferenceSeedDate;
-
-using CommuniLend.Data.Models.Enums;
 
 namespace CommuniLend.Data.Models.Configurations
 {

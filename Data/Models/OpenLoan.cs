@@ -1,4 +1,4 @@
-﻿using CommuniLend.DataConstraints;
+﻿using CommuniLend.Data.DataModelConstraints;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

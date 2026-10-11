@@ -1,20 +1,41 @@
-﻿using System.Diagnostics.Eventing.Reader;
+﻿using CommuniLend.Models.ModelTypes;
 
 namespace CommuniLend.Models
 {
 
-    public class MemberDetailsOwnedToolViewModel
+    public class MemberDetailsOwnedToolViewModel : ToolStatusPropagation
     {
         public required int ToolId { get; set; }
 
         public required string ToolName { get; set; }
 
-        public required bool IsAvailable { get; set; }
+        public required string AddedOn { get; set; }
 
         public required string CategoryName { get; set; }
     }
 
-    public class MemberDetailsBorrowedToolViewModel
+
+
+
+    public class MemberDetailsProvidedToolViewModel : ToolStatusPropagation
+    {
+        public required int ToolId { get; set; }
+
+
+        public required string ToolName { get; set; }
+
+
+
+        public required string LoanDate { get; set; }
+        public required string DueDate { get; set; }
+
+
+        public required int BorrowerId { get; set; }
+
+        public required string BorrowerFullName { get; set; }
+    }
+
+    public class MemberDetailsBorrowedToolViewModel : ToolStatusPropagation
     {
         public required int ToolId { get; set; }
 
@@ -22,7 +43,6 @@ namespace CommuniLend.Models
 
         public required string LoanDate { get; set; }
         public required string DueDate { get; set; }
-        public required string Status { get; set; }
 
 
         public required int OwnerId { get; set; }
@@ -31,26 +51,7 @@ namespace CommuniLend.Models
     }
 
 
-    public class MemberDetailsOpenLoanViewModel
-    {
-        public required int ToolId { get; set; }
-
-
-        public required string ToolName { get; set; }
-
-
-
-        public required string LoanDate { get; set; }
-        public required string DueDate { get; set; }
-        public required string Status { get; set; }
-
-
-        public required int BorrowerId { get; set; }
-
-        public required string BorrowerFullName { get; set; }
-    }
-
-    public class MemberDetailsClosedLoanViewModel
+    public class MemberDetailsReturnedProvidedToolViewModel
     {
         public required int ToolId { get; set; }
 
@@ -70,7 +71,7 @@ namespace CommuniLend.Models
 
 
 
-    public class MemberDetailsClosedBorrowedLoanViewModel
+    public class MemberDetailsReturnedBorrowedToolViewModel
     {
         public required int ToolId { get; set; }
 
@@ -112,20 +113,20 @@ namespace CommuniLend.Models
         public required IEnumerable<MemberDetailsOwnedToolViewModel> OwnedTools { get; set; }
 
 
-        public required int OpenLoansProvidedToolsCount { get; set; }
-        public required IEnumerable<MemberDetailsOpenLoanViewModel> OpenLoansProvidedTools { get; set; }
+        public required int ProvidedToolsCount { get; set; }
+        public required IEnumerable<MemberDetailsProvidedToolViewModel> ProvidedTools { get; set; }
 
 
-        public required int OpenLoansBorrowedToolsCount { get; set; }
-        public required IEnumerable<MemberDetailsBorrowedToolViewModel> OpenLoansBorrowedTools { get; set; }
+        public required int BorrowedToolsCount { get; set; }
+        public required IEnumerable<MemberDetailsBorrowedToolViewModel> BorrowedTools { get; set; }
 
 
-        public required int ClosedLoansProvidedToolsCount { get; set; }
-        public required IEnumerable<MemberDetailsClosedLoanViewModel> ClosedLoansProvidedTools { get; set; }
+        public required int ReturnedProvidedToolsCount { get; set; }
+        public required IEnumerable<MemberDetailsReturnedProvidedToolViewModel> ReturnedProvidedTools { get; set; }
 
 
-        public required int ClosedLoansBorrowedToolsCount { get; set; }
-        public required IEnumerable<MemberDetailsClosedBorrowedLoanViewModel> ClosedLoansBorrowedTools { get; set; }
+        public required int ReturnedBorrowedToolsCount { get; set; }
+        public required IEnumerable<MemberDetailsReturnedBorrowedToolViewModel> ReturnedBorrowedTools { get; set; }
 
 
     }

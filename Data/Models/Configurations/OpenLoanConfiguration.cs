@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using static CommuniLend.DataConstraints.ValidationConstants;
 using static CommuniLend.Data.Models.Configurations.StaticSeedData.ReferenceSeedDate;
 
 namespace CommuniLend.Data.Models.Configurations
@@ -18,12 +17,12 @@ namespace CommuniLend.Data.Models.Configurations
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(l => l.Owner)
-                .WithMany(m => m.OpenLoansProvidedTools)
+                .WithMany(m => m.ProvidedTools)
                 .HasForeignKey(l => l.OwnerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(l => l.Borrower)
-                .WithMany(m => m.OpenLoansBorrowedTools)
+                .WithMany(m => m.BorrowedTools)
                 .HasForeignKey(l => l.BorrowerId)
                 .OnDelete(DeleteBehavior.Restrict);
 

@@ -2,8 +2,15 @@
 {
     public enum ToolStatus
     {
-        Available,
+
+
+        OverDue,
+
         OnLoan,
-        Locked
+
+        Available,
+
+        Locked,
+
     }
 }

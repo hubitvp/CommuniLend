@@ -1,5 +1,5 @@
-﻿using CommuniLend.Data.Models.Enums;
-using CommuniLend.DataConstraints;
+﻿using CommuniLend.Data.DataModelConstraints;
+using CommuniLend.Data.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

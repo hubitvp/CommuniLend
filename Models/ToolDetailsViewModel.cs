@@ -1,6 +1,9 @@
-﻿namespace CommuniLend.Models
+﻿using CommuniLend.Models.ModelTypes;
+
+namespace CommuniLend.Models
 {
-    public class ToolDetailsViewModel
+
+    public class ToolDetailsViewModel : ToolStatusPropagation
     {
 
         public required int ToolId { get; set; }
@@ -37,6 +40,7 @@
         public required string? LoanDate { get; set; }
 
         public required string? DueDate { get; set; }
+
 
 
     }
