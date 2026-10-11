@@ -28,6 +28,12 @@ namespace CommuniLend.Controllers
             var members = context.Members
                 .AsNoTracking()
                 .AsSplitQuery()
+                .OrderByDescending(x => x.IsActive)
+                .ThenBy(x => x.FullName)
+                .ThenBy(x => x.OwnedTools.Count)
+                .ThenBy(x => x.ProvidedTools.Count)
+                .ThenBy(x => x.BorrowedTools.Count)
+                .ThenByDescending(x => x.JoinDate)
                 .Select(x => new MemberIndexViewModel
                 {
                     MemberId = x.Id,
