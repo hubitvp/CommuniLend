@@ -1,0 +1,46 @@
+﻿@model ToolIndexViewModel
+
+
+
+<div class="col-md-4 mb-4">
+    <div class="card h-100 shadow-sm">
+        <div class="card-img-top bg-light text-center py-5 text-muted">
+
+            <a class="btn btn-outline-secondary btn-sm"
+               asp-controller="Tools" asp-action="Details" asp-route-id="@Model.ToolId">
+
+                @if (string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="/images/tools/no-image.jpg" alt="@Model.Name" class="img-fluid" />
+                }
+                else
+                {
+                    <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid" />
+                }
+            </a>
+
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">@Model.Name</h5>
+            <p class="card-text text-muted small">
+                @Model.CategoryName &middot;
+                Owner: @Model.OwnerFullName
+
+
+                <a asp-controller="Members" asp-action="Details" asp-route-id="@Model.OwnerId">
+                    @Model.OwnerFullName
+                </a>
+
+            </p>
+
+            <partial name="_ToolStatusPartial" model="@Model" />
+
+        </div>
+        <div class="card-footer bg-white border-0">
+            <a class="btn btn-outline-secondary btn-sm"
+               asp-controller="Tools" asp-action="Details" asp-route-id="@Model.ToolId">
+                Details
+            </a>
+        </div>
+    </div>
+</div>
