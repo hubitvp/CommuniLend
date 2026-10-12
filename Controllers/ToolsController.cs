@@ -25,6 +25,10 @@ namespace CommuniLend.Controllers
                 .Include(x => x.Owner)
                 .Include(x => x.Category)
                 .WithStatus()
+                .AsEnumerable()
+                .OrderByDescending(x => x.Status)
+                .ThenBy(x => x.Tool.Category.Name)
+                .ThenBy(x => x.Tool.Owner.FullName)
                 .Select(x => new ToolIndexViewModel
                 {
                     ToolId = x.Tool.Id,
@@ -46,6 +50,7 @@ namespace CommuniLend.Controllers
 
             var databaseTool = context.Tools
                 .AsNoTracking()
+                .AsSplitQuery()
                 .Include(x => x.Category)
                 .Include(x => x.Owner)
                 .Include(x => x.OpenLoan)
@@ -53,8 +58,6 @@ namespace CommuniLend.Controllers
                 .Where(tool => tool.Id == id)
                 .WithStatus()
                 .SingleOrDefault();
-
-
 
             if (databaseTool == null)
             {
@@ -153,9 +156,6 @@ namespace CommuniLend.Controllers
 
             return RedirectToAction("Index", "Tools");
         }
-
-
-
 
     }
 }

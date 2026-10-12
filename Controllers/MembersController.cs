@@ -51,6 +51,8 @@ namespace CommuniLend.Controllers
         }
 
 
+
+
         [HttpGet]
         public IActionResult Details(int id)
         {
@@ -71,8 +73,12 @@ namespace CommuniLend.Controllers
                 .AsSplitQuery()
                 .Include(x => x.Category)
                 .Where(x => x.OwnerId == id)
-                .OrderByDescending(x => x.DateAdded)
                 .WithStatus()
+                .AsEnumerable()
+                .OrderBy(x => x.Status)
+                .ThenByDescending(x => x.Tool.DateAdded)
+                .ThenBy(x => x.Tool.Category.Name)
+                .ThenBy(x => x.Tool.Name)
                 .Select(x => new MemberDetailsOwnedToolViewModel
                 {
                     ToolId = x.Tool.Id,
@@ -81,23 +87,21 @@ namespace CommuniLend.Controllers
                     AddedOn = x.Tool.DateAdded.ToFormattedString(),
                     Status = x.Status,
                 })
-                .AsEnumerable()
-                .OrderBy(x => x.Status)
-                .ThenBy(x => x.CategoryName)
-                .ThenBy(x => x.ToolName)
                 .ToList();
 
 
-            var providedTools = context.OpenLoans
+            var providedTools = context.Tools
                 .AsNoTracking()
                 .AsSplitQuery()
-                .Include(x => x.Tool)
-                    .ThenInclude(x => x.OpenLoan)
-                        .ThenInclude(x => x!.Borrower)
-                .Where(x => x.OwnerId == id)
-                .OrderByDescending(x => x.DueDate)
-                .Select(x => x.Tool)
+                .Include(x => x.OpenLoan)
+                    .ThenInclude(x => x!.Borrower)
+                .Where(x => x.OwnerId == id && x.OpenLoan != null)
                 .WithStatus()
+                .AsEnumerable()
+                .OrderBy(x => x.Status)
+                .ThenByDescending(x => x.Tool.OpenLoan!.DueDate)
+                .ThenBy(x => x.Tool.OpenLoan!.Borrower.FullName)
+                .ThenBy(x => x.Tool.Name)
                 .Select(x => new MemberDetailsProvidedToolViewModel
                 {
                     ToolId = x.Tool.Id,
@@ -108,41 +112,32 @@ namespace CommuniLend.Controllers
                     BorrowerFullName = x.Tool.OpenLoan!.Borrower.FullName,
                     Status = x.Status,
                 })
-                .AsEnumerable()
-                .OrderBy(x => x.Status)
-                .ThenBy(x => x.BorrowerFullName)
-                .ThenBy(x => x.ToolName)
                 .ToList();
 
 
-
-
-            var borrowedTools = context.OpenLoans
+            var borrowedTools = context.Tools
                 .AsNoTracking()
                 .AsSplitQuery()
-                .Include(x => x.Tool)
-                    .ThenInclude(x => x.OpenLoan)
-                        .ThenInclude(x => x!.Owner)
-                .Where(x => x.BorrowerId == id)
-                .OrderByDescending(x => x.DueDate)
-                .Select(x => x.Tool)
+                .Include(x => x.Owner)
+                .Include(x => x.OpenLoan)
+                .Where(x => x.OpenLoan != null && x.OpenLoan.BorrowerId == id)
                 .WithStatus()
+                .AsEnumerable()
+                .OrderBy(x => x.Status)
+                .ThenByDescending(x => x.Tool.OpenLoan!.DueDate)
+                .ThenBy(x => x.Tool.Owner.FullName)
+                .ThenBy(x => x.Tool.Name)
                 .Select(x => new MemberDetailsBorrowedToolViewModel
                 {
                     ToolId = x.Tool.Id,
                     ToolName = x.Tool.Name,
                     LoanDate = x.Tool.OpenLoan!.LoanDate.ToFormattedString(),
                     DueDate = x.Tool.OpenLoan!.DueDate.ToFormattedString(),
-                    OwnerId = x.Tool.OpenLoan!.OwnerId,
-                    OwnerFullName = x.Tool.OpenLoan!.Owner.FullName,
+                    OwnerId = x.Tool.OwnerId,
+                    OwnerFullName = x.Tool.Owner.FullName,
                     Status = x.Status,
                 })
-                .AsEnumerable()
-                .OrderBy(x => x.Status)
-                .ThenBy(x => x.OwnerFullName)
-                .ThenBy(x => x.ToolName)
                 .ToList();
-
 
             var returnedProvidedTools = context.ClosedLoans
                 .AsNoTracking()
@@ -163,8 +158,6 @@ namespace CommuniLend.Controllers
                     Status = "Returned",
                 })
                 .ToList();
-
-
 
             var returnedBorrowedTools = context.ClosedLoans
                 .AsNoTracking()

@@ -38,10 +38,6 @@
                 <dt class="col-sm-5">Status</dt>
                 <dd class="col-sm-7">
                     <partial name="_ToolStatusPartial" model="@Model" />
-
-                    @*                     <span class="badge @Model.StatusCssClass">
-                        @Model.StatusAsText
-                    </span> *@
                 </dd>
 
                 @if (!Model.IsAvailable)
