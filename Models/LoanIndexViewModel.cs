@@ -1,24 +1,14 @@
-﻿namespace CommuniLend.Models
+﻿using CommuniLend.Models.ModelTypes;
+
+namespace CommuniLend.Models
 {
 
 
-    public enum LoanStatus
+
+
+    public class ActiveLoanToolIndexViewModel : ToolStatusPropagation
     {
-        Active,
-        Overdue,
-        Returned
-    }
-
-
-
-
-
-
-
-
-    public class ActiveLoanIndexViewModel
-    {
-        public required int Id { get; set; }
+        public required int OpenLoanId { get; set; }
 
         public required int ToolId { get; set; }
 
@@ -36,16 +26,6 @@
 
         public required string DueDate { get; set; }
 
-        //public required LoanStatus Status { get; set; }
-    }
-
-
-
-
-
-    public class LoanIndexViewModel
-    {
-        public required IEnumerable<ActiveLoanIndexViewModel> ActiveLoans { get; set; }
     }
 
 }

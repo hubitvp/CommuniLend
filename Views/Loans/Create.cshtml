@@ -1,0 +1,46 @@
+﻿@model LoanCreateInputModel
+
+
+
+@{
+    ViewData["Title"] = "Borrow Tool";
+}
+
+
+<h2>Borrow: @Model.ToolName</h2>
+<p class="text-muted">Owned by @Model.ToolOwnerFullName &middot; @Model.ToolCategoryName</p>
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="ToolId" />
+    <div class="mb-3">
+        <label asp-for="BorrowerId" class="form-label">Borrower</label>
+        <select asp-for="BorrowerId" asp-items="Borrowers as SelectList" class="form-select">
+            <option value="">-- Select yourself --</option>
+        </select>
+        <span asp-validation-for="BorrowerId" class="text-danger"></span>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="LoanDate" class="form-label"></label>
+            <input asp-for="LoanDate" class="form-control" />
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="DueDate" class="form-label"></label>
+            <input asp-for="DueDate" class="form-control" />
+            <span asp-validation-for="DueDate" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Notes" class="form-label">Notes (optional)</label>
+        <textarea asp-for="Notes" class="form-control" rows="2"></textarea>
+    </div>
+    <button type="submit" class="btn btn-success">Confirm Borrow</button>
+    <a asp-controller="Tools" asp-action="Details" asp-route-id="@Model.ToolId"
+       class="btn btn-outline-secondary">Cancel</a>
+</form>
+
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
