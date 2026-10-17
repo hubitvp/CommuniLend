@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommuniLend.Data
 {
-    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext(options)
+    public class CommuniLendDbContext(DbContextOptions<CommuniLendDbContext> options) : IdentityDbContext(options)
     {
 
         public virtual DbSet<Member> Members { get; set; } = null!;

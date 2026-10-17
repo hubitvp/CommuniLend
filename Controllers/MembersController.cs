@@ -13,9 +13,9 @@ namespace CommuniLend.Controllers
 {
     public class MembersController : Controller
     {
-        private readonly ApplicationDbContext context;
+        private readonly CommuniLendDbContext context;
 
-        public MembersController(ApplicationDbContext context)
+        public MembersController(CommuniLendDbContext context)
         {
             this.context = context;
         }

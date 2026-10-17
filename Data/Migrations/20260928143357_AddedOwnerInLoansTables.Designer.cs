@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CommuniLend.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(CommuniLendDbContext))]
     [Migration("20260928143357_AddedOwnerInLoansTables")]
     partial class AddedOwnerInLoansTables
     {

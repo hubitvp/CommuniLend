@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CommuniLend.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(CommuniLendDbContext))]
     [Migration("20260928132709_ChangedDatabaseModelsForLoans")]
     partial class ChangedDatabaseModelsForLoans
     {

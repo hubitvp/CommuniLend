@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CommuniLend.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(CommuniLendDbContext))]
     [Migration("20260922151216_TablesCreationWithDataSeed")]
     partial class TablesCreationWithDataSeed
     {

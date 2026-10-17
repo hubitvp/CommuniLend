@@ -9,9 +9,9 @@ namespace CommuniLend.Controllers
 {
     public class ToolsController : Controller
     {
-        private readonly ApplicationDbContext context;
+        private readonly CommuniLendDbContext context;
 
-        public ToolsController(ApplicationDbContext context)
+        public ToolsController(CommuniLendDbContext context)
         {
             this.context = context;
         }

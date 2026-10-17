@@ -10,9 +10,9 @@ namespace CommuniLend.Controllers
 {
     public class LoansController : Controller
     {
-        private readonly ApplicationDbContext context;
+        private readonly CommuniLendDbContext context;
 
-        public LoansController(ApplicationDbContext context)
+        public LoansController(CommuniLendDbContext context)
         {
             this.context = context;
         }
