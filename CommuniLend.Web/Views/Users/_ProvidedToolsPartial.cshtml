@@ -1,4 +1,4 @@
-﻿@model MemberDetailsViewModel
+﻿@model DetailsViewModel
 
 
 
@@ -30,7 +30,7 @@
 
                     </td>
                     <td>
-                        <a asp-controller="Members" asp-action="Details" asp-route-id="@providedTool.BorrowerId">
+                        <a asp-controller="Users" asp-action="Details" asp-route-id="@providedTool.BorrowerId">
                             @providedTool.BorrowerFullName
                         </a>
                     </td>

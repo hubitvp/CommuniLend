@@ -1,4 +1,4 @@
-﻿@model MemberDeleteViewModel
+﻿@model DeleteViewModel
 
 
 
@@ -23,7 +23,7 @@
         </p>
     </div>
 
-    <a asp-action="Details" asp-route-id="@Model.MemberId" class="btn btn-outline-secondary">Back to Profile</a>
+    <a asp-action="Details" asp-route-id="@Model.UserId" class="btn btn-outline-secondary">Back to Profile</a>
 }
 else
 {
@@ -57,7 +57,7 @@ else
         </dl>
     </div>
 
-    <form asp-controller="Members" asp-action="Delete" asp-route-id="@Model.MemberId" method="post">
+    <form asp-controller="Users" asp-action="Delete" asp-route-id="@Model.UserId" method="post">
         <button type="submit" class="btn btn-danger">Delete</button>
         <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
     </form>

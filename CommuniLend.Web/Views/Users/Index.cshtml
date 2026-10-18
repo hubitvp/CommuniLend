@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MemberIndexViewModel>
+﻿@model IEnumerable<IndexViewModel>
 @{
     ViewData["Title"] = "Member Directory";
 }
@@ -31,7 +31,7 @@
         {
             <tr>
                 <td>
-                    <a asp-action="Details" asp-route-id="@member.MemberId">
+                    <a asp-action="Details" asp-route-id="@member.UserId">
                         @member.FullName
                     </a>
                 </td>
@@ -46,15 +46,15 @@
                     </span>
                 </td>
                 <td>
-                    <a class="btn btn-outline-success" asp-action="Details" asp-route-id="@member.MemberId">
+                    <a class="btn btn-outline-success" asp-action="Details" asp-route-id="@member.UserId">
                         Details
                     </a>
 
-                    <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@member.MemberId">
+                    <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@member.UserId">
                         Edit
                     </a>
 
-                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@member.MemberId">
+                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@member.UserId">
                         Delete
                     </a>
 

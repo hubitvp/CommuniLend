@@ -1,7 +1,4 @@
 ﻿using CommuniLend.Web.ViewModels.Tool;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CommuniLend.Services.Contracts
 {

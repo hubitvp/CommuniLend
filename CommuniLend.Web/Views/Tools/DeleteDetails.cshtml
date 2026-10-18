@@ -24,10 +24,10 @@
 {
     <form asp-controller="Tools"
           asp-action="Delete"
-          asp-route-toolId="@Model.ToolId"
+          asp-route-id="@Model.ToolId"
           method="post">
         <button type="submit" class="btn btn-danger">Delete</button>
-        <a asp-action="Details" asp-route-toolId="@Model.ToolId" class="btn btn-outline-secondary">
+        <a asp-action="Details" asp-route-id="@Model.ToolId" class="btn btn-outline-secondary">
             Cancel
         </a>
     </form>
@@ -37,7 +37,7 @@ else
     <div class="alert alert-warning">
         <strong>⚠ This tool cannot be deleted because it is currently on loan.</strong>
     </div>
-    <a asp-action="Details" asp-route-toolId="@Model.ToolId" class="btn btn-outline-secondary">
+    <a asp-action="Details" asp-route-id="@Model.ToolId" class="btn btn-outline-secondary">
         Back to Details
     </a>
 }

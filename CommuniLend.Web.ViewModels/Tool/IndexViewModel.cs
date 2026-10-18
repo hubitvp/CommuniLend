@@ -3,7 +3,7 @@
 
 namespace CommuniLend.Web.ViewModels.Tool
 {
-    public class IndexViewModel 
+    public class IndexViewModel
     {
 
         public required int ToolId { get; set; }
@@ -13,7 +13,7 @@ namespace CommuniLend.Web.ViewModels.Tool
 
         public required ToolStatus ToolStatus { get; set; }
 
-        public required int OwnerId { get; set; }
+        public required string OwnerId { get; set; }
 
 
         public required string OwnerFullName { get; set; }

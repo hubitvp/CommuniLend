@@ -1,44 +1,57 @@
-﻿using CommuniLend.Services.Contracts;
+﻿using CommuniLend.Data.Models;
+using CommuniLend.Services.Contracts;
+using CommuniLend.Web.ViewModels.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace CommuniLend.Web.Controllers
 {
-    public class MembersController : BaseController
+    public class UsersController : BaseController
     {
-        private readonly IMembersService iMembersService;
+        private readonly IUsersService iUsersService;
 
-        public MembersController(
-            IMembersService membersService,
-            UserManager<IdentityUser> userManager)
+        public UsersController(
+            IUsersService usersService,
+            UserManager<ApplicationUser> userManager)
             : base(userManager)
         {
-            iMembersService = membersService;
+            iUsersService = usersService;
         }
 
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var members = await iMembersService.GetAllAsync();
+            var users = await iUsersService.GetAllAsync();
 
-            return View(members);
+            return View(users);
         }
 
 
-
         [HttpGet]
-        public async Task<IActionResult> Details([FromRoute(Name = "id")] int memberId)
+        public async Task<IActionResult> Details([FromRoute(Name = "id")] string userId)
         {
-            var memberViewModel = await iMembersService.GetDetailsAsync(memberId);
+            string currentUserId = GetUserId();
 
-            if (memberViewModel == null)
+            if (string.IsNullOrEmpty(currentUserId))
+            {
+                return Unauthorized();
+            }
+
+            if (currentUserId == userId)
+            {
+                return RedirectToAction(nameof(Dashboard));
+            }
+
+            var userViewModel = await iUsersService.GetDetailsAsync(userId);
+
+            if (userViewModel == null)
             {
                 return NotFound();
             }
 
-            return View(memberViewModel);
+            return View(userViewModel);
         }
 
 
@@ -48,7 +61,7 @@ namespace CommuniLend.Web.Controllers
         {
             string userId = GetUserId();
 
-            var memberViewModel = await iMembersService.GetDashboardDetailsAsync(userId);
+            var memberViewModel = await iUsersService.GetDashboardDetailsAsync(userId);
 
             if (memberViewModel == null)
             {
@@ -60,7 +73,8 @@ namespace CommuniLend.Web.Controllers
 
 
         //[HttpGet]
-        //public async Task<IActionResult> AddTool(int memberId)
+        //public async Task<IActionResult> AddTool(int
+        //)
         //{
         //    var model = await iMembersService.GetAddToolInputViewModelAsync(memberId);
         //    if (model == null)
@@ -113,60 +127,37 @@ namespace CommuniLend.Web.Controllers
         //}
 
 
-        //[HttpGet]
-        //[ActionName("Edit")]
-        //public IActionResult EditGet(int id)
-        //{
-        //    var member = context.Members.Find(id);
+        [HttpGet]
+        public async Task<IActionResult> Edit()
+        {
+            var userId = GetUserId();
 
-        //    if (member == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var model = await iUsersService.EditCurrentDetailsAsync(userId);
 
-        //    var model = new MemberEditInputViewModel
-        //    {
-        //        MemberId = member.Id,
-        //        FullName = member.FullName,
-        //        Email = member.Email,
-        //        PhoneNumber = member.PhoneNumber,
-        //        Address = member.Address,
-        //        IsActive = member.IsActive,
-
-        //    };
-
-        //    return View(model);
-        //}
+            return View(model);
+        }
 
 
-        //[HttpPost]
-        //[ActionName("Edit")]
-        //public IActionResult EditPost(int id, MemberEditInputViewModel inputModel)
-        //{
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditInputViewModel inputModel)
+        {
 
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(inputModel);
-        //    }
+            if (!ModelState.IsValid)
+            {
+                return View(inputModel);
+            }
 
+            var userId = GetUserId();
 
-        //    var member = context.Members.Find(id);
-        //    if (member == null)
-        //    {
-        //        return NotFound();
-        //    }
+            bool isUpdated = await iUsersService.UpdateUserDetailsAsync(userId, inputModel);
 
+            if (false == isUpdated)
+            {
+                return BadRequest();
+            }
 
-        //    member.FullName = inputModel.FullName;
-        //    member.Email = inputModel.Email;
-        //    member.PhoneNumber = inputModel.PhoneNumber;
-        //    member.Address = inputModel.Address;
-        //    member.IsActive = inputModel.IsActive;
-
-        //    context.SaveChanges();
-
-        //    return RedirectToAction("Details", new { id });
-        //}
+            return RedirectToAction(nameof(Dashboard));
+        }
 
 
         //[HttpGet]

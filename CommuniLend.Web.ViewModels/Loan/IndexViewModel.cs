@@ -7,7 +7,7 @@ namespace CommuniLend.Web.ViewModels.Loan
 
 
 
-    public class ActiveLoanToolIndexViewModel 
+    public class ActiveLoanToolIndexViewModel
     {
         public required int OpenLoanId { get; set; }
 

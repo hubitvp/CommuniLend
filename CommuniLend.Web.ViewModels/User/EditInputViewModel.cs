@@ -1,32 +1,32 @@
 ﻿using CommuniLend.Data.Models.Constraints;
 using System.ComponentModel.DataAnnotations;
 
-namespace CommuniLend.Web.ViewModels.Member
+namespace CommuniLend.Web.ViewModels.User
 {
 
-    public class MemberEditInputViewModel
+    public class EditInputViewModel
     {
-        public required int MemberId { get; set; }
+        //public required string UserId { get; set; }
 
         [Required]
-        [StringLength(ValidationConstants.Member.FullNameMaxLength)]
+        [StringLength(ValidationConstants.User.FullNameMaxLength)]
         [Display(Name = "Full Name")]
         public required string FullName { get; set; }
 
         [Required]
-        [StringLength(ValidationConstants.Member.EmailMaxLength)]
+        [StringLength(ValidationConstants.User.EmailMaxLength)]
         [EmailAddress]
         [Display(Name = "Email")]
         public required string Email { get; set; }
 
         [Required]
-        [StringLength(ValidationConstants.Member.PhoneNumberMaxLength)]
+        [StringLength(ValidationConstants.User.PhoneNumberMaxLength)]
         [Phone]
         [Display(Name = "Phone Number")]
         public required string PhoneNumber { get; set; }
 
 
-        [StringLength(ValidationConstants.Member.AddressMaxLength)]
+        [StringLength(ValidationConstants.User.AddressMaxLength)]
         [Display(Name = "Address")]
         public required string? Address { get; set; }
 

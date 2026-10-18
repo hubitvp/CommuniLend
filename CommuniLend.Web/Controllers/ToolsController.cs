@@ -1,4 +1,5 @@
-﻿using CommuniLend.Services.Contracts;
+﻿using CommuniLend.Data.Models;
+using CommuniLend.Services.Contracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +11,7 @@ namespace CommuniLend.Web.Controllers
 
         public ToolsController(
             IToolsService toolsService,
-            UserManager<IdentityUser> userManager)
+            UserManager<ApplicationUser> userManager)
             : base(userManager)
         {
             iToolsService = toolsService;

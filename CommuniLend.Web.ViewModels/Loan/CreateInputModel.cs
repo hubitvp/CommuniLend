@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CommuniLend.Web.ViewModels.Loan
 {
-    public class LoanCreateInputModel
+    public class CreateInputModel
     {
 
 

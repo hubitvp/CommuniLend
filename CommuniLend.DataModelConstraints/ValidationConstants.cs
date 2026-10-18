@@ -11,7 +11,7 @@
             public const int PhoneNumberMaxLength = 15;
             public const int AddressMaxLength = 200;
 
-            public const int IdentityUserIdMaxLength = 450;
+            public const int ApplicationUserIdMaxLength = 450;
         }
 
 

@@ -1,7 +1,7 @@
 using CommuniLend.Data;
+using CommuniLend.Data.Models;
 using CommuniLend.Services;
 using CommuniLend.Services.Contracts;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommuniLend.Web
@@ -18,7 +18,7 @@ namespace CommuniLend.Web
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(
+            builder.Services.AddDefaultIdentity<ApplicationUser>(
                 options =>
                 {
                     options.SignIn.RequireConfirmedAccount = false;
@@ -36,8 +36,7 @@ namespace CommuniLend.Web
 
 
             builder.Services.AddScoped<IToolsService, ToolsService>();
-            builder.Services.AddScoped<IMembersService, MembersService>();
-
+            builder.Services.AddScoped<IUsersService, UsersService>();
 
 
             var app = builder.Build();

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using CommuniLend.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,8 +8,8 @@ namespace CommuniLend.Web.Controllers
     [Authorize]
     public abstract class BaseController : Controller
     {
-        private readonly UserManager<IdentityUser> userManager;
-        public BaseController(UserManager<IdentityUser> userManager)
+        private readonly UserManager<ApplicationUser> userManager;
+        public BaseController(UserManager<ApplicationUser> userManager)
         {
             this.userManager = userManager;
         }

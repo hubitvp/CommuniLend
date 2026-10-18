@@ -19,7 +19,7 @@ namespace CommuniLend.Data.Models
 
 
         [Required]
-        [StringLength(ValidationConstants.User.IdentityUserIdMaxLength)]
+        [StringLength(ValidationConstants.User.ApplicationUserIdMaxLength)]
         public required string OwnerId { get; set; }
 
 
@@ -28,7 +28,7 @@ namespace CommuniLend.Data.Models
 
 
         [Required]
-        [StringLength(ValidationConstants.User.IdentityUserIdMaxLength)]
+        [StringLength(ValidationConstants.User.ApplicationUserIdMaxLength)]
         public required string BorrowerId { get; set; }
 
 

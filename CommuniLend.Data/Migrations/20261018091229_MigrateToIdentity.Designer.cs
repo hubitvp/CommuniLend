@@ -4,6 +4,7 @@ using CommuniLend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,13 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CommuniLend.Data.Migrations
 {
     [DbContext(typeof(CommuniLendDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261018091229_MigrateToIdentity")]
+    partial class MigrateToIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.12")
+                .HasAnnotation("ProductVersion", "10.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -72,8 +75,10 @@ namespace CommuniLend.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BorrowerId")
-                        .HasColumnType("int");
+                    b.Property<string>("BorrowerId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateOnly>("DueDate")
                         .HasColumnType("date");
@@ -85,8 +90,10 @@ namespace CommuniLend.Data.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<int>("OwnerId")
-                        .HasColumnType("int");
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateOnly>("ReturnDate")
                         .HasColumnType("date");
@@ -108,211 +115,101 @@ namespace CommuniLend.Data.Migrations
                         new
                         {
                             Id = 8,
-                            BorrowerId = 2,
+                            BorrowerId = "5085596c-7975-580a-aa8a-68ad83d435bb",
                             DueDate = new DateOnly(2026, 9, 2),
                             LoanDate = new DateOnly(2026, 8, 19),
                             Notes = "Shelf installation",
-                            OwnerId = 3,
+                            OwnerId = "b9af376a-21a5-540b-89d2-8c131633400d",
                             ReturnDate = new DateOnly(2026, 9, 3),
                             ToolId = 4
                         },
                         new
                         {
                             Id = 9,
-                            BorrowerId = 3,
+                            BorrowerId = "b9af376a-21a5-540b-89d2-8c131633400d",
                             DueDate = new DateOnly(2026, 9, 2),
                             LoanDate = new DateOnly(2026, 8, 19),
                             Notes = "Picture frame hanging",
-                            OwnerId = 1,
+                            OwnerId = "fec24483-730b-58d9-9383-2c44fcf490e8",
                             ReturnDate = new DateOnly(2026, 9, 3),
                             ToolId = 9
                         },
                         new
                         {
                             Id = 10,
-                            BorrowerId = 1,
+                            BorrowerId = "fec24483-730b-58d9-9383-2c44fcf490e8",
                             DueDate = new DateOnly(2026, 9, 14),
                             LoanDate = new DateOnly(2026, 8, 31),
                             Notes = "Fence repair",
-                            OwnerId = 4,
+                            OwnerId = "93295a13-2d4b-5732-9cba-916402a8edf3",
                             ReturnDate = new DateOnly(2026, 9, 15),
                             ToolId = 5
                         },
                         new
                         {
                             Id = 11,
-                            BorrowerId = 4,
+                            BorrowerId = "93295a13-2d4b-5732-9cba-916402a8edf3",
                             DueDate = new DateOnly(2026, 9, 24),
                             LoanDate = new DateOnly(2026, 9, 10),
                             Notes = "Wall stud detection",
-                            OwnerId = 5,
+                            OwnerId = "f04c78b2-6180-5b82-bdb8-0eedb97675a7",
                             ReturnDate = new DateOnly(2026, 9, 25),
                             ToolId = 13
                         },
                         new
                         {
                             Id = 12,
-                            BorrowerId = 3,
+                            BorrowerId = "b9af376a-21a5-540b-89d2-8c131633400d",
                             DueDate = new DateOnly(2026, 9, 18),
                             LoanDate = new DateOnly(2026, 9, 4),
                             Notes = "Deck board cutting",
-                            OwnerId = 1,
+                            OwnerId = "fec24483-730b-58d9-9383-2c44fcf490e8",
                             ReturnDate = new DateOnly(2026, 9, 19),
                             ToolId = 2
                         },
                         new
                         {
                             Id = 13,
-                            BorrowerId = 5,
+                            BorrowerId = "f04c78b2-6180-5b82-bdb8-0eedb97675a7",
                             DueDate = new DateOnly(2026, 9, 24),
                             LoanDate = new DateOnly(2026, 9, 10),
                             Notes = "Molding and trim work",
-                            OwnerId = 2,
+                            OwnerId = "5085596c-7975-580a-aa8a-68ad83d435bb",
                             ReturnDate = new DateOnly(2026, 9, 25),
                             ToolId = 10
                         },
                         new
                         {
                             Id = 14,
-                            BorrowerId = 2,
+                            BorrowerId = "5085596c-7975-580a-aa8a-68ad83d435bb",
                             DueDate = new DateOnly(2026, 9, 7),
                             LoanDate = new DateOnly(2026, 8, 24),
                             Notes = "Tree removal branch cutting",
-                            OwnerId = 1,
+                            OwnerId = "fec24483-730b-58d9-9383-2c44fcf490e8",
                             ReturnDate = new DateOnly(2026, 9, 8),
                             ToolId = 16
                         },
                         new
                         {
                             Id = 15,
-                            BorrowerId = 1,
+                            BorrowerId = "fec24483-730b-58d9-9383-2c44fcf490e8",
                             DueDate = new DateOnly(2026, 9, 14),
                             LoanDate = new DateOnly(2026, 8, 31),
                             Notes = "Floor sanding",
-                            OwnerId = 2,
+                            OwnerId = "5085596c-7975-580a-aa8a-68ad83d435bb",
                             ReturnDate = new DateOnly(2026, 9, 15),
                             ToolId = 17
                         },
                         new
                         {
                             Id = 16,
-                            BorrowerId = 4,
+                            BorrowerId = "93295a13-2d4b-5732-9cba-916402a8edf3",
                             DueDate = new DateOnly(2026, 9, 20),
                             LoanDate = new DateOnly(2026, 9, 6),
                             Notes = "Finishing hardwood",
-                            OwnerId = 3,
+                            OwnerId = "b9af376a-21a5-540b-89d2-8c131633400d",
                             ReturnDate = new DateOnly(2026, 9, 21),
                             ToolId = 18
-                        });
-                });
-
-            modelBuilder.Entity("CommuniLend.Data.Models.Member", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Address")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(254)
-                        .HasColumnType("nvarchar(254)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<DateOnly>("JoinDate")
-                        .HasColumnType("date");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Members");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Address = "123 Main Street, Springfield, IL 62701",
-                            Email = "john.smith@email.com",
-                            FullName = "John Smith",
-                            IsActive = true,
-                            JoinDate = new DateOnly(2026, 6, 30),
-                            PhoneNumber = "(555) 123-4567"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Address = "456 Oak Avenue, Springfield, IL 62702",
-                            Email = "sarah.johnson@email.com",
-                            FullName = "Sarah Johnson",
-                            IsActive = true,
-                            JoinDate = new DateOnly(2026, 7, 30),
-                            PhoneNumber = "(555) 234-5678"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Address = "789 Pine Road, Springfield, IL 62703",
-                            Email = "michael.chen@email.com",
-                            FullName = "Michael Chen",
-                            IsActive = true,
-                            JoinDate = new DateOnly(2026, 8, 14),
-                            PhoneNumber = "(555) 345-6789"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Address = "321 Elm Street, Springfield, IL 62704",
-                            Email = "emily.rodriguez@email.com",
-                            FullName = "Emily Rodriguez",
-                            IsActive = true,
-                            JoinDate = new DateOnly(2026, 8, 29),
-                            PhoneNumber = "(555) 456-7890"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Address = "654 Maple Drive, Springfield, IL 62705",
-                            Email = "david.williams@email.com",
-                            FullName = "David Williams",
-                            IsActive = true,
-                            JoinDate = new DateOnly(2026, 9, 8),
-                            PhoneNumber = "(555) 567-8901"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Address = "987 Cedar Lane, Springfield, IL 62706",
-                            Email = "jessica.martinez@email.com",
-                            FullName = "Jessica Martinez",
-                            IsActive = true,
-                            JoinDate = new DateOnly(2026, 9, 13),
-                            PhoneNumber = "(555) 678-9012"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Address = "147 Birch Court, Springfield, IL 62707",
-                            Email = "robert.taylor@email.com",
-                            FullName = "Robert Taylor",
-                            IsActive = true,
-                            JoinDate = new DateOnly(2026, 9, 18),
-                            PhoneNumber = "(555) 789-0123"
                         });
                 });
 
@@ -324,8 +221,10 @@ namespace CommuniLend.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BorrowerId")
-                        .HasColumnType("int");
+                    b.Property<string>("BorrowerId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateOnly>("DueDate")
                         .HasColumnType("date");
@@ -337,8 +236,10 @@ namespace CommuniLend.Data.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<int>("OwnerId")
-                        .HasColumnType("int");
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ToolId")
                         .HasColumnType("int");
@@ -358,71 +259,71 @@ namespace CommuniLend.Data.Migrations
                         new
                         {
                             Id = 1,
-                            BorrowerId = 1,
+                            BorrowerId = "fec24483-730b-58d9-9383-2c44fcf490e8",
                             DueDate = new DateOnly(2026, 10, 5),
                             LoanDate = new DateOnly(2026, 9, 14),
                             Notes = "Borrowed for home renovation project",
-                            OwnerId = 2,
+                            OwnerId = "5085596c-7975-580a-aa8a-68ad83d435bb",
                             ToolId = 3
                         },
                         new
                         {
                             Id = 2,
-                            BorrowerId = 2,
+                            BorrowerId = "5085596c-7975-580a-aa8a-68ad83d435bb",
                             DueDate = new DateOnly(2026, 10, 9),
                             LoanDate = new DateOnly(2026, 9, 18),
                             Notes = "Needed for measuring deck",
-                            OwnerId = 6,
+                            OwnerId = "234a29ff-3432-5780-a6e8-3acd25056d4c",
                             ToolId = 7
                         },
                         new
                         {
                             Id = 3,
-                            BorrowerId = 7,
+                            BorrowerId = "5babe2ff-dff9-5359-8b04-f77b0028ca98",
                             DueDate = new DateOnly(2026, 10, 11),
                             LoanDate = new DateOnly(2026, 9, 20),
                             Notes = "Cabinet installation",
-                            OwnerId = 3,
+                            OwnerId = "b9af376a-21a5-540b-89d2-8c131633400d",
                             ToolId = 11
                         },
                         new
                         {
                             Id = 4,
-                            BorrowerId = 4,
+                            BorrowerId = "93295a13-2d4b-5732-9cba-916402a8edf3",
                             DueDate = new DateOnly(2026, 10, 14),
                             LoanDate = new DateOnly(2026, 9, 23),
                             Notes = "Basement repair work",
-                            OwnerId = 6,
+                            OwnerId = "234a29ff-3432-5780-a6e8-3acd25056d4c",
                             ToolId = 14
                         },
                         new
                         {
                             Id = 5,
-                            BorrowerId = 5,
+                            BorrowerId = "f04c78b2-6180-5b82-bdb8-0eedb97675a7",
                             DueDate = new DateOnly(2026, 10, 16),
                             LoanDate = new DateOnly(2026, 9, 25),
                             Notes = "Caulking bathroom tiles",
-                            OwnerId = 4,
+                            OwnerId = "93295a13-2d4b-5732-9cba-916402a8edf3",
                             ToolId = 19
                         },
                         new
                         {
                             Id = 6,
-                            BorrowerId = 6,
+                            BorrowerId = "234a29ff-3432-5780-a6e8-3acd25056d4c",
                             DueDate = new DateOnly(2026, 10, 17),
                             LoanDate = new DateOnly(2026, 9, 26),
                             Notes = "Engine repair project",
-                            OwnerId = 7,
+                            OwnerId = "5babe2ff-dff9-5359-8b04-f77b0028ca98",
                             ToolId = 8
                         },
                         new
                         {
                             Id = 7,
-                            BorrowerId = 3,
+                            BorrowerId = "b9af376a-21a5-540b-89d2-8c131633400d",
                             DueDate = new DateOnly(2026, 10, 18),
                             LoanDate = new DateOnly(2026, 9, 27),
                             Notes = "Measuring for new flooring",
-                            OwnerId = 7,
+                            OwnerId = "5babe2ff-dff9-5359-8b04-f77b0028ca98",
                             ToolId = 15
                         });
                 });
@@ -457,8 +358,10 @@ namespace CommuniLend.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("OwnerId")
-                        .HasColumnType("int");
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("ReplacementValue")
                         .HasColumnType("decimal(8,2)");
@@ -481,7 +384,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "18V lithium-ion cordless drill with carry case",
                             ImageUrl = "/images/tools/cordless-drill.jpg",
                             Name = "Cordless Drill",
-                            OwnerId = 1,
+                            OwnerId = "fec24483-730b-58d9-9383-2c44fcf490e8",
                             ReplacementValue = 89.99m
                         },
                         new
@@ -493,7 +396,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "7.25\" circular saw for wood cutting",
                             ImageUrl = "/images/tools/circular-saw.jpg",
                             Name = "Circular Saw",
-                            OwnerId = 1,
+                            OwnerId = "fec24483-730b-58d9-9383-2c44fcf490e8",
                             ReplacementValue = 65.50m
                         },
                         new
@@ -505,7 +408,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Set of 3 adjustable wrenches in various sizes",
                             ImageUrl = "/images/tools/wrench-set.jpg",
                             Name = "Adjustable Wrench Set",
-                            OwnerId = 2,
+                            OwnerId = "5085596c-7975-580a-aa8a-68ad83d435bb",
                             ReplacementValue = 25.99m
                         },
                         new
@@ -517,7 +420,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "24\" aluminum spirit level",
                             ImageUrl = "/images/tools/level.jpg",
                             Name = "Level",
-                            OwnerId = 3,
+                            OwnerId = "b9af376a-21a5-540b-89d2-8c131633400d",
                             ReplacementValue = 18.75m
                         },
                         new
@@ -529,7 +432,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Set of 5 hammers with different head weights",
                             ImageUrl = "/images/tools/hammer-set.jpg",
                             Name = "Hammer Set",
-                            OwnerId = 4,
+                            OwnerId = "93295a13-2d4b-5732-9cba-916402a8edf3",
                             ReplacementValue = 35.00m
                         },
                         new
@@ -541,7 +444,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Orbital jigsaw for curved cuts",
                             ImageUrl = "/images/tools/jigsaw.jpg",
                             Name = "Jigsaw",
-                            OwnerId = 5,
+                            OwnerId = "f04c78b2-6180-5b82-bdb8-0eedb97675a7",
                             ReplacementValue = 120.00m
                         },
                         new
@@ -553,7 +456,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "25ft retractable tape measure",
                             ImageUrl = "/images/tools/tape-measure.jpg",
                             Name = "Tape Measure",
-                            OwnerId = 6,
+                            OwnerId = "234a29ff-3432-5780-a6e8-3acd25056d4c",
                             ReplacementValue = 12.50m
                         },
                         new
@@ -565,7 +468,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Complete socket set with ratchets",
                             ImageUrl = "/images/tools/socket-set.jpg",
                             Name = "Socket Set",
-                            OwnerId = 7,
+                            OwnerId = "5babe2ff-dff9-5359-8b04-f77b0028ca98",
                             ReplacementValue = 45.99m
                         },
                         new
@@ -577,7 +480,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Set of 4 different pliers",
                             ImageUrl = "/images/tools/pliers-set.jpg",
                             Name = "Pliers Set",
-                            OwnerId = 1,
+                            OwnerId = "fec24483-730b-58d9-9383-2c44fcf490e8",
                             ReplacementValue = 28.00m
                         },
                         new
@@ -589,7 +492,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "10\" compound miter saw",
                             ImageUrl = "/images/tools/miter-saw.jpg",
                             Name = "Miter Saw",
-                            OwnerId = 2,
+                            OwnerId = "5085596c-7975-580a-aa8a-68ad83d435bb",
                             ReplacementValue = 199.99m
                         },
                         new
@@ -601,7 +504,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Set of 12 screwdrivers (Phillips and flathead)",
                             ImageUrl = "/images/tools/screwdriver-set.jpg",
                             Name = "Screwdriver Set",
-                            OwnerId = 3,
+                            OwnerId = "b9af376a-21a5-540b-89d2-8c131633400d",
                             ReplacementValue = 19.99m
                         },
                         new
@@ -613,7 +516,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "12V compact power drill",
                             ImageUrl = "/images/tools/power-drill.jpg",
                             Name = "Power Drill",
-                            OwnerId = 4,
+                            OwnerId = "93295a13-2d4b-5732-9cba-916402a8edf3",
                             ReplacementValue = 59.99m
                         },
                         new
@@ -625,7 +528,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Digital stud finder with deep scan",
                             ImageUrl = "/images/tools/stud-finder.jpg",
                             Name = "Stud Finder",
-                            OwnerId = 5,
+                            OwnerId = "f04c78b2-6180-5b82-bdb8-0eedb97675a7",
                             ReplacementValue = 42.50m
                         },
                         new
@@ -637,7 +540,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "LED flashlight with adjustable beam",
                             ImageUrl = "/images/tools/flashlight.jpg",
                             Name = "Flashlight",
-                            OwnerId = 6,
+                            OwnerId = "234a29ff-3432-5780-a6e8-3acd25056d4c",
                             ReplacementValue = 15.00m
                         },
                         new
@@ -649,7 +552,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Digital laser distance measurer",
                             ImageUrl = "/images/tools/laser-measure.jpg",
                             Name = "Laser Measure",
-                            OwnerId = 7,
+                            OwnerId = "5babe2ff-dff9-5359-8b04-f77b0028ca98",
                             ReplacementValue = 79.99m
                         },
                         new
@@ -661,7 +564,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Cordless reciprocating saw for demolition",
                             ImageUrl = "/images/tools/reciprocating-saw.jpg",
                             Name = "Reciprocating Saw",
-                            OwnerId = 1,
+                            OwnerId = "fec24483-730b-58d9-9383-2c44fcf490e8",
                             ReplacementValue = 145.00m
                         },
                         new
@@ -673,7 +576,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "5\" random orbital sander",
                             ImageUrl = "/images/tools/orbital-sander.jpg",
                             Name = "Orbital Sander",
-                            OwnerId = 2,
+                            OwnerId = "5085596c-7975-580a-aa8a-68ad83d435bb",
                             ReplacementValue = 99.99m
                         },
                         new
@@ -685,7 +588,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Set of 4 nail sets",
                             ImageUrl = "/images/tools/nail-set.jpg",
                             Name = "Nail Set",
-                            OwnerId = 3,
+                            OwnerId = "b9af376a-21a5-540b-89d2-8c131633400d",
                             ReplacementValue = 8.99m
                         },
                         new
@@ -697,7 +600,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Heavy-duty caulking gun",
                             ImageUrl = "/images/tools/caulking-gun.jpg",
                             Name = "Caulking Gun",
-                            OwnerId = 4,
+                            OwnerId = "93295a13-2d4b-5732-9cba-916402a8edf3",
                             ReplacementValue = 22.00m
                         },
                         new
@@ -709,7 +612,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Retractable utility knife with replacement blades",
                             ImageUrl = "/images/tools/utility-knife.jpg",
                             Name = "Utility Knife",
-                            OwnerId = 5,
+                            OwnerId = "f04c78b2-6180-5b82-bdb8-0eedb97675a7",
                             ReplacementValue = 10.50m
                         },
                         new
@@ -721,7 +624,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "20V impact driver",
                             ImageUrl = "/images/tools/impact-driver.jpg",
                             Name = "Impact Driver",
-                            OwnerId = 6,
+                            OwnerId = "234a29ff-3432-5780-a6e8-3acd25056d4c",
                             ReplacementValue = 99.99m
                         },
                         new
@@ -733,7 +636,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "18-gauge brad nailer",
                             ImageUrl = "/images/tools/brad-nailer.jpg",
                             Name = "Brad Nailer",
-                            OwnerId = 7,
+                            OwnerId = "5babe2ff-dff9-5359-8b04-f77b0028ca98",
                             ReplacementValue = 75.00m
                         },
                         new
@@ -745,7 +648,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Stud finder with level",
                             ImageUrl = "/images/tools/stud-kit.jpg",
                             Name = "Stud Finder Kit",
-                            OwnerId = 1,
+                            OwnerId = "fec24483-730b-58d9-9383-2c44fcf490e8",
                             ReplacementValue = 35.99m
                         },
                         new
@@ -757,7 +660,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "9\" torpedo level",
                             ImageUrl = "/images/tools/torpedo-level.jpg",
                             Name = "Torpedo Level",
-                            OwnerId = 2,
+                            OwnerId = "5085596c-7975-580a-aa8a-68ad83d435bb",
                             ReplacementValue = 16.50m
                         },
                         new
@@ -769,7 +672,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "24-piece ratchet socket set",
                             ImageUrl = "/images/tools/ratchet-set.jpg",
                             Name = "Ratchet Set",
-                            OwnerId = 3,
+                            OwnerId = "b9af376a-21a5-540b-89d2-8c131633400d",
                             ReplacementValue = 55.00m
                         },
                         new
@@ -781,7 +684,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "4\" bench vise with swivel base",
                             ImageUrl = "/images/tools/bench-vise.jpg",
                             Name = "Bench Vise",
-                            OwnerId = 4,
+                            OwnerId = "93295a13-2d4b-5732-9cba-916402a8edf3",
                             ReplacementValue = 65.00m
                         },
                         new
@@ -793,7 +696,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "4.5\" angle grinder",
                             ImageUrl = "/images/tools/angle-grinder.jpg",
                             Name = "Angle Grinder",
-                            OwnerId = 5,
+                            OwnerId = "f04c78b2-6180-5b82-bdb8-0eedb97675a7",
                             ReplacementValue = 85.99m
                         },
                         new
@@ -805,7 +708,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Pneumatic finishing nailer",
                             ImageUrl = "/images/tools/pneumatic-nailer.jpg",
                             Name = "Pneumatic Nailer",
-                            OwnerId = 6,
+                            OwnerId = "234a29ff-3432-5780-a6e8-3acd25056d4c",
                             ReplacementValue = 60.00m
                         },
                         new
@@ -817,7 +720,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "24\" magnetic level",
                             ImageUrl = "/images/tools/magnetic-level.jpg",
                             Name = "Magnetic Level",
-                            OwnerId = 7,
+                            OwnerId = "5babe2ff-dff9-5359-8b04-f77b0028ca98",
                             ReplacementValue = 21.99m
                         },
                         new
@@ -829,7 +732,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Portable circular power saw",
                             ImageUrl = "/images/tools/power-saw.jpg",
                             Name = "Power Saw",
-                            OwnerId = 1,
+                            OwnerId = "fec24483-730b-58d9-9383-2c44fcf490e8",
                             ReplacementValue = 55.00m
                         },
                         new
@@ -841,7 +744,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Complete hex key set",
                             ImageUrl = "/images/tools/allen-key-set.jpg",
                             Name = "Allen Key Set",
-                            OwnerId = 2,
+                            OwnerId = "5085596c-7975-580a-aa8a-68ad83d435bb",
                             ReplacementValue = 14.99m
                         },
                         new
@@ -853,7 +756,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "18\" adjustable pipe wrench",
                             ImageUrl = "/images/tools/pipe-wrench.jpg",
                             Name = "Pipe Wrench",
-                            OwnerId = 3,
+                            OwnerId = "b9af376a-21a5-540b-89d2-8c131633400d",
                             ReplacementValue = 32.50m
                         },
                         new
@@ -865,7 +768,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "12\" hacksaw with blade",
                             ImageUrl = "/images/tools/hacksaw.jpg",
                             Name = "Hacksaw",
-                            OwnerId = 4,
+                            OwnerId = "93295a13-2d4b-5732-9cba-916402a8edf3",
                             ReplacementValue = 13.00m
                         },
                         new
@@ -877,7 +780,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "30-piece drill bit set",
                             ImageUrl = "/images/tools/drill-bit-set.jpg",
                             Name = "Drill Bit Set",
-                            OwnerId = 5,
+                            OwnerId = "f04c78b2-6180-5b82-bdb8-0eedb97675a7",
                             ReplacementValue = 18.50m
                         },
                         new
@@ -889,7 +792,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "12\" combination square",
                             ImageUrl = "/images/tools/combination-square.jpg",
                             Name = "Combination Square",
-                            OwnerId = 6,
+                            OwnerId = "234a29ff-3432-5780-a6e8-3acd25056d4c",
                             ReplacementValue = 19.99m
                         },
                         new
@@ -901,7 +804,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Set of 3 LED flashlights",
                             ImageUrl = "/images/tools/flashlight-set.jpg",
                             Name = "Flashlight Set",
-                            OwnerId = 7,
+                            OwnerId = "5babe2ff-dff9-5359-8b04-f77b0028ca98",
                             ReplacementValue = 35.00m
                         },
                         new
@@ -913,7 +816,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "15\" flat pry bar",
                             ImageUrl = "/images/tools/pry-bar.jpg",
                             Name = "Pry Bar",
-                            OwnerId = 1,
+                            OwnerId = "fec24483-730b-58d9-9383-2c44fcf490e8",
                             ReplacementValue = 14.50m
                         },
                         new
@@ -925,7 +828,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Cordless oscillating tool with accessories",
                             ImageUrl = "/images/tools/multi-tool.jpg",
                             Name = "Oscillating Multi-Tool",
-                            OwnerId = 2,
+                            OwnerId = "5085596c-7975-580a-aa8a-68ad83d435bb",
                             ReplacementValue = 129.99m
                         },
                         new
@@ -937,7 +840,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Set of 2 bar clamps (12\" and 24\")",
                             ImageUrl = "/images/tools/bar-clamp-set.jpg",
                             Name = "Bar Clamp Set",
-                            OwnerId = 3,
+                            OwnerId = "b9af376a-21a5-540b-89d2-8c131633400d",
                             ReplacementValue = 42.00m
                         },
                         new
@@ -949,7 +852,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Electric nail gun",
                             ImageUrl = "/images/tools/nail-gun.jpg",
                             Name = "Nail Gun",
-                            OwnerId = 4,
+                            OwnerId = "93295a13-2d4b-5732-9cba-916402a8edf3",
                             ReplacementValue = 79.99m
                         },
                         new
@@ -961,7 +864,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "24\" carpenter's speed square",
                             ImageUrl = "/images/tools/carpenters-square.jpg",
                             Name = "Carpenter's Square",
-                            OwnerId = 5,
+                            OwnerId = "f04c78b2-6180-5b82-bdb8-0eedb97675a7",
                             ReplacementValue = 11.00m
                         },
                         new
@@ -973,7 +876,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Shop dust extractor",
                             ImageUrl = "/images/tools/dust-extractor.jpg",
                             Name = "Dust Extractor",
-                            OwnerId = 6,
+                            OwnerId = "234a29ff-3432-5780-a6e8-3acd25056d4c",
                             ReplacementValue = 125.00m
                         },
                         new
@@ -985,7 +888,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "6\" adjustable square",
                             ImageUrl = "/images/tools/adjustable-square.jpg",
                             Name = "Adjustable Square",
-                            OwnerId = 7,
+                            OwnerId = "5babe2ff-dff9-5359-8b04-f77b0028ca98",
                             ReplacementValue = 17.50m
                         },
                         new
@@ -997,7 +900,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Heavy-duty cable protector",
                             ImageUrl = "/images/tools/cable-protector.jpg",
                             Name = "Cable Protector",
-                            OwnerId = 1,
+                            OwnerId = "fec24483-730b-58d9-9383-2c44fcf490e8",
                             ReplacementValue = 28.00m
                         },
                         new
@@ -1009,7 +912,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "6\" bench grinder",
                             ImageUrl = "/images/tools/bench-grinder.jpg",
                             Name = "Bench Grinder",
-                            OwnerId = 2,
+                            OwnerId = "5085596c-7975-580a-aa8a-68ad83d435bb",
                             ReplacementValue = 95.00m
                         },
                         new
@@ -1021,7 +924,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Set of 4 wood chisels",
                             ImageUrl = "/images/tools/chisel-set.jpg",
                             Name = "Chisel Set",
-                            OwnerId = 3,
+                            OwnerId = "b9af376a-21a5-540b-89d2-8c131633400d",
                             ReplacementValue = 24.50m
                         },
                         new
@@ -1033,7 +936,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "30m measuring wheel",
                             ImageUrl = "/images/tools/measuring-wheel.jpg",
                             Name = "Retractable Measuring Wheel",
-                            OwnerId = 4,
+                            OwnerId = "93295a13-2d4b-5732-9cba-916402a8edf3",
                             ReplacementValue = 35.99m
                         },
                         new
@@ -1045,7 +948,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Sheet metal cutting shears",
                             ImageUrl = "/images/tools/sheet-metal-shears.jpg",
                             Name = "Sheet Metal Shears",
-                            OwnerId = 5,
+                            OwnerId = "f04c78b2-6180-5b82-bdb8-0eedb97675a7",
                             ReplacementValue = 33.00m
                         },
                         new
@@ -1057,7 +960,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Digital angle finder",
                             ImageUrl = "/images/tools/angle-finder.jpg",
                             Name = "Angle Finder",
-                            OwnerId = 6,
+                            OwnerId = "234a29ff-3432-5780-a6e8-3acd25056d4c",
                             ReplacementValue = 38.50m
                         },
                         new
@@ -1069,7 +972,7 @@ namespace CommuniLend.Data.Migrations
                             Description = "Complete rotary tool kit with accessories",
                             ImageUrl = "/images/tools/rotary-tool-kit.jpg",
                             Name = "Rotary Tool Kit",
-                            OwnerId = 7,
+                            OwnerId = "5babe2ff-dff9-5359-8b04-f77b0028ca98",
                             ReplacementValue = 89.99m
                         });
                 });
@@ -1138,6 +1041,11 @@ namespace CommuniLend.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(21)
+                        .HasColumnType("nvarchar(21)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -1163,7 +1071,8 @@ namespace CommuniLend.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
@@ -1189,6 +1098,10 @@ namespace CommuniLend.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -1276,16 +1189,187 @@ namespace CommuniLend.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("CommuniLend.Data.Models.ApplicationUser", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateOnly>("JoinDate")
+                        .HasColumnType("date");
+
+                    b.HasDiscriminator().HasValue("ApplicationUser");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "fec24483-730b-58d9-9383-2c44fcf490e8",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            Email = "john.smith@email.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "JOHN.SMITH@EMAIL.COM",
+                            NormalizedUserName = "JOHN.SMITH@EMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF86nB57LUhgocPl9wkStNa2Svp+fHGNi/3hE6or/QJMzteRck+ThqQsgLDjNlHc8A==",
+                            PhoneNumber = "(555) 123-4567",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            TwoFactorEnabled = false,
+                            UserName = "john.smith@email.com",
+                            Address = "123 Main Street, Springfield, IL 62701",
+                            FullName = "John Smith",
+                            IsActive = true,
+                            JoinDate = new DateOnly(2026, 6, 30)
+                        },
+                        new
+                        {
+                            Id = "5085596c-7975-580a-aa8a-68ad83d435bb",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            Email = "sarah.johnson@email.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "SARAH.JOHNSON@EMAIL.COM",
+                            NormalizedUserName = "SARAH.JOHNSON@EMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF86nB57LUhgocPl9wkStNa2Svp+fHGNi/3hE6or/QJMzteRck+ThqQsgLDjNlHc8A==",
+                            PhoneNumber = "(555) 234-5678",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            TwoFactorEnabled = false,
+                            UserName = "sarah.johnson@email.com",
+                            Address = "456 Oak Avenue, Springfield, IL 62702",
+                            FullName = "Sarah Johnson",
+                            IsActive = true,
+                            JoinDate = new DateOnly(2026, 7, 30)
+                        },
+                        new
+                        {
+                            Id = "b9af376a-21a5-540b-89d2-8c131633400d",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            Email = "michael.chen@email.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "MICHAEL.CHEN@EMAIL.COM",
+                            NormalizedUserName = "MICHAEL.CHEN@EMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF86nB57LUhgocPl9wkStNa2Svp+fHGNi/3hE6or/QJMzteRck+ThqQsgLDjNlHc8A==",
+                            PhoneNumber = "(555) 345-6789",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            TwoFactorEnabled = false,
+                            UserName = "michael.chen@email.com",
+                            Address = "789 Pine Road, Springfield, IL 62703",
+                            FullName = "Michael Chen",
+                            IsActive = true,
+                            JoinDate = new DateOnly(2026, 8, 14)
+                        },
+                        new
+                        {
+                            Id = "93295a13-2d4b-5732-9cba-916402a8edf3",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            Email = "emily.rodriguez@email.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "EMILY.RODRIGUEZ@EMAIL.COM",
+                            NormalizedUserName = "EMILY.RODRIGUEZ@EMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF86nB57LUhgocPl9wkStNa2Svp+fHGNi/3hE6or/QJMzteRck+ThqQsgLDjNlHc8A==",
+                            PhoneNumber = "(555) 456-7890",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            TwoFactorEnabled = false,
+                            UserName = "emily.rodriguez@email.com",
+                            Address = "321 Elm Street, Springfield, IL 62704",
+                            FullName = "Emily Rodriguez",
+                            IsActive = true,
+                            JoinDate = new DateOnly(2026, 8, 29)
+                        },
+                        new
+                        {
+                            Id = "f04c78b2-6180-5b82-bdb8-0eedb97675a7",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            Email = "david.williams@email.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "DAVID.WILLIAMS@EMAIL.COM",
+                            NormalizedUserName = "DAVID.WILLIAMS@EMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF86nB57LUhgocPl9wkStNa2Svp+fHGNi/3hE6or/QJMzteRck+ThqQsgLDjNlHc8A==",
+                            PhoneNumber = "(555) 567-8901",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            TwoFactorEnabled = false,
+                            UserName = "david.williams@email.com",
+                            Address = "654 Maple Drive, Springfield, IL 62705",
+                            FullName = "David Williams",
+                            IsActive = true,
+                            JoinDate = new DateOnly(2026, 9, 8)
+                        },
+                        new
+                        {
+                            Id = "234a29ff-3432-5780-a6e8-3acd25056d4c",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            Email = "jessica.martinez@email.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "JESSICA.MARTINEZ@EMAIL.COM",
+                            NormalizedUserName = "JESSICA.MARTINEZ@EMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF86nB57LUhgocPl9wkStNa2Svp+fHGNi/3hE6or/QJMzteRck+ThqQsgLDjNlHc8A==",
+                            PhoneNumber = "(555) 678-9012",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            TwoFactorEnabled = false,
+                            UserName = "jessica.martinez@email.com",
+                            Address = "987 Cedar Lane, Springfield, IL 62706",
+                            FullName = "Jessica Martinez",
+                            IsActive = true,
+                            JoinDate = new DateOnly(2026, 9, 13)
+                        },
+                        new
+                        {
+                            Id = "5babe2ff-dff9-5359-8b04-f77b0028ca98",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            Email = "robert.taylor@email.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ROBERT.TAYLOR@EMAIL.COM",
+                            NormalizedUserName = "ROBERT.TAYLOR@EMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF86nB57LUhgocPl9wkStNa2Svp+fHGNi/3hE6or/QJMzteRck+ThqQsgLDjNlHc8A==",
+                            PhoneNumber = "(555) 789-0123",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            TwoFactorEnabled = false,
+                            UserName = "robert.taylor@email.com",
+                            Address = "147 Birch Court, Springfield, IL 62707",
+                            FullName = "Robert Taylor",
+                            IsActive = true,
+                            JoinDate = new DateOnly(2026, 9, 18)
+                        });
+                });
+
             modelBuilder.Entity("CommuniLend.Data.Models.ClosedLoan", b =>
                 {
-                    b.HasOne("CommuniLend.Data.Models.Member", "Borrower")
-                        .WithMany("ClosedLoansBorrowedTools")
+                    b.HasOne("CommuniLend.Data.Models.ApplicationUser", "Borrower")
+                        .WithMany("ReturnedBorrowedTools")
                         .HasForeignKey("BorrowerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("CommuniLend.Data.Models.Member", "Owner")
-                        .WithMany("ClosedLoansProvidedTools")
+                    b.HasOne("CommuniLend.Data.Models.ApplicationUser", "Owner")
+                        .WithMany("ReturnedProvidedTools")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1305,14 +1389,14 @@ namespace CommuniLend.Data.Migrations
 
             modelBuilder.Entity("CommuniLend.Data.Models.OpenLoan", b =>
                 {
-                    b.HasOne("CommuniLend.Data.Models.Member", "Borrower")
-                        .WithMany("OpenLoansBorrowedTools")
+                    b.HasOne("CommuniLend.Data.Models.ApplicationUser", "Borrower")
+                        .WithMany("BorrowedTools")
                         .HasForeignKey("BorrowerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("CommuniLend.Data.Models.Member", "Owner")
-                        .WithMany("OpenLoansProvidedTools")
+                    b.HasOne("CommuniLend.Data.Models.ApplicationUser", "Owner")
+                        .WithMany("ProvidedTools")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1338,7 +1422,7 @@ namespace CommuniLend.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("CommuniLend.Data.Models.Member", "Owner")
+                    b.HasOne("CommuniLend.Data.Models.ApplicationUser", "Owner")
                         .WithMany("OwnedTools")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1405,24 +1489,24 @@ namespace CommuniLend.Data.Migrations
                     b.Navigation("Tools");
                 });
 
-            modelBuilder.Entity("CommuniLend.Data.Models.Member", b =>
-                {
-                    b.Navigation("ClosedLoansBorrowedTools");
-
-                    b.Navigation("ClosedLoansProvidedTools");
-
-                    b.Navigation("OpenLoansBorrowedTools");
-
-                    b.Navigation("OpenLoansProvidedTools");
-
-                    b.Navigation("OwnedTools");
-                });
-
             modelBuilder.Entity("CommuniLend.Data.Models.Tool", b =>
                 {
                     b.Navigation("ClosedLoans");
 
                     b.Navigation("OpenLoan");
+                });
+
+            modelBuilder.Entity("CommuniLend.Data.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("BorrowedTools");
+
+                    b.Navigation("OwnedTools");
+
+                    b.Navigation("ProvidedTools");
+
+                    b.Navigation("ReturnedBorrowedTools");
+
+                    b.Navigation("ReturnedProvidedTools");
                 });
 #pragma warning restore 612, 618
         }

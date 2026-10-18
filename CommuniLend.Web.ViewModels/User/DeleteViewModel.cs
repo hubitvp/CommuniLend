@@ -1,9 +1,9 @@
-﻿namespace CommuniLend.Web.ViewModels.Member
+﻿namespace CommuniLend.Web.ViewModels.User
 {
-    public class MemberDeleteViewModel
+    public class DeleteViewModel
     {
 
-        public required int MemberId { get; set; }
+        public required int UserId { get; set; }
 
         public required string FullName { get; set; }
 

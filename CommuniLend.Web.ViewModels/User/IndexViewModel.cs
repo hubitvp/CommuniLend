@@ -1,12 +1,12 @@
-﻿namespace CommuniLend.Web.ViewModels.Member
+﻿namespace CommuniLend.Web.ViewModels.User
 {
-    public class MemberIndexViewModel
+    public class IndexViewModel
     {
-        public required int MemberId { get; set; }
+        public required string UserId { get; set; }
 
         public required string FullName { get; set; }
 
-        public required string Email { get; set; }
+        public required string? Email { get; set; }
 
 
         public required int ToolsOwned { get; set; }

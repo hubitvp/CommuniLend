@@ -1,4 +1,4 @@
-﻿@model MemberDetailsViewModel
+﻿@model DetailsViewModel
 
 
 <div>
@@ -28,7 +28,7 @@
                         <partial name="_ToolStatusPartial" model="@borrowedTool.ToolStatus" />
                     </td>
                     <td>
-                        <a asp-controller="Members" asp-action="Details" asp-route-id="@borrowedTool.OwnerId">
+                        <a asp-controller="Users" asp-action="Details" asp-route-id="@borrowedTool.OwnerId">
                             @borrowedTool.OwnerFullName
                         </a>
                     </td>

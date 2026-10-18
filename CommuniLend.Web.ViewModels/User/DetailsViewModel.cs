@@ -1,10 +1,10 @@
 ﻿using CommuniLend.Web.ViewModels.Enums;
 
 
-namespace CommuniLend.Web.ViewModels.Member
+namespace CommuniLend.Web.ViewModels.User
 {
 
-    public class MemberDetailsOwnedToolViewModel 
+    public class DetailsOwnedToolViewModel
     {
         public required int ToolId { get; set; }
 
@@ -21,7 +21,7 @@ namespace CommuniLend.Web.ViewModels.Member
 
 
 
-    public class MemberDetailsProvidedToolViewModel 
+    public class DetailsProvidedToolViewModel
     {
         public required int ToolId { get; set; }
 
@@ -35,12 +35,12 @@ namespace CommuniLend.Web.ViewModels.Member
         public required string DueDate { get; set; }
 
 
-        public required int BorrowerId { get; set; }
+        public required string BorrowerId { get; set; }
 
         public required string BorrowerFullName { get; set; }
     }
 
-    public class MemberDetailsBorrowedToolViewModel 
+    public class DetailsBorrowedToolViewModel
     {
         public required int ToolId { get; set; }
 
@@ -54,13 +54,13 @@ namespace CommuniLend.Web.ViewModels.Member
         public required string DueDate { get; set; }
 
 
-        public required int OwnerId { get; set; }
+        public required string OwnerId { get; set; }
 
         public required string OwnerFullName { get; set; }
     }
 
 
-    public class MemberDetailsReturnedProvidedToolViewModel
+    public class DetailsReturnedProvidedToolViewModel
     {
         public required int ToolId { get; set; }
 
@@ -71,7 +71,7 @@ namespace CommuniLend.Web.ViewModels.Member
         public required string ReturnDate { get; set; }
         public required string Status { get; set; }
 
-        public required int BorrowerId { get; set; }
+        public required string BorrowerId { get; set; }
 
         public required string BorrowerFullName { get; set; }
     }
@@ -80,7 +80,7 @@ namespace CommuniLend.Web.ViewModels.Member
 
 
 
-    public class MemberDetailsReturnedBorrowedToolViewModel
+    public class DetailsReturnedBorrowedToolViewModel
     {
         public required int ToolId { get; set; }
 
@@ -91,23 +91,23 @@ namespace CommuniLend.Web.ViewModels.Member
         public required string ReturnDate { get; set; }
         public required string Status { get; set; }
 
-        public required int OwnerId { get; set; }
+        public required string OwnerId { get; set; }
 
         public required string OwnerFullName { get; set; }
     }
 
-    public class MemberDetailsViewModel
+    public class DetailsViewModel
     {
 
-        public required int MemberId { get; set; }
+        public required string UserId { get; set; }
 
 
         public required string FullName { get; set; }
 
 
-        public required string Email { get; set; }
+        public required string? Email { get; set; }
 
-        public required string PhoneNumber { get; set; }
+        public required string? PhoneNumber { get; set; }
 
         public required string? Address { get; set; }
 
@@ -115,27 +115,26 @@ namespace CommuniLend.Web.ViewModels.Member
 
         public required bool IsActive { get; set; }
 
-
-
+        
 
         public required int OwnedToolsCount { get; set; }
-        public required IEnumerable<MemberDetailsOwnedToolViewModel> OwnedTools { get; set; }
+        public required IEnumerable<DetailsOwnedToolViewModel> OwnedTools { get; set; }
 
 
         public required int ProvidedToolsCount { get; set; }
-        public required IEnumerable<MemberDetailsProvidedToolViewModel> ProvidedTools { get; set; }
+        public required IEnumerable<DetailsProvidedToolViewModel> ProvidedTools { get; set; }
 
 
         public required int BorrowedToolsCount { get; set; }
-        public required IEnumerable<MemberDetailsBorrowedToolViewModel> BorrowedTools { get; set; }
+        public required IEnumerable<DetailsBorrowedToolViewModel> BorrowedTools { get; set; }
 
 
         public required int ReturnedProvidedToolsCount { get; set; }
-        public required IEnumerable<MemberDetailsReturnedProvidedToolViewModel> ReturnedProvidedTools { get; set; }
+        public required IEnumerable<DetailsReturnedProvidedToolViewModel> ReturnedProvidedTools { get; set; }
 
 
         public required int ReturnedBorrowedToolsCount { get; set; }
-        public required IEnumerable<MemberDetailsReturnedBorrowedToolViewModel> ReturnedBorrowedTools { get; set; }
+        public required IEnumerable<DetailsReturnedBorrowedToolViewModel> ReturnedBorrowedTools { get; set; }
 
 
     }

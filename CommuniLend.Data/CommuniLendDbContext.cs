@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommuniLend.Data
 {
-    public class CommuniLendDbContext(DbContextOptions<CommuniLendDbContext> options) : IdentityDbContext(options)
+    public class CommuniLendDbContext(DbContextOptions<CommuniLendDbContext> options)
+        : IdentityDbContext<ApplicationUser>(options)
     {
 
-        public virtual DbSet<Member> Members { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Tool> Tools { get; set; } = null!;
         public virtual DbSet<ClosedLoan> ClosedLoans { get; set; } = null!;
@@ -21,7 +21,7 @@ namespace CommuniLend.Data
 
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new ClosedLoanConfiguration());
-            modelBuilder.ApplyConfiguration(new MemberConfiguration());
+            modelBuilder.ApplyConfiguration(new ApplicationUserConfiguration());
             modelBuilder.ApplyConfiguration(new OpenLoanConfiguration());
             modelBuilder.ApplyConfiguration(new ToolConfiguration());
         }
