@@ -42,6 +42,23 @@ namespace CommuniLend.Web.Controllers
         }
 
 
+
+        [HttpGet]
+        public async Task<IActionResult> Dashboard()
+        {
+            string userId = GetUserId();
+
+            var memberViewModel = await iMembersService.GetDashboardDetailsAsync(userId);
+
+            if (memberViewModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(memberViewModel);
+        }
+
+
         //[HttpGet]
         //public async Task<IActionResult> AddTool(int memberId)
         //{

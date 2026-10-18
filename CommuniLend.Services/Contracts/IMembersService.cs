@@ -11,6 +11,9 @@ namespace CommuniLend.Services.Contracts
         Task<IEnumerable<MemberIndexViewModel>> GetAllAsync();
         Task<MemberDetailsViewModel?> GetDetailsAsync(int memberId);
 
+
+        Task<MemberDetailsViewModel?> GetDashboardDetailsAsync(string memberId);
+
         //Task<MemberAddToolInputViewModel?> GetAddToolInputViewModelAsync(int memberId);
 
         //Task<bool> AddToolAsync(int memberId, MemberAddToolInputViewModel model);

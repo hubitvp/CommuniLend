@@ -245,6 +245,56 @@ namespace CommuniLend.Services
 
 
 
+
+
+        public async Task<MemberDetailsViewModel?> GetDashboardDetailsAsync(string memberId)
+        {
+            var databaseMember = await context.Members
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.IdentityUserId == memberId);
+
+            if (databaseMember == null)
+            {
+                return null;
+            }
+
+            var ownedTools = await GetOwnedTools(databaseMember.Id);
+
+            var providedTools = await GetProvidedTools(databaseMember.Id);
+
+            var borrowedTools = await GetBorrowedTools(databaseMember.Id);
+
+            var returnedProvidedTools = await GetReturnedProvidedTools(databaseMember.Id);
+
+            var returnedBorrowedTools = await GetReturnedBorrowedTools(databaseMember.Id);
+
+            var memberViewModel = new MemberDetailsViewModel
+            {
+                MemberId = databaseMember.Id,
+                FullName = databaseMember.FullName,
+                Email = databaseMember.Email,
+                PhoneNumber = databaseMember.PhoneNumber,
+                Address = databaseMember.Address,
+                OwnedTools = ownedTools,
+                OwnedToolsCount = ownedTools.Count,
+                ProvidedTools = providedTools,
+                ProvidedToolsCount = providedTools.Count,
+                BorrowedTools = borrowedTools,
+                BorrowedToolsCount = borrowedTools.Count,
+                ReturnedProvidedTools = returnedProvidedTools,
+                ReturnedProvidedToolsCount = returnedProvidedTools.Count,
+                ReturnedBorrowedTools = returnedBorrowedTools,
+                ReturnedBorrowedToolsCount = returnedBorrowedTools.Count,
+                IsActive = databaseMember.IsActive,
+                MemberSince = databaseMember.JoinDate.ToFormattedString()
+            };
+
+            return memberViewModel;
+        }
+
+
+
+
         public async Task<AddInputViewModel?> GetAddToolInputViewModelAsync(int memberId)
         {
             var owner = await context.Members

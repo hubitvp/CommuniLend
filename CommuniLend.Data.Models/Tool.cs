@@ -47,11 +47,12 @@ namespace CommuniLend.Data.Models
 
 
         [Required]
-        public required int OwnerId { get; set; }
+        [StringLength(ValidationConstants.User.IdentityUserIdMaxLength)]
+        public required string OwnerId { get; set; }
 
 
         [ForeignKey(nameof(OwnerId))]
-        public virtual Member Owner { get; set; } = null!;
+        public virtual ApplicationUser Owner { get; set; } = null!;
 
 
         public virtual OpenLoan? OpenLoan { get; set; }

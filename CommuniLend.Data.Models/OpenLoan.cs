@@ -18,20 +18,23 @@ namespace CommuniLend.Data.Models
         public virtual Tool Tool { get; set; } = null!;
 
         [Required]
-        public required int OwnerId { get; set; }
+        [StringLength(ValidationConstants.User.IdentityUserIdMaxLength)]
+        public required string OwnerId { get; set; }
 
 
         [ForeignKey(nameof(OwnerId))]
-        public virtual Member Owner { get; set; } = null!;
+        public virtual ApplicationUser Owner { get; set; } = null!;
 
 
 
         [Required]
-        public required int BorrowerId { get; set; }
+        [StringLength(ValidationConstants.User.IdentityUserIdMaxLength)]
+
+        public required string BorrowerId { get; set; }
 
 
         [ForeignKey(nameof(BorrowerId))]
-        public virtual Member Borrower { get; set; } = null!;
+        public virtual ApplicationUser Borrower { get; set; } = null!;
 
 
         [Required]
