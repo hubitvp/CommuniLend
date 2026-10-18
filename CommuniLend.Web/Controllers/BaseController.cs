@@ -24,6 +24,5 @@ namespace CommuniLend.Web.Controllers
             return User.Identity?.IsAuthenticated ?? false;
         }
 
-
     }
 }

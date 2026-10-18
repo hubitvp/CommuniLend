@@ -14,7 +14,7 @@ namespace CommuniLend.Web.ViewModels.User
 
         public required string CategoryName { get; set; }
 
-        public required ToolStatus ToolStatus { get; set; }
+        public required ToolAvailabilityStatus AvailabilityStatus { get; set; }
 
     }
 
@@ -28,7 +28,7 @@ namespace CommuniLend.Web.ViewModels.User
 
         public required string ToolName { get; set; }
 
-        public required ToolStatus ToolStatus { get; set; }
+        public required ToolAvailabilityStatus AvailabilityStatus { get; set; }
 
 
         public required string LoanDate { get; set; }
@@ -47,7 +47,7 @@ namespace CommuniLend.Web.ViewModels.User
         public required string ToolName { get; set; }
 
 
-        public required ToolStatus ToolStatus { get; set; }
+        public required ToolAvailabilityStatus AvailabilityStatus { get; set; }
 
 
         public required string LoanDate { get; set; }

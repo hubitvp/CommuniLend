@@ -1,8 +1,7 @@
 ﻿namespace CommuniLend.Web.ViewModels.Enums
 {
-    public enum ToolStatus
+    public enum ToolAvailabilityStatus
     {
-
 
         OverDue,
 

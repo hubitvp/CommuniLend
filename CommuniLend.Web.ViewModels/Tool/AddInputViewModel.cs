@@ -1,5 +1,6 @@
 ﻿using CommuniLend.Data.Models.Constraints;
 using CommuniLend.Web.ViewModels.Category;
+using Microsoft.VisualBasic;
 using System.ComponentModel.DataAnnotations;
 
 namespace CommuniLend.Web.ViewModels.Tool
@@ -42,12 +43,11 @@ namespace CommuniLend.Web.ViewModels.Tool
         public string ReplacementValue { get; set; } = null!;
 
         public string? ToolImageUrl { get; set; }
-
     }
 
     public class OutputDataModel
     {
-        public required int OwnerId { get; set; }
+        public required string OwnerId { get; set; }
 
         public required string OwnerFullName { get; set; }
         public required string Email { get; set; }

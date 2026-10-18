@@ -21,9 +21,9 @@ namespace CommuniLend.Web.ViewModels.Loan
         public required int ToolBorrowerId { get; set; }
 
         public required string ToolBorrowerFullName { get; set; }
+            
 
-
-        public required ToolStatus ToolStatus { get; set; }
+        public required ToolAvailabilityStatus AvailabilityStatus { get; set; }
 
 
         public required string LoanDate { get; set; }

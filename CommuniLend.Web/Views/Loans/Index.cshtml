@@ -43,7 +43,7 @@
                     <td>@activeLoan.LoanDate</td>
                     <td>@activeLoan.DueDate</td>
                     <td>
-                        <partial name="_ToolStatusPartial" model="@activeLoan.ToolStatus" />
+                        <partial name="_ToolStatusPartial" model="@activeLoan.AvailabilityStatus" />
                     </td>
                     <td>
                         <form asp-action="Return" asp-route-id="@activeLoan.OpenLoanId" method="post">

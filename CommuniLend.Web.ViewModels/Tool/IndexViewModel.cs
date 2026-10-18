@@ -11,7 +11,7 @@ namespace CommuniLend.Web.ViewModels.Tool
         public required string ToolName { get; set; }
 
 
-        public required ToolStatus ToolStatus { get; set; }
+        public required ToolAvailabilityStatus AvailabilityStatus { get; set; }
 
         public required string OwnerId { get; set; }
 

@@ -1,12 +1,12 @@
-﻿@model ToolStatus
+﻿@model ToolAvailabilityStatus
 
 @{
-    var map = new Dictionary<ToolStatus, (string StatusAsString, string StatusCssClass)>
+    var map = new Dictionary<ToolAvailabilityStatus, (string StatusAsString, string StatusCssClass)>
     {
-        { ToolStatus.Available, (StatusAsString:"Available", StatusCssClass:"bg-success") },
-        { ToolStatus.OnLoan, (StatusAsString:"On Loan", StatusCssClass:"bg-warning text-dark") },
-        { ToolStatus.Locked, (StatusAsString:"Locked", StatusCssClass:"bg-dark text-white") },
-        { ToolStatus.OverDue, (StatusAsString:"Over Due", StatusCssClass:"bg-danger") }
+        { ToolAvailabilityStatus.Available, (StatusAsString:"Available", StatusCssClass:"bg-success") },
+        { ToolAvailabilityStatus.OnLoan, (StatusAsString:"On Loan", StatusCssClass:"bg-warning text-dark") },
+        { ToolAvailabilityStatus.Locked, (StatusAsString:"Locked", StatusCssClass:"bg-dark text-white") },
+        { ToolAvailabilityStatus.OverDue, (StatusAsString:"Over Due", StatusCssClass:"bg-danger") }
     };
 
     var status = map.TryGetValue(Model, out var value)

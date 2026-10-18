@@ -23,7 +23,7 @@
 @if (Model.IsDeletable)
 {
     <form asp-controller="Tools"
-          asp-action="Delete"
+          asp-action="DeleteConfirm"
           asp-route-id="@Model.ToolId"
           method="post">
         <button type="submit" class="btn btn-danger">Delete</button>

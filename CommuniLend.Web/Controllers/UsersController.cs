@@ -72,59 +72,9 @@ namespace CommuniLend.Web.Controllers
         }
 
 
-        //[HttpGet]
-        //public async Task<IActionResult> AddTool(int
-        //)
-        //{
-        //    var model = await iMembersService.GetAddToolInputViewModelAsync(memberId);
-        //    if (model == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(model);
-        //}
 
 
-        //[HttpPost]
-        //public async Task<IActionResult> AddTool(int memberId, MemberAddToolInputViewModel model)
-        //{
-        //    //Member? owner = context.Members.Find(id);
 
-        //    //if (owner == null)
-        //    //{
-        //    //    return NotFound();
-        //    //}
-
-        //    //bool isCategoryIdValid = context.Categories.Any(x => x.Id == model.InputDataModel.CategoryId);
-        //    //if (!isCategoryIdValid)
-        //    //{
-        //    //    ModelState.AddModelError(nameof(model.InputDataModel.CategoryId), "Category is not valid");
-        //    //}
-
-        //    //bool isConditionIdValid = Enum.IsDefined(typeof(ToolCondition), model.InputDataModel.ConditionId);
-        //    //if (!isCategoryIdValid)
-        //    //{
-        //    //    ModelState.AddModelError(nameof(model.InputDataModel.ConditionId), "Condition is not valid");
-        //    //}
-
-
-        //    //if (!ModelState.IsValid)
-        //    //{
-        //    //    var returnModel = CreateMemberAddToolInputViewModel(owner);
-        //    //    return View(returnModel);
-        //    //}
-
-
-        //    bool isAdded = await iMembersService.AddToolAsync(memberId, model);
-
-        //    if (false == isAdded)
-        //    {
-        //        return BadRequest();
-        //    }
-
-
-        //    return RedirectToAction("Details", new { id });
-        //}
 
 
         [HttpGet]
@@ -160,39 +110,6 @@ namespace CommuniLend.Web.Controllers
         }
 
 
-        //[HttpGet]
-        //[ActionName("AddMember")]
-        //public IActionResult AddMemberGet()
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //[ActionName("AddMember")]
-        //public IActionResult AddMemberPost(MemberAddMemberInputModel inputModel)
-        //{
-        //    if (ModelState.IsValid == false)
-        //    {
-        //        return View(inputModel);
-        //    }
-
-        //    var member = new Member
-        //    {
-        //        FullName = inputModel.FullName,
-        //        Email = inputModel.Email,
-        //        PhoneNumber = inputModel.PhoneNumber,
-        //        Address = inputModel.Address,
-        //        JoinDate = DateOnly.FromDateTime(DateTime.UtcNow),
-        //        IsActive = true,
-
-        //    };
-
-        //    context.Members.Add(member);
-        //    context.SaveChanges();
-
-        //    return RedirectToAction("Details", new { member.Id });
-
-        //}
 
 
 
@@ -276,41 +193,6 @@ namespace CommuniLend.Web.Controllers
 
         //    return RedirectToAction("Index");
         //}
-
-
-
-
-        //private MemberAddToolInputViewModel CreateMemberAddToolInputViewModel(Member owner)
-        //{
-        //    var categories = context.Categories
-        //        .AsNoTracking()
-        //        .Select(x => new SelectListItem(x.Name, x.Id.ToString()))
-        //        .ToList();
-
-        //    var conditionOptions = Enum.GetValues<ToolCondition>()
-        //        .Select(value => new SelectListItem(value.ToString(), ((int)value).ToString()))
-        //        .ToList();
-
-        //    var model = new MemberAddToolInputViewModel
-        //    {
-        //        OutputDataModel = new OutputDataModel
-        //        {
-        //            OwnerId = owner.Id,
-        //            OwnerFullName = owner.FullName,
-        //            Email = owner.Email,
-        //            PhoneNumber = owner.PhoneNumber,
-        //            MemberSince = owner.JoinDate.ToFormattedString(),
-        //            IsActive = owner.IsActive,
-        //            Address = owner.Address,
-
-        //            Categories = categories,
-        //            ConditionOptions = conditionOptions
-        //        }
-        //    };
-
-        //    return model;
-        //}
-
 
 
     }

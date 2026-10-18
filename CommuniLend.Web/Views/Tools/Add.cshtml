@@ -25,7 +25,7 @@
 </div>
 
 <h2>Add new Tool</h2>
-<form asp-controller="Members" asp-action="AddTool" asp-route-id="@Model.OutputDataModel!.OwnerId" method="post">
+<form asp-controller="Tools" asp-action="Add" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="mb-3">
         <label asp-for="InputDataModel.ToolName" class="form-label"></label>

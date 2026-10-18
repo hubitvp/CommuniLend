@@ -1,0 +1,75 @@
+﻿@model EditInputViewModel
+
+@{
+    ViewData["Title"] = "Edit Tool";
+}
+
+<div>
+    <h2>Edit Tool: @Model.ToolName</h2>
+    <p class="text-muted small mb-0">Owner: @Model.OwnerFullName</p>
+    <p class="text-muted small">Added on @Model.AddedOn</p>
+</div>
+
+<form asp-controller="Tools" asp-action="Edit" asp-route-id="@Model.ToolId" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="ToolName" class="form-label">Name</label>
+        <input asp-for="ToolName" class="form-control" />
+        <span asp-validation-for="ToolName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CategoryId" class="form-label">Category</label>
+        <select asp-for="CategoryId"
+                asp-items="@Model.Categories.Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() })"
+                class="form-select">
+            <option value="">-- Select a category --</option>
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="ConditionId" class="form-label">Condition</label>
+            <select asp-for="ConditionId"
+                    asp-items="@Model.ConditionOptions.Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() })"
+                    class="form-select">
+                <option value="">-- Select tool condition --</option>
+            </select>
+            <span asp-validation-for="ConditionId" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="ReplacementValue" class="form-label"></label>
+            <input asp-for="ReplacementValue" class="form-control" />
+            <span asp-validation-for="ReplacementValue" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ToolImageUrl" class="form-label">Photo URL</label>
+        <input asp-for="ToolImageUrl" class="form-control" />
+        <span asp-validation-for="ToolImageUrl" class="text-danger"></span>
+
+        @if (!string.IsNullOrWhiteSpace(Model.ToolImageUrl))
+        {
+            <img src="@Model.ToolImageUrl" alt="Current photo of @Model.ToolName"
+                 class="img-thumbnail mt-2" style="max-height: 140px;" />
+        }
+    </div>
+
+    <button type="submit" class="btn btn-warning">Save Changes</button>
+    <a asp-action="Details" asp-route-id="@Model.ToolId" class="btn btn-outline-secondary">Cancel</a>
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

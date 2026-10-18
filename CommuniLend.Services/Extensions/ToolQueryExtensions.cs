@@ -3,7 +3,7 @@ using CommuniLend.Web.ViewModels.Enums;
 
 namespace CommuniLend.Services.Extensions
 {
-    internal record ToolWithStatus(Tool Tool, ToolStatus Status);
+    internal record ToolWithStatus(Tool Tool, ToolAvailabilityStatus Status);
 
     internal static class ToolQueryExtensions
     {
@@ -16,11 +16,11 @@ namespace CommuniLend.Services.Extensions
                 tool,
                 tool.OpenLoan == null
                 ? tool.Owner.IsActive
-                    ? ToolStatus.Available
-                    : ToolStatus.Locked
+                    ? ToolAvailabilityStatus.Available
+                    : ToolAvailabilityStatus.Locked
                 : tool.OpenLoan.DueDate >= date
-                    ? ToolStatus.OnLoan
-                    : ToolStatus.OverDue));
+                    ? ToolAvailabilityStatus.OnLoan
+                    : ToolAvailabilityStatus.OverDue));
         }
     }
 }

@@ -34,13 +34,13 @@
                 <dt class="col-sm-5">Condition</dt>
                 <dd class="col-sm-7">@Model.Condition</dd>
                 <dt class="col-sm-5">Replacement value</dt>
-                <dd class="col-sm-7">@Model.ReplacementValue</dd>
+                <dd class="col-sm-7">@Model.ReplacementValue € EUR</dd>
                 <dt class="col-sm-5">Status</dt>
                 <dd class="col-sm-7">
-                    <partial name="_ToolStatusPartial" model="@Model.ToolStatus" />
+                    <partial name="_ToolStatusPartial" model="@Model.AvailabilityStatus" />
                 </dd>
 
-                @if (Model.ToolStatus == ToolStatus.Available)
+                @if (Model.AvailabilityStatus == ToolAvailabilityStatus.Available)
                 {
                     <dt class="col-sm-5">Is in Use by</dt>
                     <dd class="col-sm-7">
@@ -59,7 +59,7 @@
             </dl>
             <h6 class="mt-3">Description</h6>
             <p>@Model.Description</p>
-            @if (Model.ToolStatus == ToolStatus.Available)
+            @if (Model.AvailabilityStatus == ToolAvailabilityStatus.Available)
             {
                 <a class="btn btn-success" asp-controller="Loans" asp-action="Create" asp-route-id="@Model.ToolId">
                     Borrow this tool

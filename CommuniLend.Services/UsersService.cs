@@ -73,7 +73,7 @@ namespace CommuniLend.Services
                                 ToolName = x.Tool.Name,
                                 CategoryName = x.Tool.Category.Name,
                                 AddedOn = x.Tool.DateAdded.ToFormattedString(),
-                                ToolStatus = x.Status,
+                                AvailabilityStatus = x.Status,
                             })
                             .ToListAsync();
 
@@ -104,7 +104,7 @@ namespace CommuniLend.Services
                     DueDate = x.Tool.OpenLoan!.DueDate.ToFormattedString(),
                     BorrowerId = x.Tool.OpenLoan!.BorrowerId,
                     BorrowerFullName = x.Tool.OpenLoan!.Borrower.FullName,
-                    ToolStatus = x.Status,
+                    AvailabilityStatus = x.Status,
                 })
                 .ToListAsync();
 
@@ -135,7 +135,7 @@ namespace CommuniLend.Services
                     DueDate = x.Tool.OpenLoan!.DueDate.ToFormattedString(),
                     OwnerId = x.Tool.OwnerId,
                     OwnerFullName = x.Tool.Owner.FullName,
-                    ToolStatus = x.Status,
+                    AvailabilityStatus = x.Status,
                 })
                 .ToListAsync();
             return borrowedTools;

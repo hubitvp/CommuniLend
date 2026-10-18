@@ -25,7 +25,7 @@
                     <td>@borrowedTool.LoanDate</td>
                     <td>@borrowedTool.DueDate</td>
                     <td>
-                        <partial name="_ToolStatusPartial" model="@borrowedTool.ToolStatus" />
+                        <partial name="_ToolStatusPartial" model="@borrowedTool.AvailabilityStatus" />
                     </td>
                     <td>
                         <a asp-controller="Users" asp-action="Details" asp-route-id="@borrowedTool.OwnerId">
