@@ -1,0 +1,32 @@
+﻿@model MemberDetailsViewModel
+
+<div>
+    <h5>Tools Owned (@Model.OwnedToolsCount)</h5>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Tool</th>
+                <th>Category</th>
+                <th>Added On</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tool in Model.OwnedTools)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Tools" asp-action="Details" asp-route-id="@tool.ToolId">
+                            @tool.ToolName
+                        </a>
+                    </td>
+                    <td>@tool.CategoryName</td>
+                    <td>@tool.AddedOn</td>
+                    <td>
+                        <partial name="_ToolStatusPartial" model="@tool.ToolStatus" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

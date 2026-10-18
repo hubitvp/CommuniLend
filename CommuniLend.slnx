@@ -1,3 +1,8 @@
 <Solution>
-  <Project Path="CommuniLend.csproj" />
+  <Project Path="CommuniLend.Data.Models/CommuniLend.Data.Models.csproj" Id="08ce0373-050e-4814-b806-70b282b8c4e6" />
+  <Project Path="CommuniLend.Data/CommuniLend.Data.csproj" Id="47155edf-9839-4471-ba5f-7b54cedc8d75" />
+  <Project Path="CommuniLend.DataModelConstraints/CommuniLend.Data.Models.Constraints.csproj" Id="24bd1d82-c730-4ff8-9eb5-dfe9fca1fa75" />
+  <Project Path="CommuniLend.Services/CommuniLend.Services.csproj" Id="80350bbb-d2f4-417a-b33c-3eb412b13384" />
+  <Project Path="CommuniLend.Web.ViewModels/CommuniLend.Web.ViewModels.csproj" Id="9b073ae2-ecd1-4772-b653-26f54d553cc4" />
+  <Project Path="CommuniLend.Web/CommuniLend.Web.csproj" />
 </Solution>

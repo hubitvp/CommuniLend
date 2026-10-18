@@ -1,0 +1,62 @@
+﻿@model IEnumerable<IndexViewModel>
+
+
+@{
+    ViewData["Title"] = "Tool Catalog";
+}
+
+
+
+
+@* 
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+    </li>
+    <li class="nav-item">
+        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+        </form>
+    </li>
+}
+else
+{
+    <li class="nav-item me-3">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li>
+} *@
+
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h2>Tool Catalog</h2>
+        <p class="text-muted">Browse tools shared by your neighbors</p>
+    </div>
+
+</div>
+<form method="get" class="row g-2 mb-4">
+    <div class="col-md-6">
+        <input type="text" name="search" value="@Context.Request.Query["search"]"
+               class="form-control" placeholder="Search tools (e.g. 'ladder', 'drill')" />
+    </div>
+    <div class="col-md-3">
+        <select name="categoryId" class="form-select" asp-items="ViewBag.Categories as SelectList">
+            <option value="">All categories</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <button type="submit" class="btn btn-outline-primary w-100">Filter</button>
+    </div>
+</form>
+<div class="row">
+    @foreach (var tool in Model)
+    {
+        <partial name="_ToolIndexItemPartial" model="@tool" />
+    }
+</div>
+
+

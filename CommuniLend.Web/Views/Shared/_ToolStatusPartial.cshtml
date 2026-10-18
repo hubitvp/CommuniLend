@@ -1,0 +1,19 @@
+﻿@model ToolStatus
+
+@{
+    var map = new Dictionary<ToolStatus, (string StatusAsString, string StatusCssClass)>
+    {
+        { ToolStatus.Available, (StatusAsString:"Available", StatusCssClass:"bg-success") },
+        { ToolStatus.OnLoan, (StatusAsString:"On Loan", StatusCssClass:"bg-warning text-dark") },
+        { ToolStatus.Locked, (StatusAsString:"Locked", StatusCssClass:"bg-dark text-white") },
+        { ToolStatus.OverDue, (StatusAsString:"Over Due", StatusCssClass:"bg-danger") }
+    };
+
+    var status = map.TryGetValue(Model, out var value)
+        ? value
+        : (StatusAsString: "Unknown", StatusCssClass: "bg-secondary");
+}
+
+<span class="badge @status.StatusCssClass">
+    @status.StatusAsString
+</span>
