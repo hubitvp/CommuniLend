@@ -25,7 +25,8 @@ namespace CommuniLend.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var tools = await iToolsService.GetAllAsync();
+            var userId = GetUserId();
+            var tools = await iToolsService.GetAllAsync(userId);
 
             return View(tools);
         }

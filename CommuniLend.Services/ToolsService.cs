@@ -33,13 +33,14 @@ namespace CommuniLend.Services
         }
 
 
-        public async Task<IEnumerable<IndexViewModel>> GetAllAsync()
+        public async Task<IEnumerable<IndexViewModel>> GetAllAsync(string userId)
         {
             var tools = await context.Tools
                 .AsNoTracking()
                 .AsSplitQuery()
                 .Include(x => x.Owner)
                 .Include(x => x.Category)
+                .Where(x => x.OwnerId != userId)
                 .WithStatus()
                 .AsAsyncEnumerable()
                 .OrderByDescending(x => x.Status)

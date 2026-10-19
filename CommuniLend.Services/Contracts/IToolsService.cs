@@ -5,7 +5,7 @@ namespace CommuniLend.Services.Contracts
 {
     public interface IToolsService
     {
-        Task<IEnumerable<IndexViewModel>> GetAllAsync();
+        Task<IEnumerable<IndexViewModel>> GetAllAsync(string userId);
 
         Task<DetailsViewModel?> GetDetailsAsync(int toolId);
 
