@@ -30,8 +30,8 @@ namespace CommuniLend.Data.Models
         public required decimal ReplacementValue { get; set; }
 
 
-        public string? ImageUrl { get; set; }
-
+        [StringLength(ValidationConstants.Tool.ImageUrlMaxLength)]
+        public required string? ImageUrl { get; set; }
 
 
         [Required]

@@ -17,10 +17,5 @@ namespace CommuniLend.Services.Contracts
 
         Task<bool> UpdateUserDetailsAsync(string userId, EditInputViewModel inputModel);
 
-
-        //Task<MemberAddToolInputViewModel?> GetAddToolInputViewModelAsync(int userId);
-
-        //Task<bool> AddToolAsync(int memberId, MemberAddToolInputViewModel model);
-
     }
 }

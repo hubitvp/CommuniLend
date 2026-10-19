@@ -6,17 +6,24 @@ namespace CommuniLend.Services.Contracts
     public interface IToolsService
     {
         Task<IEnumerable<IndexViewModel>> GetAllAsync();
+
         Task<DetailsViewModel?> GetDetailsAsync(int toolId);
 
         Task<DeleteViewModel?> GetDeleteDetailsAsync(string userId, int toolId);
 
-        Task<bool> DeleteByIdAsync(int toolId);
+        Task<bool> DeleteAsync(string userId, int toolId);
 
-        Task<AddInputViewModel?> GetAddToolInputViewModelAsync(string userId, AddInputViewModel model);
-        IAsyncEnumerable<ValidationResult> ValidateNewToolAsync(AddInputViewModel model);
+        Task<ToolFormInputViewModel?> GetAddModelAsync();
 
-        Task AddNewToolAsync(string userId, AddInputViewModel model);
+        IAsyncEnumerable<ValidationResult> ValidateInputDataAsync(ToolFormInputViewModel model);
 
-        Task<EditInputViewModel?> GetEditModelAsync(int toolId);
+        Task<bool> AddAsync(string userId, ToolFormInputViewModel model);
+
+        Task<ToolFormInputViewModel?> GetEditModelAsync(string userId, int toolId);
+
+
+        Task<bool> EditAsync(string userId, int toolId, ToolFormInputViewModel model);
+
+
     }
 }

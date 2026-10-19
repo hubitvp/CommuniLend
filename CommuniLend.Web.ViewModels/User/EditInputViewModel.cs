@@ -6,7 +6,6 @@ namespace CommuniLend.Web.ViewModels.User
 
     public class EditInputViewModel
     {
-        //public required string UserId { get; set; }
 
         [Required]
         [StringLength(ValidationConstants.User.FullNameMaxLength)]

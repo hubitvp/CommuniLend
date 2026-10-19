@@ -1,9 +1,11 @@
 ﻿using CommuniLend.Data.Models;
+using CommuniLend.Data.Models.Constraints;
 using CommuniLend.Services;
 using CommuniLend.Services.Contracts;
 using CommuniLend.Web.ViewModels.Tool;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace CommuniLend.Web.Controllers
 {
@@ -19,6 +21,7 @@ namespace CommuniLend.Web.Controllers
             iToolsService = toolsService;
         }
 
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -26,6 +29,7 @@ namespace CommuniLend.Web.Controllers
 
             return View(tools);
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Details([FromRoute(Name = "id")] int toolId)
@@ -41,33 +45,42 @@ namespace CommuniLend.Web.Controllers
             return View(toolViewModel);
         }
 
-        [HttpGet]
-        [ActionName("Add")]
-        public async Task<IActionResult> AddGet(AddInputViewModel? model)
-        {
-            var userId = GetUserId();
 
-            var addToolInputViewModel = await iToolsService.GetAddToolInputViewModelAsync(userId, model ?? new AddInputViewModel());
+        [HttpGet]
+        public async Task<IActionResult> Add()
+        {
+            var addToolInputViewModel = await iToolsService.GetAddModelAsync();
 
             return View(addToolInputViewModel);
         }
 
 
-
         [HttpPost]
-        [ActionName("Add")]
-        public async Task<IActionResult> AddPost(AddInputViewModel model)
+        [RequestSizeLimit(ValidationConstants.Tool.PictureMaxFileSize)]
+        [RequestFormLimits(MultipartBodyLengthLimit = ValidationConstants.Tool.PictureMaxFileSize)]
+        public async Task<IActionResult> Add(ToolFormInputViewModel model)
         {
-            await foreach (var error in iToolsService.ValidateNewToolAsync(model))
-                foreach (var member in error.MemberNames)
-                    ModelState.AddModelError(member, error.ErrorMessage!);
-
-            if (!ModelState.IsValid)
+            await foreach (var validationResult in iToolsService.ValidateInputDataAsync(model))
             {
-                return await AddGet(model);
+                foreach (var member in validationResult.MemberNames)
+                {
+                    ModelState.AddModelError(member, validationResult.ErrorMessage ?? string.Empty);
+                }
             }
 
-            await iToolsService.AddNewToolAsync(GetUserId(), model);
+            if (false == ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var userId = GetUserId();
+
+            bool result = await iToolsService.AddAsync(userId, model);
+
+            if (false == result)
+            {
+                return BadRequest();
+            }
 
             return RedirectToAction(nameof(UsersController.Dashboard), "Users");
         }
@@ -88,53 +101,63 @@ namespace CommuniLend.Web.Controllers
         }
 
 
-
-
         [HttpPost]
         public async Task<IActionResult> DeleteConfirm([FromRoute(Name = "id")] int toolId)
         {
-            bool isDeleted = await iToolsService.DeleteByIdAsync(toolId);
+
+            var userId = GetUserId();
+
+            bool isDeleted = await iToolsService.DeleteAsync(userId, toolId);
 
             if (false == isDeleted)
             {
                 return Conflict();
             }
 
-            return RedirectToAction("Index", "Tools");
+            return RedirectToAction("Dashboard", "Users");
         }
-
-
 
 
         [HttpGet]
         public async Task<IActionResult> Edit([FromRoute(Name = "id")] int toolId)
         {
-            var model = await iToolsService.GetEditModelAsync(toolId);
-            if (model == null) return NotFound();
+
+            var userId = GetUserId();
+
+            var model = await iToolsService.GetEditModelAsync(userId, toolId);
+
+            if (model == null)
+            {
+                return NotFound();
+            }
             return View(model);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Edit([FromRoute(Name = "id")] int toolId, EditInputViewModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        model.OutputDataModel = await iToolsService.GetEditOutputAsync(toolId);   // dropdowns are not posted back
-        //        return View(model);
-        //    }
+        [HttpPost]
+        public async Task<IActionResult> Edit([FromRoute(Name = "id")] int toolId, ToolFormInputViewModel model)
+        {
+            await foreach (var validationResult in iToolsService.ValidateInputDataAsync(model))
+            {
+                foreach (var member in validationResult.MemberNames)
+                {
+                    ModelState.AddModelError(member, validationResult.ErrorMessage ?? string.Empty);
+                }
+            }
 
-        //    var errors = await iToolsService.EditAsync(toolId, GetUserId(), model.InputDataModel);
-        //    if (errors.Count > 0)
-        //    {
-        //        foreach (var e in errors)
-        //            foreach (var member in e.MemberNames)
-        //                ModelState.AddModelError($"InputDataModel.{member}", e.ErrorMessage!);
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
-        //        model.OutputDataModel = await iToolsService.GetEditOutputAsync(toolId);
-        //        return View(model);
-        //    }
+            var userId = GetUserId();
+            var result = await iToolsService.EditAsync(userId, toolId, model);
 
-        //    return RedirectToAction("Details", "Tools", new { id = toolId });
-        //}
+            if (false == result)
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction("Dashboard", "Users");
+        }
     }
 }

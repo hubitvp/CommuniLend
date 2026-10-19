@@ -21,8 +21,6 @@ namespace CommuniLend.Services
         }
 
 
-
-
         public async Task<IEnumerable<IndexViewModel>> GetAllAsync()
         {
 
@@ -51,7 +49,6 @@ namespace CommuniLend.Services
 
             return members;
         }
-
 
 
         private async Task<IReadOnlyList<DetailsOwnedToolViewModel>> GetOwnedTools(string userId)
@@ -303,7 +300,6 @@ namespace CommuniLend.Services
 
             var model = new EditInputViewModel
             {
-                //UserId = user.Id,
                 FullName = user.FullName,
                 Email = user.Email!,
                 PhoneNumber = user.PhoneNumber!,
@@ -334,132 +330,5 @@ namespace CommuniLend.Services
         }
 
 
-        //public async Task<AddInputViewModel?> GetAddToolInputViewModelAsync(int memberId)
-        //{
-        //    var owner = await context.Members
-        //        .AsNoTracking()
-        //        .SingleOrDefaultAsync(x => x.Id == memberId);
-
-        //    if (owner == null)
-        //    {
-        //        return null;
-        //    }
-
-        //    var model = new AddInputViewModel
-        //    {
-        //        OutputDataModel = new OutputDataModel
-        //        {
-        //            OwnerId = owner.Id,
-        //            OwnerFullName = owner.FullName,
-        //            Email = owner.Email,
-        //            PhoneNumber = owner.PhoneNumber,
-        //            MemberSince = owner.JoinDate.ToFormattedString(),
-        //            IsActive = owner.IsActive,
-        //            Address = owner.Address,
-        //            Categories = await context.Categories
-        //                .AsNoTracking()
-        //                .Select(x => new CategoryViewModel
-        //                {
-        //                    Id = x.Id,
-        //                    Name = x.Name
-        //                })
-        //                .ToListAsync(),
-        //            ConditionOptions = Enum.GetValues<ToolCondition>()
-        //                .Select(value => new ConditionOptionModel
-        //                {
-        //                    Id = (int)value,
-        //                    Name = value.ToString()
-        //                })
-        //                .ToList()
-        //        }
-        //    };
-
-        //    return model;
-        //}
-
-
-
-        //public async Task<bool> AddToolAsync(int memberId, AddInputViewModel model)
-        //{
-        //    var owner = context.Members.Find(memberId);
-
-        //    if (owner == null)
-        //    {
-        //        return false;
-        //    }
-
-        //    bool isCategoryIdValid = context.Categories.Any(x => x.Id == model.InputDataModel.CategoryId);
-        //    if (!isCategoryIdValid)
-        //    {
-        //        ModelState.AddModelError(nameof(model.InputDataModel.CategoryId), "Category is not valid");
-        //        return false;
-        //    }
-
-        //    bool isConditionIdValid = Enum.IsDefined(typeof(ToolCondition), model.InputDataModel.ConditionId);
-        //    if (!isCategoryIdValid)
-        //    {
-        //        ModelState.AddModelError(nameof(model.InputDataModel.ConditionId), "Condition is not valid");
-        //        return false;
-        //    }
-
-
-        //    if (!ModelState.IsValid)
-        //    {
-        //        var returnModel = CreateMemberAddToolInputViewModel(owner);
-        //        return View(returnModel);
-        //    }
-
-
-        //    var databaseModel = new Tool
-        //    {
-        //        Name = model.InputDataModel.ToolName,
-        //        Description = model.InputDataModel.Description,
-        //        Condition = (ToolCondition)model.InputDataModel.ConditionId,
-        //        ReplacementValue = decimal.Parse(model.InputDataModel.ReplacementValue, CultureInfo.InvariantCulture),
-        //        ImageUrl = model.InputDataModel.ToolImageUrl,
-        //        DateAdded = DateOnly.FromDateTime(DateTime.UtcNow),
-        //        CategoryId = model.InputDataModel.CategoryId,
-        //        OwnerId = memberId,
-        //    };
-
-        //    await context.Tools.AddAsync(databaseModel);
-        //    await context.SaveChangesAsync();
-
-        //    return true;
-        //}
-
-
-
-
-        //private MemberAddToolInputViewModel CreateMemberAddToolInputViewModel(Member owner)
-        //{
-        //    var categories = context.Categories
-        //        .AsNoTracking()
-        //        .Select(x => new SelectListItem(x.Name, x.Id.ToString()))
-        //        .ToList();
-
-        //    var conditionOptions = Enum.GetValues<ToolCondition>()
-        //        .Select(value => new SelectListItem(value.ToString(), ((int)value).ToString()))
-        //        .ToList();
-
-        //    var model = new MemberAddToolInputViewModel
-        //    {
-        //        OutputDataModel = new OutputDataModel
-        //        {
-        //            OwnerId = owner.Id,
-        //            OwnerFullName = owner.FullName,
-        //            Email = owner.Email,
-        //            PhoneNumber = owner.PhoneNumber,
-        //            MemberSince = owner.JoinDate.ToFormattedString(),
-        //            IsActive = owner.IsActive,
-        //            Address = owner.Address,
-
-        //            Categories = categories,
-        //            ConditionOptions = conditionOptions
-        //        }
-        //    };
-
-        //    return model;
-        //}
     }
 }

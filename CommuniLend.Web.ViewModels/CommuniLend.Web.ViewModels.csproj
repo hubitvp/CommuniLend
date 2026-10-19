@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CommuniLend.DataModelConstraints\CommuniLend.Data.Models.Constraints.csproj" />
+	<FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
 </Project>

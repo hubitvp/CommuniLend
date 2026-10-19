@@ -1,76 +1,22 @@
-﻿@model AddInputViewModel
-
-
+﻿@model ToolFormInputViewModel
 
 @{
     ViewData["Title"] = "Add a Tool";
 }
 
-
-<div>
-    <h2>
-        Owner: @(Model.OutputDataModel!.OwnerFullName)
-        <span class="badge @(Model.OutputDataModel!.IsActive ? "bg-success" : "bg-secondary")">
-            @(Model.OutputDataModel!.IsActive ? "Active" : "Inactive")
-        </span>
-    </h2>
-    <p class="text-muted mb-0">Email: @Model.OutputDataModel!.Email</p>
-    <p class="text-muted small mb-0">Phone Number: @Model.OutputDataModel!.PhoneNumber</p>
-
-    <p class="text-muted small mb-0">Address: @(Model.OutputDataModel!.Address ?? "none")</p>
-
-    <p class="text-muted small">
-        Member since @(Model.OutputDataModel!.MemberSince)
-    </p>
-</div>
-
 <h2>Add new Tool</h2>
-<form asp-controller="Tools" asp-action="Add" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="mb-3">
-        <label asp-for="InputDataModel.ToolName" class="form-label"></label>
-        <input asp-for="InputDataModel.ToolName" class="form-control" />
-        <span asp-validation-for="InputDataModel.ToolName" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="InputDataModel.CategoryId" class="form-label">Category</label>
-        <select asp-for="InputDataModel.CategoryId"
-                asp-items="@Model.OutputDataModel!.Categories.Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() })"
-                class="form-select">
-            <option value="">-- Select a category --</option>
-        </select>
-        <span asp-validation-for="InputDataModel.CategoryId" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="InputDataModel.Description" class="form-label"></label>
-        <textarea asp-for="InputDataModel.Description" class="form-control" rows="3"></textarea>
-        <span asp-validation-for="InputDataModel.Description" class="text-danger"></span>
-    </div>
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label asp-for="InputDataModel.ConditionId" class="form-label">Condition</label>
 
-            <select asp-for="InputDataModel.ConditionId" class="form-select"
-                    asp-items="@Model.OutputDataModel!.ConditionOptions.Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() })">
-                <option value="">-- Select tool condition --</option>
-            </select>
-            <span asp-validation-for="InputDataModel.ConditionId" class="text-danger"></span>
-        </div>
-        <div class="col-md-6 mb-3">
-            <label asp-for="InputDataModel.ReplacementValue" class="form-label"></label>
-            <input asp-for="InputDataModel.ReplacementValue" class="form-control" />
-            <span asp-validation-for="InputDataModel.ReplacementValue" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="mb-3">
-        <label asp-for="InputDataModel.ToolImageUrl" class="form-label">Photo URL</label>
-        <input asp-for="InputDataModel.ToolImageUrl" class="form-control" />
-        <span asp-validation-for="InputDataModel.ToolImageUrl" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-success">Save Tool</button>
-    <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
-</form>
+<partial name="_ToolFormPartial" model="@Model" />
 
+
+<button type="submit"
+        form="9eac5554-7c06-4212-8dae-af5eaec761cf"
+        formaction="@Url.Action("Add", "Tools")"
+        formmethod="post"
+        formenctype="multipart/form-data"
+        class="btn btn-success">
+    Save Tool
+</button>
 
 @section Scripts
 {

@@ -17,10 +17,19 @@
 
         public static class Tool
         {
-            public const int NameMaxLength = 100;
+
             public const int NameMinLength = 3;
-            public const int DescriptionMaxLength = 500;
+
+            public const int NameMaxLength = 100;
+
             public const int DescriptionMinLength = 3;
+
+            public const int DescriptionMaxLength = 500;
+
+            public const int ImageUrlMaxLength = 512;
+
+            public const int PictureMaxFileSize = 50 * 1024;
+
         }
 
         public static class Category

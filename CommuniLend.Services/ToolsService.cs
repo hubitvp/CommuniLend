@@ -5,8 +5,10 @@ using CommuniLend.Services.Contracts;
 using CommuniLend.Services.Extensions;
 using CommuniLend.Web.ViewModels.Category;
 using CommuniLend.Web.ViewModels.Tool;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Microsoft.VisualBasic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
@@ -18,11 +20,16 @@ namespace CommuniLend.Services
     {
         private readonly CommuniLendDbContext context;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public ToolsService(CommuniLendDbContext context, UserManager<ApplicationUser> userManager)
+        public ToolsService(
+            CommuniLendDbContext context,
+            UserManager<ApplicationUser> userManager,
+            IWebHostEnvironment environment)
         {
             this.context = context;
             this.userManager = userManager;
+            webHostEnvironment = environment;
         }
 
 
@@ -104,7 +111,9 @@ namespace CommuniLend.Services
                 .Include(x => x.Category)
                 .Include(x => x.Owner)
                 .Include(x => x.OpenLoan)
-                .SingleOrDefaultAsync(x => x.Id == toolId && x.OwnerId == userId);
+                .SingleOrDefaultAsync(x =>
+                    x.Id == toolId
+                    && x.OwnerId == userId);
 
             if (databaseTool == null)
             {
@@ -124,11 +133,17 @@ namespace CommuniLend.Services
         }
 
 
-        public async Task<bool> DeleteByIdAsync(int toolId)
+        public async Task<bool> DeleteAsync(string userId, int toolId)
         {
-            bool hasOpenLoan = await context.OpenLoans.AnyAsync(x => x.ToolId == toolId);
+            var databaseTool = await context.Tools
+                .AsNoTracking()
+                .AsSplitQuery()
+                .SingleOrDefaultAsync(x =>
+                    x.Id == toolId
+                    && x.OwnerId == userId
+                    && x.OpenLoan == null);
 
-            if (hasOpenLoan)
+            if (databaseTool == null)
             {
                 return false;
             }
@@ -145,7 +160,10 @@ namespace CommuniLend.Services
 
 
                 int rowsAffected = await context.Tools
-                    .Where(x => x.Id == toolId && x.OpenLoan == null)
+                    .Where(x =>
+                        x.Id == toolId
+                        && x.OwnerId == userId
+                        && x.OpenLoan == null)
                     .ExecuteDeleteAsync();
 
                 if (rowsAffected != 1)
@@ -162,32 +180,21 @@ namespace CommuniLend.Services
                 await transaction.RollbackAsync();
             }
 
+
+
+
+
             return result;
         }
 
 
 
-        public async Task<AddInputViewModel?> GetAddToolInputViewModelAsync(string userId, AddInputViewModel model)
+        public async Task<ToolFormInputViewModel?> GetAddModelAsync()
         {
-            var user = await userManager.FindByIdAsync(userId);
 
-            if (user == null)
+            var returnModel = new ToolFormInputViewModel
             {
-                return null;
-            }
-
-            var returnModel = new AddInputViewModel
-            {
-                OutputDataModel = new OutputDataModel
-                {
-                    OwnerId = user.Id,
-                    OwnerFullName = user.FullName,
-                    Email = user.Email!,
-                    PhoneNumber = user.PhoneNumber!,
-                    MemberSince = user.JoinDate.ToFormattedString(),
-                    IsActive = user.IsActive,
-                    Address = user.Address,
-                    Categories = await context.Categories
+                Categories = await context.Categories
                         .AsNoTracking()
                         .Select(x => new CategoryViewModel
                         {
@@ -195,88 +202,82 @@ namespace CommuniLend.Services
                             Name = x.Name
                         })
                         .ToListAsync(),
-                    ConditionOptions = Enum.GetValues<ToolCondition>()
+                ConditionOptions = Enum.GetValues<ToolCondition>()
                         .Select(value => new ConditionOptionModel
                         {
                             Id = (int)value,
                             Name = value.ToString()
                         })
-                        .ToList()
-                }
+                        .ToList(),
             };
-            returnModel.InputDataModel = model.InputDataModel ?? new InputDataModel();
 
             return returnModel;
         }
 
 
-        public async IAsyncEnumerable<ValidationResult> ValidateNewToolAsync(AddInputViewModel model)
+        public async IAsyncEnumerable<ValidationResult> ValidateInputDataAsync(ToolFormInputViewModel model)
         {
-            var input = model.InputDataModel;
-
-            if (false == await context.Categories.AnyAsync(x => x.Id == input.CategoryId))
+            if (false == await context.Categories.AnyAsync(x => x.Id == model.CategoryId))
             {
                 yield return new ValidationResult(
                     "Category is not valid.",
-                    [$"{nameof(model.InputDataModel)}.{nameof(input.CategoryId)}"]);
+                    [nameof(model.CategoryId)]);
             }
 
-            if (false == Enum.IsDefined(typeof(ToolCondition), input.ConditionId))
+            if (false == Enum.IsDefined(typeof(ToolCondition), model.ConditionId))
             {
                 yield return new ValidationResult(
                     "Condition is not valid.",
-                    [$"{nameof(model.InputDataModel)}.{nameof(input.ConditionId)}"]);
+                    [nameof(model.ConditionId)]);
             }
         }
 
 
-        public async Task AddNewToolAsync(string userId, AddInputViewModel model)
+        public async Task<bool> AddAsync(string userId, ToolFormInputViewModel model)
         {
-            var input = model.InputDataModel;
 
             var tool = new Tool
             {
-                Name = input.ToolName,
-                Description = input.Description,
-                Condition = (ToolCondition)input.ConditionId,
-                ReplacementValue = decimal.Parse(input.ReplacementValue, CultureInfo.InvariantCulture),
-                ImageUrl = input.ToolImageUrl,
+                Name = model.ToolName,
+                Description = model.Description,
+                Condition = (ToolCondition)model.ConditionId,
+                ReplacementValue = decimal.Parse(model.ReplacementValue, CultureInfo.InvariantCulture),
                 DateAdded = DateOnly.FromDateTime(DateTime.UtcNow),
-                CategoryId = input.CategoryId,
-                OwnerId = userId
+                CategoryId = model.CategoryId,
+                ImageUrl = await StoreImage(model),
+                OwnerId = userId,
             };
 
-            context.Tools.Add(tool);
+
+            await context.Tools.AddAsync(tool);
             await context.SaveChangesAsync();
+
+            return true;
         }
 
 
 
 
-        public async Task<EditInputViewModel?> GetEditModelAsync(int toolId)
+        public async Task<ToolFormInputViewModel?> GetEditModelAsync(string userId, int toolId)
         {
             var tool = await context.Tools
                 .AsNoTracking()
-                .AsSplitQuery()
-                .Include(x => x.Owner)
-                .SingleOrDefaultAsync(t => t.Id == toolId);
+                .SingleOrDefaultAsync(x => x.Id == toolId && x.OwnerId == userId);
 
             if (tool == null)
             {
                 return null;
             }
 
-
-            var editModel = new EditInputViewModel
+            var editModel = new ToolFormInputViewModel
             {
                 ToolId = tool.Id,
                 ToolName = tool.Name,
+                ToolImageUrl = tool.ImageUrl,
                 Description = tool.Description,
                 CategoryId = tool.CategoryId,
                 ConditionId = (int)tool.Condition,
                 ReplacementValue = tool.ReplacementValue.ToString("0.00", CultureInfo.InvariantCulture),
-                OwnerFullName = tool.Owner.FullName,
-                AddedOn = tool.DateAdded.ToFormattedString(),
                 Categories = await context.Categories
                     .AsNoTracking()
                     .Select(x => new CategoryViewModel
@@ -295,6 +296,93 @@ namespace CommuniLend.Services
             };
 
             return editModel;
+        }
+
+
+
+
+
+
+
+        public async Task<bool> EditAsync(string userId, int toolId, ToolFormInputViewModel model)
+        {
+            var tool = await context.Tools
+                .SingleOrDefaultAsync(x =>
+                    x.Id == toolId
+                    && x.OwnerId == userId
+                    && x.OpenLoan == null);
+
+            if (tool == null)
+            {
+                return false;
+            }
+
+            tool.Name = model.ToolName;
+            tool.Description = model.Description;
+            tool.Condition = (ToolCondition)model.ConditionId;
+            tool.ReplacementValue = decimal.Parse(model.ReplacementValue, CultureInfo.InvariantCulture);
+            tool.CategoryId = model.CategoryId;
+
+            var newImageUrl = await StoreImage(model);
+
+            if (newImageUrl != null)
+            {
+                tool.ImageUrl = await StoreImage(model);
+            }
+
+            await context.SaveChangesAsync();
+
+            return true;
+        }
+
+
+        private async Task<string?> StoreImage(ToolFormInputViewModel model)
+        {
+            string? imageUrl = null;
+            if (model.ToolUploadImage != null && model.ToolUploadImage.File != null)
+            {
+                string fileName = model.ToolUploadImage.File.FileName;
+
+                var imagePath = Path.Combine(
+                    webHostEnvironment.WebRootPath,
+                    "images",
+                    "tools",
+                    fileName);
+
+                while (File.Exists(imagePath))
+                {
+                    fileName = $"{Guid.NewGuid()}-{model.ToolUploadImage.File.FileName}";
+
+                    imagePath = Path.Combine(
+                    webHostEnvironment.WebRootPath,
+                    "images",
+                    "tools",
+                    fileName);
+                }
+
+                using (FileStream fileStream = new FileStream(imagePath, FileMode.CreateNew))
+                {
+                    await model.ToolUploadImage.File.CopyToAsync(fileStream);
+                }
+
+                imageUrl = $"/images/tools/{fileName}";
+            }
+            return imageUrl;
+        }
+
+        private void DeleteImage(string? imageUrl)
+        {
+            if (imageUrl != null)
+            {
+                var imagePath = Path.Combine(
+                    webHostEnvironment.WebRootPath,
+                    imageUrl);
+
+                if (File.Exists(imagePath))
+                {
+                    File.Delete(imagePath);
+                }
+            }
         }
 
     }

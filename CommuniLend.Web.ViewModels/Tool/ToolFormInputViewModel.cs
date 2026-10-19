@@ -1,6 +1,5 @@
 ﻿using CommuniLend.Data.Models.Constraints;
 using CommuniLend.Web.ViewModels.Category;
-using Microsoft.VisualBasic;
 using System.ComponentModel.DataAnnotations;
 
 namespace CommuniLend.Web.ViewModels.Tool
@@ -14,11 +13,16 @@ namespace CommuniLend.Web.ViewModels.Tool
 
 
 
-    public class InputDataModel
+    public class ToolFormInputViewModel
     {
+
+        public int ToolId { get; set; }
+
+
         [Required]
         [StringLength(ValidationConstants.Tool.NameMaxLength,
             MinimumLength = ValidationConstants.Tool.NameMinLength)]
+        [Display(Name = "Tool Name")]
         public string ToolName { get; set; } = null!;
 
         [Required]
@@ -28,6 +32,7 @@ namespace CommuniLend.Web.ViewModels.Tool
         [Required]
         [StringLength(ValidationConstants.Tool.DescriptionMaxLength,
             MinimumLength = ValidationConstants.Tool.DescriptionMinLength)]
+        [Display(Name = "Description")]
         public string Description { get; set; } = null!;
 
 
@@ -36,42 +41,23 @@ namespace CommuniLend.Web.ViewModels.Tool
         public int ConditionId { get; set; }
 
         [Required]
-        [Display(Name = "Replacement Value")]
+        [Display(Name = "Replacement Value in € EUR")]
         [RegularExpression(
         @"^\d{1,6}([.]\d{1,2})?$",
         ErrorMessage = "Price must be between 0.01 and 999999.99.")]
         public string ReplacementValue { get; set; } = null!;
 
+
+        public ToolPictureUploadViewModel? ToolUploadImage { get; set; }
+
+
+        public required IEnumerable<CategoryViewModel>? Categories { get; set; }
+
+        public required IEnumerable<ConditionOptionModel>? ConditionOptions { get; set; }
+
+
         public string? ToolImageUrl { get; set; }
-    }
-
-    public class OutputDataModel
-    {
-        public required string OwnerId { get; set; }
-
-        public required string OwnerFullName { get; set; }
-        public required string Email { get; set; }
-        public required string PhoneNumber { get; set; }
-        public required string MemberSince { get; set; }
-
-        public required bool IsActive { get; set; }
-
-        public required string? Address { get; set; }
-
-
-        public required IEnumerable<CategoryViewModel> Categories { get; set; }
-
-        public required IEnumerable<ConditionOptionModel> ConditionOptions { get; set; }
-    }
-
-
-
-    public class AddInputViewModel
-    {
-        [Required]
-        public InputDataModel InputDataModel { get; set; } = null!;
-
-        public OutputDataModel? OutputDataModel { get; set; }
 
     }
+
 }

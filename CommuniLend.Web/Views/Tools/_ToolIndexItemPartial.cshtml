@@ -6,18 +6,7 @@
     <div class="card h-100 shadow-sm">
         <div class="card-img-top bg-light text-center py-5 text-muted">
 
-            <a class="btn btn-outline-secondary btn-sm"
-               asp-controller="Tools" asp-action="Details" asp-route-id="@Model.ToolId">
-
-                @if (string.IsNullOrEmpty(Model.ToolImageUrl))
-                {
-                    <img src="/images/tools/no-image.jpg" alt="@Model.ToolName" class="img-fluid" />
-                }
-                else
-                {
-                    <img src="@Model.ToolImageUrl" alt="@Model.ToolName" class="img-fluid" />
-                }
-            </a>
+            <partial name="_ToolImgePartial" model="(@Model.ToolId, @Model.ToolName, @Model.ToolImageUrl)" />
 
         </div>
         <div class="card-body">
@@ -25,7 +14,6 @@
             <p class="card-text text-muted small">
                 @Model.CategoryName &middot;
                 Owner: @Model.OwnerFullName
-
 
                 <a asp-controller="Members" asp-action="Details" asp-route-id="@Model.OwnerId">
                     @Model.OwnerFullName
