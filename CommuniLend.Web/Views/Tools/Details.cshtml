@@ -64,18 +64,12 @@
             <h6 class="mt-3">Description</h6>
             <p>@Model.Description</p>
 
-            @if (Model.AvailabilityStatus == ToolAvailabilityStatus.Available
-                && User.FindFirstValue(ClaimTypes.NameIdentifier) != Model.OwnerId)
-            {
-                <a class="btn btn-success" asp-controller="Loans" asp-action="Create" asp-route-id="@Model.ToolId">
-                    Borrow this tool
-                </a>
-            }
-
 
             @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.OwnerId)
             {
-                if (Model.AvailabilityStatus == ToolAvailabilityStatus.Available)
+
+                if (Model.AvailabilityStatus == ToolAvailabilityStatus.Available
+                    || Model.AvailabilityStatus == ToolAvailabilityStatus.Locked)
                 {
                     <a class="btn btn-outline-warning" asp-controller="Tools" asp-action="Edit" asp-route-id="@Model.ToolId">
                         Edit
@@ -83,19 +77,38 @@
                     <a class="btn btn-outline-danger" asp-controller="Tools" asp-action="DeleteDetails" asp-route-id="@Model.ToolId">
                         Delete
                     </a>
+
+                    <a class="btn btn-outline-secondary" asp-action="Index">Back to list</a>
+
                 }
                 else
                 {
-                    <span class="btn btn-outline-secondary pe-none">
-                        Edit
-                    </span>
-                    <span class="btn btn-outline-secondary pe-none">
-                        Delete
-                    </span>
+
+                    <form asp-controller="Loans" asp-action="Return" asp-route-id="@Model.OpenLoanId" method="post">
+                        <button type="submit" class="btn btn-success">Mark Returned</button>
+
+                        <a class="btn btn-outline-secondary" asp-action="Index">Back to list</a>
+
+                    </form>
+                }
+
+            }
+            else
+            {
+                @if (Model.AvailabilityStatus == ToolAvailabilityStatus.Available)
+                {
+                    <a class="btn btn-success" asp-controller="Loans" asp-action="Create" asp-route-id="@Model.ToolId">
+                        Borrow this tool
+                    </a>
+                    <a class="btn btn-outline-secondary" asp-action="Index">Back to list</a>
+                }
+                else
+                {
+                    <a class="btn btn-outline-secondary" asp-action="Index">Back to list</a>
                 }
             }
 
-            <a class="btn btn-outline-secondary" asp-action="Index">Back to list</a>
+
 
         </div>
     </div>

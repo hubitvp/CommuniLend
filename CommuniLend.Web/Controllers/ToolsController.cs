@@ -1,11 +1,9 @@
 ﻿using CommuniLend.Data.Models;
 using CommuniLend.Data.Models.Constraints;
-using CommuniLend.Services;
 using CommuniLend.Services.Contracts;
 using CommuniLend.Web.ViewModels.Tool;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace CommuniLend.Web.Controllers
 {

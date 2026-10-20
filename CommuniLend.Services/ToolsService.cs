@@ -8,8 +8,6 @@ using CommuniLend.Web.ViewModels.Tool;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-using Microsoft.VisualBasic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
@@ -19,16 +17,13 @@ namespace CommuniLend.Services
     public class ToolsService : IToolsService
     {
         private readonly CommuniLendDbContext context;
-        private readonly UserManager<ApplicationUser> userManager;
         private readonly IWebHostEnvironment webHostEnvironment;
 
         public ToolsService(
             CommuniLendDbContext context,
-            UserManager<ApplicationUser> userManager,
             IWebHostEnvironment environment)
         {
             this.context = context;
-            this.userManager = userManager;
             webHostEnvironment = environment;
         }
 
@@ -38,9 +33,9 @@ namespace CommuniLend.Services
             var tools = await context.Tools
                 .AsNoTracking()
                 .AsSplitQuery()
-                .Include(x => x.Owner)
                 .Include(x => x.Category)
-                .Where(x => x.OwnerId != userId)
+                .Include(x => x.Owner)
+                .Where(x => x.OwnerId != userId && x.Owner.IsActive)
                 .WithStatus()
                 .AsAsyncEnumerable()
                 .OrderByDescending(x => x.Status)
@@ -91,7 +86,7 @@ namespace CommuniLend.Services
                 OwnerFullName = databaseTool.Tool.Owner.FullName,
                 OwnerId = databaseTool.Tool.OwnerId,
                 AddedOn = databaseTool.Tool.DateAdded.ToFormattedString(),
-
+                OpenLoanId = databaseTool.Tool.OpenLoan?.Id,
                 BorrowerId = databaseTool.Tool.OpenLoan?.Borrower?.Id,
                 BorrowerFullName = databaseTool.Tool.OpenLoan?.Borrower?.FullName,
 
@@ -172,22 +167,27 @@ namespace CommuniLend.Services
                         && x.OpenLoan == null)
                     .ExecuteDeleteAsync();
 
-                if (rowsAffected != 1)
+                if (rowsAffected == 1)
                 {
-                    await transaction.RollbackAsync();
-                    return false;
+                    result = true;
                 }
-
-                await transaction.CommitAsync();
-                result = true;
             }
             catch
             {
-                await transaction.RollbackAsync();
+                result = false;
             }
-
-
-            DeleteImage(databaseTool.ImageUrl);
+            finally
+            {
+                if (result)
+                {
+                    await transaction.CommitAsync();
+                    DeleteImage(databaseTool.ImageUrl);
+                }
+                else
+                {
+                    await transaction.RollbackAsync();
+                }
+            }
 
 
             return result;
@@ -268,7 +268,10 @@ namespace CommuniLend.Services
         {
             var tool = await context.Tools
                 .AsNoTracking()
-                .SingleOrDefaultAsync(x => x.Id == toolId && x.OwnerId == userId);
+                .SingleOrDefaultAsync(x =>
+                    x.Id == toolId
+                    && x.OpenLoan == null
+                    && x.OwnerId == userId);
 
             if (tool == null)
             {

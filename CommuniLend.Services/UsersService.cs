@@ -14,41 +14,14 @@ namespace CommuniLend.Services
         private readonly CommuniLendDbContext context;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public UsersService(CommuniLendDbContext context, UserManager<ApplicationUser> userManager)
+        public UsersService(CommuniLendDbContext context,
+            UserManager<ApplicationUser> userManager)
         {
             this.context = context;
             this.userManager = userManager;
         }
 
 
-        public async Task<IEnumerable<IndexViewModel>> GetAllAsync()
-        {
-
-            var members = await userManager.Users
-                .AsNoTracking()
-                .AsSplitQuery()
-                .OrderByDescending(x => x.IsActive)
-                .ThenBy(x => x.FullName)
-                .ThenBy(x => x.OwnedTools.Count)
-                .ThenBy(x => x.ProvidedTools.Count)
-                .ThenBy(x => x.BorrowedTools.Count)
-                .ThenByDescending(x => x.JoinDate)
-                .Select(x => new IndexViewModel
-                {
-                    UserId = x.Id,
-                    FullName = x.FullName,
-                    Email = x.Email,
-                    ToolsOwned = x.OwnedTools.Count,
-                    ToolsShared = x.ProvidedTools.Count,
-                    ToolsBorrowed = x.BorrowedTools.Count,
-                    MemberSince = x.JoinDate.ToFormattedString(),
-                    IsActive = x.IsActive
-                })
-                .ToListAsync();
-
-
-            return members;
-        }
 
 
         private async Task<IReadOnlyList<DetailsOwnedToolViewModel>> GetOwnedTools(string userId)
@@ -195,8 +168,12 @@ namespace CommuniLend.Services
         }
 
 
-        public async Task<DetailsViewModel?> GetDetailsAsync(string userId)
+
+
+        private async Task<UserViewModel?>
+            GetUserData(string userId)
         {
+
             var user = await userManager.FindByIdAsync(userId);
 
             if (user == null)
@@ -204,23 +181,46 @@ namespace CommuniLend.Services
                 return null;
             }
 
-            var ownedTools = await GetOwnedTools(user.Id);
-
-            var providedTools = await GetProvidedTools(user.Id);
-
-            var borrowedTools = await GetBorrowedTools(user.Id);
-
-            var returnedProvidedTools = await GetReturnedProvidedTools(user.Id);
-
-            var returnedBorrowedTools = await GetReturnedBorrowedTools(user.Id);
-
-            var memberViewModel = new DetailsViewModel
+            var userData = new UserViewModel
             {
                 UserId = user.Id,
                 FullName = user.FullName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 Address = user.Address,
+                IsActive = user.IsActive,
+                MemberSince = user.JoinDate.ToFormattedString()
+            };
+
+
+            return userData;
+        }
+
+
+        public async Task<DetailsViewModel?> GetDetailsAsync(string userId)
+        {
+
+            var userData = await GetUserData(userId);
+
+            if (userData == null)
+            {
+                return null;
+            }
+
+            var ownedTools = await GetOwnedTools(userData.UserId);
+
+            var providedTools = await GetProvidedTools(userData.UserId);
+
+            var borrowedTools = await GetBorrowedTools(userData.UserId);
+
+            var returnedProvidedTools = await GetReturnedProvidedTools(userData.UserId);
+
+            var returnedBorrowedTools = await GetReturnedBorrowedTools(userData.UserId);
+
+
+            var memberViewModel = new DetailsViewModel
+            {
+                UserData = userData,
                 OwnedTools = ownedTools,
                 OwnedToolsCount = ownedTools.Count,
                 ProvidedTools = providedTools,
@@ -231,8 +231,6 @@ namespace CommuniLend.Services
                 ReturnedProvidedToolsCount = returnedProvidedTools.Count,
                 ReturnedBorrowedTools = returnedBorrowedTools,
                 ReturnedBorrowedToolsCount = returnedBorrowedTools.Count,
-                IsActive = user.IsActive,
-                MemberSince = user.JoinDate.ToFormattedString()
             };
 
             return memberViewModel;
@@ -243,32 +241,26 @@ namespace CommuniLend.Services
 
         public async Task<DetailsViewModel?> GetDashboardDetailsAsync(string userId)
         {
+            var userData = await GetUserData(userId);
 
-            ApplicationUser? user = await userManager.FindByIdAsync(userId);
-
-
-            if (user == null)
+            if (userData == null)
             {
                 return null;
             }
 
-            var ownedTools = await GetOwnedTools(user.Id);
+            var ownedTools = await GetOwnedTools(userData.UserId);
 
-            var providedTools = await GetProvidedTools(user.Id);
+            var providedTools = await GetProvidedTools(userData.UserId);
 
-            var borrowedTools = await GetBorrowedTools(user.Id);
+            var borrowedTools = await GetBorrowedTools(userData.UserId);
 
-            var returnedProvidedTools = await GetReturnedProvidedTools(user.Id);
+            var returnedProvidedTools = await GetReturnedProvidedTools(userData.UserId);
 
-            var returnedBorrowedTools = await GetReturnedBorrowedTools(user.Id);
+            var returnedBorrowedTools = await GetReturnedBorrowedTools(userData.UserId);
 
             var memberViewModel = new DetailsViewModel
             {
-                UserId = user.Id,
-                FullName = user.FullName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                Address = user.Address,
+                UserData = userData,
                 OwnedTools = ownedTools,
                 OwnedToolsCount = ownedTools.Count,
                 ProvidedTools = providedTools,
@@ -279,8 +271,6 @@ namespace CommuniLend.Services
                 ReturnedProvidedToolsCount = returnedProvidedTools.Count,
                 ReturnedBorrowedTools = returnedBorrowedTools,
                 ReturnedBorrowedToolsCount = returnedBorrowedTools.Count,
-                IsActive = user.IsActive,
-                MemberSince = user.JoinDate.ToFormattedString()
             };
 
             return memberViewModel;

@@ -22,6 +22,236 @@ namespace CommuniLend.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("CommuniLend.Data.Models.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateOnly>("JoinDate")
+                        .HasColumnType("date");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "fec24483-730b-58d9-9383-2c44fcf490e8",
+                            AccessFailedCount = 0,
+                            Address = "123 Main Street, Springfield, IL 62701",
+                            ConcurrencyStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            Email = "john.smith@email.com",
+                            EmailConfirmed = true,
+                            FullName = "John Smith",
+                            IsActive = true,
+                            JoinDate = new DateOnly(2026, 6, 30),
+                            LockoutEnabled = false,
+                            NormalizedEmail = "JOHN.SMITH@EMAIL.COM",
+                            NormalizedUserName = "JOHN.SMITH@EMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF86nB57LUhgocPl9wkStNa2Svp+fHGNi/3hE6or/QJMzteRck+ThqQsgLDjNlHc8A==",
+                            PhoneNumber = "(555) 123-4567",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            TwoFactorEnabled = false,
+                            UserName = "john.smith@email.com"
+                        },
+                        new
+                        {
+                            Id = "5085596c-7975-580a-aa8a-68ad83d435bb",
+                            AccessFailedCount = 0,
+                            Address = "456 Oak Avenue, Springfield, IL 62702",
+                            ConcurrencyStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            Email = "sarah.johnson@email.com",
+                            EmailConfirmed = true,
+                            FullName = "Sarah Johnson",
+                            IsActive = true,
+                            JoinDate = new DateOnly(2026, 7, 30),
+                            LockoutEnabled = false,
+                            NormalizedEmail = "SARAH.JOHNSON@EMAIL.COM",
+                            NormalizedUserName = "SARAH.JOHNSON@EMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF86nB57LUhgocPl9wkStNa2Svp+fHGNi/3hE6or/QJMzteRck+ThqQsgLDjNlHc8A==",
+                            PhoneNumber = "(555) 234-5678",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            TwoFactorEnabled = false,
+                            UserName = "sarah.johnson@email.com"
+                        },
+                        new
+                        {
+                            Id = "b9af376a-21a5-540b-89d2-8c131633400d",
+                            AccessFailedCount = 0,
+                            Address = "789 Pine Road, Springfield, IL 62703",
+                            ConcurrencyStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            Email = "michael.chen@email.com",
+                            EmailConfirmed = true,
+                            FullName = "Michael Chen",
+                            IsActive = true,
+                            JoinDate = new DateOnly(2026, 8, 14),
+                            LockoutEnabled = false,
+                            NormalizedEmail = "MICHAEL.CHEN@EMAIL.COM",
+                            NormalizedUserName = "MICHAEL.CHEN@EMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF86nB57LUhgocPl9wkStNa2Svp+fHGNi/3hE6or/QJMzteRck+ThqQsgLDjNlHc8A==",
+                            PhoneNumber = "(555) 345-6789",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            TwoFactorEnabled = false,
+                            UserName = "michael.chen@email.com"
+                        },
+                        new
+                        {
+                            Id = "93295a13-2d4b-5732-9cba-916402a8edf3",
+                            AccessFailedCount = 0,
+                            Address = "321 Elm Street, Springfield, IL 62704",
+                            ConcurrencyStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            Email = "emily.rodriguez@email.com",
+                            EmailConfirmed = true,
+                            FullName = "Emily Rodriguez",
+                            IsActive = true,
+                            JoinDate = new DateOnly(2026, 8, 29),
+                            LockoutEnabled = false,
+                            NormalizedEmail = "EMILY.RODRIGUEZ@EMAIL.COM",
+                            NormalizedUserName = "EMILY.RODRIGUEZ@EMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF86nB57LUhgocPl9wkStNa2Svp+fHGNi/3hE6or/QJMzteRck+ThqQsgLDjNlHc8A==",
+                            PhoneNumber = "(555) 456-7890",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            TwoFactorEnabled = false,
+                            UserName = "emily.rodriguez@email.com"
+                        },
+                        new
+                        {
+                            Id = "f04c78b2-6180-5b82-bdb8-0eedb97675a7",
+                            AccessFailedCount = 0,
+                            Address = "654 Maple Drive, Springfield, IL 62705",
+                            ConcurrencyStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            Email = "david.williams@email.com",
+                            EmailConfirmed = true,
+                            FullName = "David Williams",
+                            IsActive = true,
+                            JoinDate = new DateOnly(2026, 9, 8),
+                            LockoutEnabled = false,
+                            NormalizedEmail = "DAVID.WILLIAMS@EMAIL.COM",
+                            NormalizedUserName = "DAVID.WILLIAMS@EMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF86nB57LUhgocPl9wkStNa2Svp+fHGNi/3hE6or/QJMzteRck+ThqQsgLDjNlHc8A==",
+                            PhoneNumber = "(555) 567-8901",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            TwoFactorEnabled = false,
+                            UserName = "david.williams@email.com"
+                        },
+                        new
+                        {
+                            Id = "234a29ff-3432-5780-a6e8-3acd25056d4c",
+                            AccessFailedCount = 0,
+                            Address = "987 Cedar Lane, Springfield, IL 62706",
+                            ConcurrencyStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            Email = "jessica.martinez@email.com",
+                            EmailConfirmed = true,
+                            FullName = "Jessica Martinez",
+                            IsActive = true,
+                            JoinDate = new DateOnly(2026, 9, 13),
+                            LockoutEnabled = false,
+                            NormalizedEmail = "JESSICA.MARTINEZ@EMAIL.COM",
+                            NormalizedUserName = "JESSICA.MARTINEZ@EMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF86nB57LUhgocPl9wkStNa2Svp+fHGNi/3hE6or/QJMzteRck+ThqQsgLDjNlHc8A==",
+                            PhoneNumber = "(555) 678-9012",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            TwoFactorEnabled = false,
+                            UserName = "jessica.martinez@email.com"
+                        },
+                        new
+                        {
+                            Id = "5babe2ff-dff9-5359-8b04-f77b0028ca98",
+                            AccessFailedCount = 0,
+                            Address = "147 Birch Court, Springfield, IL 62707",
+                            ConcurrencyStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            Email = "robert.taylor@email.com",
+                            EmailConfirmed = true,
+                            FullName = "Robert Taylor",
+                            IsActive = true,
+                            JoinDate = new DateOnly(2026, 9, 18),
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ROBERT.TAYLOR@EMAIL.COM",
+                            NormalizedUserName = "ROBERT.TAYLOR@EMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF86nB57LUhgocPl9wkStNa2Svp+fHGNi/3hE6or/QJMzteRck+ThqQsgLDjNlHc8A==",
+                            PhoneNumber = "(555) 789-0123",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
+                            TwoFactorEnabled = false,
+                            UserName = "robert.taylor@email.com"
+                        });
+                });
+
             modelBuilder.Entity("CommuniLend.Data.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -348,7 +578,8 @@ namespace CommuniLend.Data.Migrations
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -1026,81 +1257,6 @@ namespace CommuniLend.Data.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(21)
-                        .HasColumnType("nvarchar(21)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
-
-                    b.UseTphMappingStrategy();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -1184,177 +1340,6 @@ namespace CommuniLend.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("CommuniLend.Data.Models.ApplicationUser", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<string>("Address")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<DateOnly>("JoinDate")
-                        .HasColumnType("date");
-
-                    b.HasDiscriminator().HasValue("ApplicationUser");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "fec24483-730b-58d9-9383-2c44fcf490e8",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
-                            Email = "john.smith@email.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "JOHN.SMITH@EMAIL.COM",
-                            NormalizedUserName = "JOHN.SMITH@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEF86nB57LUhgocPl9wkStNa2Svp+fHGNi/3hE6or/QJMzteRck+ThqQsgLDjNlHc8A==",
-                            PhoneNumber = "(555) 123-4567",
-                            PhoneNumberConfirmed = true,
-                            SecurityStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
-                            TwoFactorEnabled = false,
-                            UserName = "john.smith@email.com",
-                            Address = "123 Main Street, Springfield, IL 62701",
-                            FullName = "John Smith",
-                            IsActive = true,
-                            JoinDate = new DateOnly(2026, 6, 30)
-                        },
-                        new
-                        {
-                            Id = "5085596c-7975-580a-aa8a-68ad83d435bb",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
-                            Email = "sarah.johnson@email.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "SARAH.JOHNSON@EMAIL.COM",
-                            NormalizedUserName = "SARAH.JOHNSON@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEF86nB57LUhgocPl9wkStNa2Svp+fHGNi/3hE6or/QJMzteRck+ThqQsgLDjNlHc8A==",
-                            PhoneNumber = "(555) 234-5678",
-                            PhoneNumberConfirmed = true,
-                            SecurityStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
-                            TwoFactorEnabled = false,
-                            UserName = "sarah.johnson@email.com",
-                            Address = "456 Oak Avenue, Springfield, IL 62702",
-                            FullName = "Sarah Johnson",
-                            IsActive = true,
-                            JoinDate = new DateOnly(2026, 7, 30)
-                        },
-                        new
-                        {
-                            Id = "b9af376a-21a5-540b-89d2-8c131633400d",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
-                            Email = "michael.chen@email.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "MICHAEL.CHEN@EMAIL.COM",
-                            NormalizedUserName = "MICHAEL.CHEN@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEF86nB57LUhgocPl9wkStNa2Svp+fHGNi/3hE6or/QJMzteRck+ThqQsgLDjNlHc8A==",
-                            PhoneNumber = "(555) 345-6789",
-                            PhoneNumberConfirmed = true,
-                            SecurityStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
-                            TwoFactorEnabled = false,
-                            UserName = "michael.chen@email.com",
-                            Address = "789 Pine Road, Springfield, IL 62703",
-                            FullName = "Michael Chen",
-                            IsActive = true,
-                            JoinDate = new DateOnly(2026, 8, 14)
-                        },
-                        new
-                        {
-                            Id = "93295a13-2d4b-5732-9cba-916402a8edf3",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
-                            Email = "emily.rodriguez@email.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "EMILY.RODRIGUEZ@EMAIL.COM",
-                            NormalizedUserName = "EMILY.RODRIGUEZ@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEF86nB57LUhgocPl9wkStNa2Svp+fHGNi/3hE6or/QJMzteRck+ThqQsgLDjNlHc8A==",
-                            PhoneNumber = "(555) 456-7890",
-                            PhoneNumberConfirmed = true,
-                            SecurityStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
-                            TwoFactorEnabled = false,
-                            UserName = "emily.rodriguez@email.com",
-                            Address = "321 Elm Street, Springfield, IL 62704",
-                            FullName = "Emily Rodriguez",
-                            IsActive = true,
-                            JoinDate = new DateOnly(2026, 8, 29)
-                        },
-                        new
-                        {
-                            Id = "f04c78b2-6180-5b82-bdb8-0eedb97675a7",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
-                            Email = "david.williams@email.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "DAVID.WILLIAMS@EMAIL.COM",
-                            NormalizedUserName = "DAVID.WILLIAMS@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEF86nB57LUhgocPl9wkStNa2Svp+fHGNi/3hE6or/QJMzteRck+ThqQsgLDjNlHc8A==",
-                            PhoneNumber = "(555) 567-8901",
-                            PhoneNumberConfirmed = true,
-                            SecurityStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
-                            TwoFactorEnabled = false,
-                            UserName = "david.williams@email.com",
-                            Address = "654 Maple Drive, Springfield, IL 62705",
-                            FullName = "David Williams",
-                            IsActive = true,
-                            JoinDate = new DateOnly(2026, 9, 8)
-                        },
-                        new
-                        {
-                            Id = "234a29ff-3432-5780-a6e8-3acd25056d4c",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
-                            Email = "jessica.martinez@email.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "JESSICA.MARTINEZ@EMAIL.COM",
-                            NormalizedUserName = "JESSICA.MARTINEZ@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEF86nB57LUhgocPl9wkStNa2Svp+fHGNi/3hE6or/QJMzteRck+ThqQsgLDjNlHc8A==",
-                            PhoneNumber = "(555) 678-9012",
-                            PhoneNumberConfirmed = true,
-                            SecurityStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
-                            TwoFactorEnabled = false,
-                            UserName = "jessica.martinez@email.com",
-                            Address = "987 Cedar Lane, Springfield, IL 62706",
-                            FullName = "Jessica Martinez",
-                            IsActive = true,
-                            JoinDate = new DateOnly(2026, 9, 13)
-                        },
-                        new
-                        {
-                            Id = "5babe2ff-dff9-5359-8b04-f77b0028ca98",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
-                            Email = "robert.taylor@email.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ROBERT.TAYLOR@EMAIL.COM",
-                            NormalizedUserName = "ROBERT.TAYLOR@EMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEF86nB57LUhgocPl9wkStNa2Svp+fHGNi/3hE6or/QJMzteRck+ThqQsgLDjNlHc8A==",
-                            PhoneNumber = "(555) 789-0123",
-                            PhoneNumberConfirmed = true,
-                            SecurityStamp = "364894f5-ab00-5eb4-a4a7-40ac99d7f27f",
-                            TwoFactorEnabled = false,
-                            UserName = "robert.taylor@email.com",
-                            Address = "147 Birch Court, Springfield, IL 62707",
-                            FullName = "Robert Taylor",
-                            IsActive = true,
-                            JoinDate = new DateOnly(2026, 9, 18)
-                        });
                 });
 
             modelBuilder.Entity("CommuniLend.Data.Models.ClosedLoan", b =>
@@ -1441,7 +1426,7 @@ namespace CommuniLend.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("CommuniLend.Data.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1450,7 +1435,7 @@ namespace CommuniLend.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("CommuniLend.Data.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1465,7 +1450,7 @@ namespace CommuniLend.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("CommuniLend.Data.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1474,23 +1459,11 @@ namespace CommuniLend.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("CommuniLend.Data.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CommuniLend.Data.Models.Category", b =>
-                {
-                    b.Navigation("Tools");
-                });
-
-            modelBuilder.Entity("CommuniLend.Data.Models.Tool", b =>
-                {
-                    b.Navigation("ClosedLoans");
-
-                    b.Navigation("OpenLoan");
                 });
 
             modelBuilder.Entity("CommuniLend.Data.Models.ApplicationUser", b =>
@@ -1504,6 +1477,18 @@ namespace CommuniLend.Data.Migrations
                     b.Navigation("ReturnedBorrowedTools");
 
                     b.Navigation("ReturnedProvidedTools");
+                });
+
+            modelBuilder.Entity("CommuniLend.Data.Models.Category", b =>
+                {
+                    b.Navigation("Tools");
+                });
+
+            modelBuilder.Entity("CommuniLend.Data.Models.Tool", b =>
+                {
+                    b.Navigation("ClosedLoans");
+
+                    b.Navigation("OpenLoan");
                 });
 #pragma warning restore 612, 618
         }

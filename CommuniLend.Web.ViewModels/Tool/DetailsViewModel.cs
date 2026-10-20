@@ -9,6 +9,9 @@ namespace CommuniLend.Web.ViewModels.Tool
         public required int ToolId { get; set; }
 
 
+        public required int? OpenLoanId { get; set; }
+
+
         public required string Name { get; set; }
 
         public required string? ImageUrl { get; set; }

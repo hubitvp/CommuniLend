@@ -1,129 +1,91 @@
-﻿//using CommuniLend.Data;
-//using CommuniLend.Data.Models;
-//using CommuniLend.Services.Extensions;
-//using CommuniLend.Web.ViewModels.Enums;
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.EntityFrameworkCore;
+﻿using CommuniLend.Data.Models;
+using CommuniLend.Services.Contracts;
+using CommuniLend.Web.ViewModels.Loan;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
-//namespace CommuniLend.Web.Controllers
-//{
-//    public class LoansController : Controller
-//    {
-//        private readonly CommuniLendDbContext context;
+namespace CommuniLend.Web.Controllers
+{
+    public class LoansController : BaseController
+    {
+        private readonly ILoansService iLoansService;
 
-//        public LoansController(CommuniLendDbContext context)
-//        {
-//            this.context = context;
-//        }
+        public LoansController(
+            ILoansService loansService,
+            UserManager<ApplicationUser> userManager)
+            : base(userManager)
+        {
+            iLoansService = loansService;
+        }
 
-//        [HttpGet]
-//        public IActionResult Index()
-//        {
-//            var activeLoans = context.Tools
-//                .AsNoTracking()
-//                .AsSplitQuery()
-//                .Include(x => x.Owner)
-//                .Include(x => x.OpenLoan)
-//                    .ThenInclude(x => x!.Borrower)
-//                .Where(x => x.OpenLoan != null)
-//                .WithStatus()
-//                .AsEnumerable()
-//                .OrderBy(x => x.Status)
-//                .ThenBy(x => x.Tool.OpenLoan!.DueDate)
-//                .ThenBy(x => x.Tool.Name)
-//                .ThenBy(x => x.Tool.Owner.FullName)
-//                .ThenBy(x => x.Tool.OpenLoan!.Borrower.FullName)
-//                .Select(x => new ActiveLoanToolIndexViewModel
-//                {
-//                    OpenLoanId = x.Tool.OpenLoan!.Id,
-//                    ToolId = x.Tool.Id,
-//                    ToolName = x.Tool.Name,
-//                    ToolOwnerId = x.Tool.OwnerId,
-//                    ToolOwnerFullName = x.Tool.Owner.FullName,
-//                    ToolBorrowerId = x.Tool.OpenLoan!.BorrowerId,
-//                    ToolBorrowerFullName = x.Tool.OpenLoan!.Borrower.FullName,
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var userId = GetUserId();
+            var activeLoans = await iLoansService.GetAllAsync(userId);
 
-//                    LoanDate = x.Tool.OpenLoan!.LoanDate.ToFormattedString(),
-//                    DueDate = x.Tool.OpenLoan!.DueDate.ToFormattedString(),
-
-//                    Status = x.Status
-//                })
-//                .ToList();
-
-
-//            return View(activeLoans);
-//        }
+            return View(activeLoans);
+        }
 
 
 
-//        [HttpPost]
-//        public IActionResult Return(int openLoanId)
-//        {
-//            var openLoan = context.OpenLoans
-//                .Include(x => x.Tool)
-//                .SingleOrDefault(x => x.Id == openLoanId);
-//            if (openLoan == null)
-//            {
-//                return NotFound();
-//            }
+        [HttpPost]
+        public async Task<IActionResult> Return([FromRoute(Name = "id")] int openLoanId)
+        {
+            var userId = GetUserId();
 
-//            var closedLoan = new ClosedLoan
-//            {
-//                ToolId = openLoan.ToolId,
-//                OwnerId = openLoan.OwnerId,
-//                BorrowerId = openLoan.BorrowerId,
-//                LoanDate = openLoan.LoanDate,
-//                DueDate = openLoan.DueDate,
-//                ReturnDate = DateOnly.FromDateTime(DateTime.UtcNow),
-//                Notes = openLoan.Notes
-//            };
+            bool result = await iLoansService.ReturnAsync(userId, openLoanId);
 
-//            context.ClosedLoans.Add(closedLoan);
-//            context.OpenLoans.Remove(openLoan);
-//            context.SaveChanges();
+            if (false == result)
+            {
+                return BadRequest();
+            }
 
-//            return RedirectToAction(nameof(Index));
-//        }
+            return RedirectToAction(nameof(Index));
+        }
 
 
-//        [HttpGet]
-//        public IActionResult Create(int toolId)
-//        {
-//            var databaseTool = context.Tools
-//                .AsNoTracking()
-//                .AsSplitQuery()
-//                .Include(x => x.Category)
-//                .Include(x => x.Owner)
-//                .Include(x => x.OpenLoan)
-//                    .ThenInclude(x => x!.Borrower)
-//                .Where(x => x.Id == toolId)
-//                .WithStatus()
-//                .SingleOrDefault();
+        [HttpGet]
+        public async Task<IActionResult> Create([FromRoute(Name = "id")] int toolId)
+        {
+            var userId = GetUserId();
 
+            var loanCreateInputModel = await iLoansService.GetAddModelAsync(userId, toolId);
+            if (loanCreateInputModel == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
 
-//            if (databaseTool == null)
-//            {
-//                return NotFound();
-//            }
-
-//            if (databaseTool.Status != ToolStatus.Available)
-//            {
-//                return BadRequest();
-//            }
-
-
-//            var loanCreateInputModel = new LoanCreateInputModel
-//            {
-//                ToolId = databaseTool.Tool.Id,
-//                ToolName = databaseTool.Tool.Name,
-//                ToolCategoryName = databaseTool.Tool.Category.Name,
-//                ToolOwnerId = databaseTool.Tool.OwnerId,
-//                ToolOwnerFullName = databaseTool.Tool.Owner.FullName,
-//            };
-//            return View(loanCreateInputModel);
-//        }
+            return View(loanCreateInputModel);
+        }
 
 
 
-//    }
-//}
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromRoute(Name = "id")] int toolId, CreateInputViewModel model)
+        {
+
+            if (false == ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var userId = GetUserId();
+
+            bool result = await iLoansService.CreateAsync(userId, toolId, model);
+
+
+            if (false == result)
+            {
+                return BadRequest();
+            }
+
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
+    }
+}

@@ -12,7 +12,7 @@
                 <th>Status</th>
 
 
-                @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.UserId)
+                @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.UserData.UserId)
                 {
                     <th>Edit</th>
                     <th>Delete</th>
@@ -35,9 +35,10 @@
                     </td>
 
 
-                    @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.UserId)
+                    @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.UserData.UserId)
                     {
-                        @if (tool.AvailabilityStatus == ToolAvailabilityStatus.Available)
+                        @if (tool.AvailabilityStatus == ToolAvailabilityStatus.Available
+                            || tool.AvailabilityStatus == ToolAvailabilityStatus.Locked)
                         {
                             <td>
                                 <a class="btn btn-outline-warning" asp-controller="Tools" asp-action="Edit" asp-route-id="@tool.ToolId">

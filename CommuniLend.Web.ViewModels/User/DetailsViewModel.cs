@@ -99,23 +99,10 @@ namespace CommuniLend.Web.ViewModels.User
     public class DetailsViewModel
     {
 
-        public required string UserId { get; set; }
+
+        public required UserViewModel UserData { get; set; }
 
 
-        public required string FullName { get; set; }
-
-
-        public required string? Email { get; set; }
-
-        public required string? PhoneNumber { get; set; }
-
-        public required string? Address { get; set; }
-
-        public required string MemberSince { get; set; }
-
-        public required bool IsActive { get; set; }
-
-        
 
         public required int OwnedToolsCount { get; set; }
         public required IEnumerable<DetailsOwnedToolViewModel> OwnedTools { get; set; }
@@ -135,7 +122,6 @@ namespace CommuniLend.Web.ViewModels.User
 
         public required int ReturnedBorrowedToolsCount { get; set; }
         public required IEnumerable<DetailsReturnedBorrowedToolViewModel> ReturnedBorrowedTools { get; set; }
-
 
     }
 }

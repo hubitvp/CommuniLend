@@ -20,14 +20,6 @@ namespace CommuniLend.Web.Controllers
         }
 
 
-        [HttpGet]
-        public async Task<IActionResult> Index()
-        {
-            var users = await iUsersService.GetAllAsync();
-
-            return View(users);
-        }
-
 
         [HttpGet]
         public async Task<IActionResult> Details([FromRoute(Name = "id")] string userId)

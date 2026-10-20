@@ -1,0 +1,41 @@
+﻿@model IEnumerable<ProvidedToolViewModel>
+
+<div class="tab-pane">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tool</th>
+                <th>Borrower</th>
+                <th>Loan Date</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Notes</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var activeLoan in Model)
+            {
+                <tr>
+                    <td><a asp-controller="Tools" asp-action="Details" asp-route-id="@activeLoan.ToolId">@activeLoan.ToolName</a></td>
+                    <td>
+                        <a asp-controller="Users" asp-action="Details" asp-route-id="@activeLoan.ToolBorrowerId">
+                            @activeLoan.ToolBorrowerFullName
+                        </a>
+                    </td>
+                    <td>@activeLoan.LoanDate</td>
+                    <td>@activeLoan.DueDate</td>
+                    <td>
+                        <partial name="_ToolStatusPartial" model="@activeLoan.AvailabilityStatus" />
+                    </td>
+                    <td>@activeLoan.Notes</td>
+                    <td>
+                        <form asp-controller="Loans" asp-action="Return" asp-route-id="@activeLoan.OpenLoanId" method="post">
+                            <button type="submit" class="btn btn-outline-secondary btn-sm">Mark Returned</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

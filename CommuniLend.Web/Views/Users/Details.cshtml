@@ -1,18 +1,21 @@
 ﻿@using System.Security.Claims
 @model DetailsViewModel
 @{
-    ViewData["Title"] = Model.FullName;
+    ViewData["Title"] = Model.UserData.FullName;
 }
 <div class="d-flex justify-content-between align-items-start mb-3">
-    <div>
+    <partial name="_MemberInfoPartial" model="@Model.UserData"/>
+    @* <div>
         <h2>
             Member: @Model.FullName
             <span class="badge @(Model.IsActive ? "bg-success" : "bg-secondary")">
                 @(Model.IsActive ? "Active" : "Inactive")
             </span>
 
+
             @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.UserId)
             {
+
                 <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@Model.UserId">
                     Edit
                 </a>
@@ -30,12 +33,12 @@
         <p class="text-muted small">
             Member since @Model.MemberSince
         </p>
-    </div>
+    </div> *@
 
 
-    @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.UserId)
+    @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.UserData.UserId)
     {
-        <a class="btn btn-success" asp-controller="Users" asp-action="AddTool" asp-route-id="@Model.UserId">+ Add new Tool</a>
+        <a class="btn btn-success" asp-controller="Users" asp-action="AddTool" asp-route-id="@Model.UserData.UserId">+ Add new Tool</a>
     }
 
     <a class="btn btn-outline-secondary btn-sm" asp-action="Index">Back to Directory</a>

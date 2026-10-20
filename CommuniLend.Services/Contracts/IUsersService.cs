@@ -5,7 +5,6 @@ namespace CommuniLend.Services.Contracts
     public interface IUsersService
     {
 
-        Task<IEnumerable<IndexViewModel>> GetAllAsync();
         Task<DetailsViewModel?> GetDetailsAsync(string userId);
 
 
