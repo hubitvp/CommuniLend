@@ -187,7 +187,7 @@ namespace CommuniLend.Services
             }
 
 
-
+            DeleteImage(databaseTool.ImageUrl);
 
 
             return result;
@@ -382,7 +382,7 @@ namespace CommuniLend.Services
             {
                 var imagePath = Path.Combine(
                     webHostEnvironment.WebRootPath,
-                    imageUrl);
+                    imageUrl.TrimStart('/', '\\'));
 
                 if (File.Exists(imagePath))
                 {
