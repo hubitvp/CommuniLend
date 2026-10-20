@@ -90,6 +90,7 @@ namespace CommuniLend.Services
                 Condition = databaseTool.Tool.Condition.ToString(),
                 OwnerFullName = databaseTool.Tool.Owner.FullName,
                 OwnerId = databaseTool.Tool.OwnerId,
+                AddedOn = databaseTool.Tool.DateAdded.ToFormattedString(),
 
                 BorrowerId = databaseTool.Tool.OpenLoan?.Borrower?.Id,
                 BorrowerFullName = databaseTool.Tool.OpenLoan?.Borrower?.FullName,
@@ -124,9 +125,13 @@ namespace CommuniLend.Services
             var toolViewModel = new DeleteViewModel
             {
                 ToolId = databaseTool.Id,
-                Name = databaseTool.Name,
+                ToolName = databaseTool.Name,
                 CategoryName = databaseTool.Category.Name,
-                OwnerFullName = databaseTool.Owner.FullName,
+                AddedOn = databaseTool.DateAdded.ToFormattedString(),
+                ToolImageUrl = databaseTool.ImageUrl,
+                Condition = databaseTool.Condition.ToString(),
+                ReplacementValue = databaseTool.ReplacementValue.ToString("0.00", CultureInfo.InvariantCulture),
+                Description = databaseTool.Description,
                 IsDeletable = databaseTool.OpenLoan == null,
             };
 

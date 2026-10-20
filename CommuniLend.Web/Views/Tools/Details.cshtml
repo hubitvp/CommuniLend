@@ -1,5 +1,5 @@
-﻿@model DetailsViewModel
-
+﻿@using System.Security.Claims
+@model DetailsViewModel
 
 @{
     ViewData["Title"] = Model.Name;
@@ -18,10 +18,19 @@
     <div class="col-md-6">
         <h2>@Model.Name</h2>
         <p class="text-muted">
-            @Model.CategoryName · Listed by
-            <a asp-controller="Members" asp-action="Details" asp-route-id="@Model.OwnerId">
-                @Model.OwnerFullName
-            </a>
+            <div>
+                · Category @Model.CategoryName
+            </div>
+            <div>
+                · Added On @Model.AddedOn
+            </div>
+            <div>
+                · Listed by
+                <a asp-controller="Users" asp-action="Details" asp-route-id="@Model.OwnerId">
+                    @Model.OwnerFullName
+                </a>
+            </div>
+
         </p>
         <div class="border rounded p-3">
             <dl class="row mb-0">
@@ -34,11 +43,12 @@
                     <partial name="_ToolStatusPartial" model="@Model.AvailabilityStatus" />
                 </dd>
 
-                @if (Model.AvailabilityStatus == ToolAvailabilityStatus.Available)
+                @if (Model.AvailabilityStatus == ToolAvailabilityStatus.OverDue
+                    || Model.AvailabilityStatus == ToolAvailabilityStatus.OnLoan)
                 {
                     <dt class="col-sm-5">Is in Use by</dt>
                     <dd class="col-sm-7">
-                        <a asp-controller="Members" asp-action="Details" asp-route-id="@Model.BorrowerId">
+                        <a asp-controller="Users" asp-action="Details" asp-route-id="@Model.BorrowerId">
                             @Model.BorrowerFullName
                         </a>
                     </dd>
@@ -53,15 +63,38 @@
             </dl>
             <h6 class="mt-3">Description</h6>
             <p>@Model.Description</p>
-            @if (Model.AvailabilityStatus == ToolAvailabilityStatus.Available)
+
+            @if (Model.AvailabilityStatus == ToolAvailabilityStatus.Available
+                && User.FindFirstValue(ClaimTypes.NameIdentifier) != Model.OwnerId)
             {
                 <a class="btn btn-success" asp-controller="Loans" asp-action="Create" asp-route-id="@Model.ToolId">
                     Borrow this tool
                 </a>
-                <a class="btn btn-outline-danger" asp-controller="Tools" asp-action="Delete" asp-route-id="@Model.ToolId">
-                    Delete
-                </a>
             }
+
+
+            @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.OwnerId)
+            {
+                if (Model.AvailabilityStatus == ToolAvailabilityStatus.Available)
+                {
+                    <a class="btn btn-outline-warning" asp-controller="Tools" asp-action="Edit" asp-route-id="@Model.ToolId">
+                        Edit
+                    </a>
+                    <a class="btn btn-outline-danger" asp-controller="Tools" asp-action="DeleteDetails" asp-route-id="@Model.ToolId">
+                        Delete
+                    </a>
+                }
+                else
+                {
+                    <span class="btn btn-outline-secondary pe-none">
+                        Edit
+                    </span>
+                    <span class="btn btn-outline-secondary pe-none">
+                        Delete
+                    </span>
+                }
+            }
+
             <a class="btn btn-outline-secondary" asp-action="Index">Back to list</a>
 
         </div>

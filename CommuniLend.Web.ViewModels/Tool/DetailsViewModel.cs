@@ -22,6 +22,9 @@ namespace CommuniLend.Web.ViewModels.Tool
         public required string Condition { get; set; }
 
 
+        public required string AddedOn { get; set; }
+
+
         public required ToolAvailabilityStatus AvailabilityStatus { get; set; }
 
         public required string OwnerId { get; set; }
@@ -36,7 +39,6 @@ namespace CommuniLend.Web.ViewModels.Tool
         public required string? LoanDate { get; set; }
 
         public required string? DueDate { get; set; }
-
 
 
     }
