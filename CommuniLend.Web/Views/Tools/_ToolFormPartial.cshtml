@@ -3,12 +3,16 @@
 <form id="9eac5554-7c06-4212-8dae-af5eaec761cf">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="mb-3">
-        <label asp-for="ToolName" class="form-label"></label>
+        <label asp-for="ToolName" class="form-label">
+            <strong>Tool Name</strong>
+        </label>
         <input asp-for="ToolName" class="form-control" />
         <span asp-validation-for="ToolName" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="CategoryId" class="form-label">Category</label>
+        <label asp-for="CategoryId" class="form-label">
+            <strong>Category</strong>
+        </label>
         <select asp-for="CategoryId"
                 asp-items="@Model.Categories!.Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() })"
                 class="form-select">
@@ -17,13 +21,17 @@
         <span asp-validation-for="CategoryId" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="Description" class="form-label"></label>
+        <label asp-for="Description" class="form-label">
+            <strong>Description</strong>
+        </label>
         <textarea asp-for="Description" class="form-control" rows="3"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
     <div class="row">
         <div class="col-md-6 mb-3">
-            <label asp-for="ConditionId" class="form-label">Condition</label>
+            <label asp-for="ConditionId" class="form-label">
+                <strong>Condition</strong>
+            </label>
 
             <select asp-for="ConditionId" class="form-select"
                     asp-items="@Model.ConditionOptions!.Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() })">
@@ -32,14 +40,18 @@
             <span asp-validation-for="ConditionId" class="text-danger"></span>
         </div>
         <div class="col-md-6 mb-3">
-            <label asp-for="ReplacementValue" class="form-label"></label>
+            <label asp-for="ReplacementValue" class="form-label">
+                <strong>Replacement Value in € EUR</strong>
+            </label>
             <input asp-for="ReplacementValue" class="form-control" />
             <span asp-validation-for="ReplacementValue" class="text-danger"></span>
         </div>
     </div>
 
     <div class="mb-3">
-        <label asp-for="ToolUploadImage.File" class="form-label"></label>
+        <label asp-for="ToolUploadImage.File" class="form-label">
+            <strong>Tool Photo File</strong>
+        </label>
         <input asp-for="ToolUploadImage.File" type="file" class="form-control" accept=".jpg,.jpeg,.png" />
         <span asp-validation-for="ToolUploadImage.File" class="text-danger"></span>
     </div>

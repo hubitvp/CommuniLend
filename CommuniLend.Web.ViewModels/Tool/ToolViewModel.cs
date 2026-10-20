@@ -29,16 +29,12 @@ namespace CommuniLend.Web.ViewModels.Tool
         public required string DateAdded { get; set; }
 
 
-        public required string Category { get; set; } = null!;
+        public required string CategoryName { get; set; } = null!;
 
 
 
-        public required int OwnerId { get; set; }
+        public required string OwnerId { get; set; }
         public required string OwnerFullName { get; set; }
-
-        public required ToolAvailabilityStatus AvailabilityStatus { get; set; }
-
-
 
 
     }

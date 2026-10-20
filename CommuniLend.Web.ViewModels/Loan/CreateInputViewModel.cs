@@ -1,4 +1,5 @@
 ﻿using CommuniLend.Data.Models.Constraints;
+using CommuniLend.Web.ViewModels.Tool;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
@@ -8,18 +9,9 @@ namespace CommuniLend.Web.ViewModels.Loan
     {
 
 
-        public required int? ToolId { get; set; }
 
 
-        public required string? ToolName { get; set; }
-
-        public required string? ToolCategoryName { get; set; }
-
-
-        public required string? ToolOwnerId { get; set; }
-
-
-        public required string? ToolOwnerFullName { get; set; }
+        public required ToolViewModel? ToolViewModel { get; set; }
 
 
 

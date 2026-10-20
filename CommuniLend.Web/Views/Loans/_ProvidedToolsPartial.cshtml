@@ -31,7 +31,7 @@
                     <td>@activeLoan.Notes</td>
                     <td>
                         <form asp-controller="Loans" asp-action="Return" asp-route-id="@activeLoan.OpenLoanId" method="post">
-                            <button type="submit" class="btn btn-outline-secondary btn-sm">Mark Returned</button>
+                            <button type="submit" class="btn btn-success">Mark Returned</button>
                         </form>
                     </td>
                 </tr>

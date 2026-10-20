@@ -1,0 +1,23 @@
+﻿@model (int ToolId, string ToolName, string? ToolImageUrl )
+
+
+
+<a class="btn btn-outline-secondary btn-sm"
+   asp-controller="Tools" asp-action="Details" asp-route-id="@Model.ToolId">
+
+    @if (string.IsNullOrEmpty(Model.ToolImageUrl))
+    {
+        <img src="/images/tools/no-image.jpg"
+             alt="@Model.ToolName"
+             class="img-fluid"
+             style="width: 256px; height: 256px; object-fit: cover;" />
+    }
+    else
+    {
+        <img src="@Model.ToolImageUrl"
+             alt="@Model.ToolName"
+             class="img-fluid"
+             style="width: 256px; height: 256px; object-fit: cover;" />
+    }
+</a>
+

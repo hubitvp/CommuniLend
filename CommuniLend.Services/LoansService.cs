@@ -3,6 +3,7 @@ using CommuniLend.Data.Models;
 using CommuniLend.Services.Contracts;
 using CommuniLend.Services.Extensions;
 using CommuniLend.Web.ViewModels.Loan;
+using CommuniLend.Web.ViewModels.Tool;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
@@ -149,7 +150,6 @@ namespace CommuniLend.Services
                     && x.Owner.IsActive
                     && x.OwnerId != userId
                     && x.OpenLoan == null)
-                .WithStatus()
                 .SingleOrDefaultAsync();
 
             if (databaseTool == null)
@@ -160,11 +160,19 @@ namespace CommuniLend.Services
 
             var loanCreateInputModel = new CreateInputViewModel
             {
-                ToolId = databaseTool.Tool.Id,
-                ToolName = databaseTool.Tool.Name,
-                ToolCategoryName = databaseTool.Tool.Category.Name,
-                ToolOwnerId = databaseTool.Tool.OwnerId,
-                ToolOwnerFullName = databaseTool.Tool.Owner.FullName,
+                ToolViewModel = new ToolViewModel
+                {
+                    ToolId = databaseTool.Id,
+                    ToolName = databaseTool.Name,
+                    CategoryName = databaseTool.Category.Name,
+                    OwnerId = databaseTool.OwnerId,
+                    OwnerFullName = databaseTool.Owner.FullName,
+                    ImageUrl = databaseTool.ImageUrl,
+                    Description = databaseTool.Description,
+                    Condition = databaseTool.Condition.ToString(),
+                    ReplacementValue = databaseTool.ReplacementValue.ToString("0.00", CultureInfo.InvariantCulture),
+                    DateAdded = databaseTool.DateAdded.ToFormattedString(),
+                }
             };
 
             return loanCreateInputModel;

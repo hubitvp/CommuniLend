@@ -6,35 +6,94 @@
     ViewData["Title"] = "Borrow Tool";
 }
 
+<h1 class="text-center">Borrow Tool</h1>
 
-<h2>Borrow: @Model.ToolName</h2>
-<p class="text-muted">Owned by @Model.ToolOwnerFullName &middot; @Model.ToolCategoryName</p>
-<form asp-controller="Loans" asp-action="Create" asp-route-id="@Model.ToolId" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label asp-for="LoanDate" class="form-label"></label>
-            <input asp-for="LoanDate" class="form-control" />
-            <span asp-validation-for="LoanDate" class="text-danger"></span>
+<div class="row">
+    <div class="col-md-6">
+        <div class="bg-light text-center py-5 text-muted mb-2">
+
+            <partial name="_ToolImgePartial"
+                     model="(@Model.ToolViewModel!.ToolId, @Model.ToolViewModel.ToolName, @Model.ToolViewModel.ImageUrl)" />
+
         </div>
-        <div class="col-md-6 mb-3">
-            <label asp-for="DueDate" class="form-label"></label>
-            <input asp-for="DueDate" class="form-control" />
-            <span asp-validation-for="DueDate" class="text-danger"></span>
+
+    </div>
+    <div class="col-md-6">
+
+
+        <div class="border rounded p-3">
+            <h2>@Model.ToolViewModel.ToolName</h2>
+
+            <dl class="row mb-0">
+
+
+                <dt class="col-sm-5">Owned by</dt>
+                <dd class="col-sm-7">
+                    <a asp-controller="Users" asp-action="Details" asp-route-id="@Model.ToolViewModel.OwnerId">
+                        @Model.ToolViewModel.OwnerFullName
+                    </a>
+                </dd>
+
+                
+                <dt class="col-sm-5">Added On</dt>
+                <dd class="col-sm-7">@Model.ToolViewModel.DateAdded</dd>
+
+
+
+                <dt class="col-sm-5">Category</dt>
+                <dd class="col-sm-7">@Model.ToolViewModel.CategoryName</dd>
+
+                <dt class="col-sm-5">Condition</dt>
+                <dd class="col-sm-7">@Model.ToolViewModel.Condition</dd>
+
+                <dt class="col-sm-5">Replacement value</dt>
+                <dd class="col-sm-7">@Model.ToolViewModel.ReplacementValue € EUR</dd>
+
+            </dl>
+            <h6 class="mt-3">Description</h6>
+            <p>@Model.ToolViewModel.Description</p>
+
+
         </div>
+
+
+
+
+        <form asp-controller="Loans" asp-action="Create" asp-route-id="@Model.ToolViewModel.ToolId" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="LoanDate" class="form-label">
+                        <strong>Loan Date</strong>
+                    </label>
+                    <input asp-for="LoanDate" class="form-control" />
+                    <span asp-validation-for="LoanDate" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="DueDate" class="form-label">
+                        <strong>Due Date</strong>
+                    </label>
+                    <input asp-for="DueDate" class="form-control" />
+                    <span asp-validation-for="DueDate" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Notes" class="form-label">
+                    <strong>Notes (optional)</strong>
+                </label>
+                <textarea asp-for="Notes" class="form-control" rows="2"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Confirm Borrow</button>
+            <a asp-controller="Tools"
+               asp-action="Details"
+               asp-route-id="@Model.ToolViewModel.ToolId"
+               class="btn btn-outline-secondary">
+                Cancel
+            </a>
+        </form>
     </div>
-    <div class="mb-3">
-        <label asp-for="Notes" class="form-label">Notes (optional)</label>
-        <textarea asp-for="Notes" class="form-control" rows="2"></textarea>
-    </div>
-    <button type="submit" class="btn btn-success">Confirm Borrow</button>
-    <a asp-controller="Tools"
-       asp-action="Details"
-       asp-route-id="@Model.ToolId"
-       class="btn btn-outline-secondary">
-        Cancel
-    </a>
-</form>
+</div>
+
 
 
 @section Scripts

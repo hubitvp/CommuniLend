@@ -5,35 +5,6 @@
 }
 <div class="d-flex justify-content-between align-items-start mb-3">
     <partial name="_MemberInfoPartial" model="@Model.UserData"/>
-    @* <div>
-        <h2>
-            Member: @Model.FullName
-            <span class="badge @(Model.IsActive ? "bg-success" : "bg-secondary")">
-                @(Model.IsActive ? "Active" : "Inactive")
-            </span>
-
-
-            @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.UserId)
-            {
-
-                <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@Model.UserId">
-                    Edit
-                </a>
-                <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@Model.UserId">
-                    Delete
-                </a>
-            }
-
-        </h2>
-        <p class="text-muted mb-0">Email: @Model.Email</p>
-        <p class="text-muted small mb-0">Phone Number: @Model.PhoneNumber</p>
-
-        <p class="text-muted small mb-0">Address: @(Model.Address ?? "none")</p>
-
-        <p class="text-muted small">
-            Member since @Model.MemberSince
-        </p>
-    </div> *@
 
 
     @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.UserData.UserId)
@@ -41,7 +12,7 @@
         <a class="btn btn-success" asp-controller="Users" asp-action="AddTool" asp-route-id="@Model.UserData.UserId">+ Add new Tool</a>
     }
 
-    <a class="btn btn-outline-secondary btn-sm" asp-action="Index">Back to Directory</a>
+    <a class="btn btn-outline-secondary btn-sm" asp-controller="Tools" asp-action="Index">Back to Tool</a>
 </div>
 <div class="row">
     <div class="col-md-6">

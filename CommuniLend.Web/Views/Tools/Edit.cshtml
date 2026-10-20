@@ -3,6 +3,7 @@
     ViewData["Title"] = "Edit Tool";
 }
 
+<h1 class="text-center">Edit Tool: @Model.ToolName</h1>
 
 
 <div class="row">
@@ -12,11 +13,11 @@
         </div>
     </div>
     <div class="col-md-6">
-        <h2>Edit Tool: @Model.ToolName</h2>
 
         <div class="border rounded p-3">
 
             <partial name="_ToolFormPartial" model="@Model" />
+
             <button type="submit"
                     form="9eac5554-7c06-4212-8dae-af5eaec761cf"
                     formaction="@Url.Action("Edit", "Tools")"

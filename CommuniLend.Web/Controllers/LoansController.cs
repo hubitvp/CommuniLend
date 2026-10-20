@@ -53,7 +53,7 @@ namespace CommuniLend.Web.Controllers
             var loanCreateInputModel = await iLoansService.GetAddModelAsync(userId, toolId);
             if (loanCreateInputModel == null)
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(ToolsController.Details), "Tools", new { id = toolId });
             }
 
             return View(loanCreateInputModel);
@@ -65,13 +65,17 @@ namespace CommuniLend.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromRoute(Name = "id")] int toolId, CreateInputViewModel model)
         {
+            var userId = GetUserId();
 
             if (false == ModelState.IsValid)
             {
+                var loanCreateInputModel = await iLoansService.GetAddModelAsync(userId, toolId);
+
+                model.ToolViewModel = loanCreateInputModel?.ToolViewModel;
+
                 return View(model);
             }
 
-            var userId = GetUserId();
 
             bool result = await iLoansService.CreateAsync(userId, toolId, model);
 
