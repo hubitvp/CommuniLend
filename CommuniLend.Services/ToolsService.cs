@@ -336,7 +336,7 @@ namespace CommuniLend.Services
 
             if (newImageUrl != null)
             {
-                tool.ImageUrl = await StoreImage(model);
+                tool.ImageUrl = newImageUrl;
             }
 
             await context.SaveChangesAsync();

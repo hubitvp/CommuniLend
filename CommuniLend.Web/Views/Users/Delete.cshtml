@@ -1,64 +1,34 @@
 ﻿@model DeleteViewModel
 
 
-
 @{
     ViewData["Title"] = "Delete Member";
 }
 
-<h2>Delete Member</h2>
+<h1 class="text-center">Delete Member</h1>
 
 @if (Model.HasActiveLoans)
 {
     <p class="text-muted">This member can't be deleted yet</p>
 
     <div class="alert alert-warning">
-        <strong>&#9888; "@Model.FullName" still has ties to the catalog.</strong>
-        <ul class="mb-0">
-            <li>@Model.ToolsSharedCount tool(s) shared</li>
-            <li>@Model.ToolsBorrowedCount tool(s) borrowed</li>
-        </ul>
+        <strong>&#9888; You still have open loans.</strong>
+
         <p class="mb-0 small mt-2">
-            Transfer or remove their tools, and return any active loans, before deleting this member.
+            Close all open loans, before deleting this member.
         </p>
     </div>
 
-    <a asp-action="Details" asp-route-id="@Model.UserId" class="btn btn-outline-secondary">Back to Profile</a>
+    <a asp-controller="Users" asp-action="Dashboard" class="btn btn-outline-secondary">Back to Profile</a>
 }
 else
 {
     <p class="text-muted">This action cannot be undone</p>
     <p class="text-muted">This action deletes the member and all associated data</p>
 
-    <div class="alert alert-danger">
-        <strong>Are you sure you want to delete this member?</strong>
-        <dl class="row mt-3 mb-0">
-            <dt class="col-sm-4">Name</dt>
-            <dd class="col-sm-8">@Model.FullName</dd>
 
-            <dt class="col-sm-4">Email</dt>
-            <dd class="col-sm-8">@Model.Email</dd>
-
-
-            <dt class="col-sm-4">Phone Number</dt>
-            <dd class="col-sm-8">@Model.PhoneNumber</dd>
-
-            <dt class="col-sm-4">Address</dt>
-            <dd class="col-sm-8">@Model.Address</dd>
-
-            <dt class="col-sm-4">Member Since</dt>
-            <dd class="col-sm-8">@Model.MemberSince</dd>
-
-            <dt class="col-sm-4">Tools shared</dt>
-            <dd class="col-sm-8">@Model.ToolsSharedCount</dd>
-
-            <dt class="col-sm-4">Tools borrowed</dt>
-            <dd class="col-sm-8">@Model.ToolsBorrowedCount</dd>
-        </dl>
-    </div>
-
-    <form asp-controller="Users" asp-action="Delete" asp-route-id="@Model.UserId" method="post">
+    <form asp-controller="Users" asp-action="DeleteConfirmed" method="post">
         <button type="submit" class="btn btn-danger">Delete</button>
-        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+        <a asp-controller="Users" asp-action="Dashboard" class="btn btn-outline-secondary">Cancel</a>
     </form>
 }

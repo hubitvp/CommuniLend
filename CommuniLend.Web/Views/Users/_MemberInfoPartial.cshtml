@@ -11,10 +11,10 @@
         @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.UserId)
         {
 
-            <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@Model.UserId">
+            <a class="btn btn-outline-warning" asp-controller="Users" asp-action="Edit">
                 Edit
             </a>
-            <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@Model.UserId">
+            <a class="btn btn-outline-danger" asp-controller="Users" asp-action="Delete">
                 Delete
             </a>
 

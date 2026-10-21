@@ -96,5 +96,34 @@ namespace CommuniLend.Web.Controllers
             return RedirectToAction(nameof(Dashboard));
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> Delete()
+        {
+            var userId = GetUserId();
+
+            var model = await iUsersService.GetDeleteModelAsync(userId);
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return View(model);
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed()
+        {
+            var userId = GetUserId();
+
+            await iUsersService.DeleteAsync(userId);
+
+            return RedirectToAction(nameof(ToolsController.Index), "Tools");
+        }
+
+
     }
 }

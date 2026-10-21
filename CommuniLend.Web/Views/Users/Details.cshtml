@@ -7,11 +7,6 @@
     <partial name="_MemberInfoPartial" model="@Model.UserData"/>
 
 
-    @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.UserData.UserId)
-    {
-        <a class="btn btn-success" asp-controller="Users" asp-action="AddTool" asp-route-id="@Model.UserData.UserId">+ Add new Tool</a>
-    }
-
     <a class="btn btn-outline-secondary btn-sm" asp-controller="Tools" asp-action="Index">Back to Tool</a>
 </div>
 <div class="row">
