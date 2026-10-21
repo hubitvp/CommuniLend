@@ -1,9 +1,4 @@
-﻿using CommuniLend.Web.ViewModels.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CommuniLend.Web.ViewModels.Tool
+﻿namespace CommuniLend.Web.ViewModels.Tool
 {
     public class ToolViewModel
     {

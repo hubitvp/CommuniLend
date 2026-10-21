@@ -1,16 +1,20 @@
 ﻿using CommuniLend.Data.Models.Constraints;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CommuniLend.Data.Models
 {
+    [Comment("Loan history record created when a tool is returned")]
     public class ClosedLoan
     {
 
         [Key]
+        [Comment("Primary key of the closed loan")]
         public int Id { get; set; }
 
         [Required]
+        [Comment("Foreign key to the loaned tool")]
         public required int ToolId { get; set; }
 
 
@@ -20,6 +24,7 @@ namespace CommuniLend.Data.Models
 
         [Required]
         [StringLength(ValidationConstants.User.ApplicationUserIdMaxLength)]
+        [Comment("Foreign key to the member who owns the tool (lender)")]
         public required string OwnerId { get; set; }
 
 
@@ -29,6 +34,7 @@ namespace CommuniLend.Data.Models
 
         [Required]
         [StringLength(ValidationConstants.User.ApplicationUserIdMaxLength)]
+        [Comment("Foreign key to the member who borrows the tool")]
         public required string BorrowerId { get; set; }
 
 
@@ -37,17 +43,22 @@ namespace CommuniLend.Data.Models
 
 
         [Required]
+        [Comment("Date the tool is handed over to the borrower")]
         public DateOnly LoanDate { get; set; }
 
 
         [Required]
+        [Comment("Date the tool is expected to be returned")]
         public DateOnly DueDate { get; set; }
 
+
         [Required]
+        [Comment("Date the tool was actually returned")]
         public DateOnly ReturnDate { get; set; }
 
 
         [StringLength(ValidationConstants.Loan.NotesMaxLength)]
+        [Comment("Optional notes about the loan")]
         public string? Notes { get; set; }
     }
 }

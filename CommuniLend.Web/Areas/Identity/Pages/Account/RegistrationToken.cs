@@ -1,6 +1,6 @@
+using Microsoft.AspNetCore.DataProtection;
 using System.Security.Cryptography;
 using System.Text.Json;
-using Microsoft.AspNetCore.DataProtection;
 
 namespace CommuniLend.Web.Areas.Identity.Pages.Account;
 

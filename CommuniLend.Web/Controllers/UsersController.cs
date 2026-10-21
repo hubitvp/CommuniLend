@@ -10,13 +10,16 @@ namespace CommuniLend.Web.Controllers
     public class UsersController : BaseController
     {
         private readonly IUsersService iUsersService;
+        private readonly SignInManager<ApplicationUser> signInManager;
 
         public UsersController(
             IUsersService usersService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
             : base(userManager)
         {
             iUsersService = usersService;
+            this.signInManager = signInManager;
         }
 
 
@@ -119,7 +122,15 @@ namespace CommuniLend.Web.Controllers
         {
             var userId = GetUserId();
 
-            await iUsersService.DeleteAsync(userId);
+            bool isDeleted = await iUsersService.DeleteAsync(userId);
+
+            if (false == isDeleted)
+            {
+                return Conflict();
+            }
+
+            await signInManager.SignOutAsync();
+
 
             return RedirectToAction(nameof(ToolsController.Index), "Tools");
         }

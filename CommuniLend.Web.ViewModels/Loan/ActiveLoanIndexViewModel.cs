@@ -1,5 +1,4 @@
 ﻿using CommuniLend.Web.ViewModels.Enums;
-using CommuniLend.Web.ViewModels.User;
 
 
 namespace CommuniLend.Web.ViewModels.Loan

@@ -2,30 +2,30 @@
 using CommuniLend.Data.Models;
 using CommuniLend.Services.Contracts;
 using CommuniLend.Services.Extensions;
+using CommuniLend.Services.ServiceTypes;
 using CommuniLend.Web.ViewModels.User;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommuniLend.Services
 {
-    public class UsersService : IUsersService
+
+    public class UsersService : ImageDisposer, IUsersService
     {
 
         private readonly CommuniLendDbContext context;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly SignInManager<ApplicationUser> signInManager;
 
-        private readonly IToolsService iToolsService;
 
-        public UsersService(CommuniLendDbContext context,
+        public UsersService(
+            CommuniLendDbContext context,
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            IToolsService toolsService)
+            IWebHostEnvironment environment)
+            : base(environment)
         {
             this.context = context;
             this.userManager = userManager;
-            this.signInManager = signInManager;
-            iToolsService = toolsService;
         }
 
 
@@ -346,15 +346,7 @@ namespace CommuniLend.Services
                 .Where(x => x.Id == userId)
                 .Select(x => new DeleteViewModel
                 {
-                    //UserId = x.Id,
-                    //FullName = x.FullName,
-                    //Email = x.Email ?? string.Empty,
-                    //PhoneNumber = x.PhoneNumber ?? string.Empty,
-                    //Address = x.Address,
-                    //MemberSince = x.JoinDate.ToFormattedString(),
                     HasActiveLoans = hasActiveLoans,
-                    //ToolsSharedCount = x.ProvidedTools.Count,
-                    //ToolsBorrowedCount = x.BorrowedTools.Count
                 })
                 .SingleOrDefaultAsync();
 
@@ -362,44 +354,73 @@ namespace CommuniLend.Services
         }
 
 
-        public async Task DeleteAsync(string userId)
+        public async Task<bool> DeleteAsync(string userId)
         {
+            var user = await userManager.FindByIdAsync(userId);
 
-            await using var transaction = await context.Database.BeginTransactionAsync();
-
-            try
+            if (user == null)
             {
-
-                await context.ClosedLoans
-                .Where(x => x.OwnerId == userId || x.BorrowerId == userId)
-                .ExecuteDeleteAsync();
-
-                await context.Tools
-                    .Where(x => x.OwnerId == userId)
-                    .ExecuteDeleteAsync();
-
-                var user = await userManager.FindByIdAsync(userId);
-                var result = await userManager.DeleteAsync(user);
-
-                if (result.Succeeded)
-                {
-                    await signInManager.SignOutAsync();
-
-                    await transaction.CommitAsync();
-
-                }
-                else
-                {
-                    await transaction.RollbackAsync();
-                }
+                return false;
             }
-            catch
+
+            bool hasActiveLoans = await context.OpenLoans
+                .AnyAsync(x => x.OwnerId == userId || x.BorrowerId == userId);
+
+            if (hasActiveLoans)
             {
-                await transaction.RollbackAsync();
+                return false;
             }
+
+            var imageUrls = await context.Tools
+                .Where(x => x.OwnerId == userId && x.ImageUrl != null)
+                .Select(x => x.ImageUrl!)
+                .Distinct()
+                .ToListAsync();
+
+            var strategy = context.Database.CreateExecutionStrategy();
+
+            bool deleted = await strategy.ExecuteAsync(
+                async () =>
+                {
+                    await using var transaction = await context.Database.BeginTransactionAsync();
+
+                    try
+                    {
+                        await context.ClosedLoans
+                            .Where(x => x.OwnerId == userId || x.BorrowerId == userId)
+                            .ExecuteDeleteAsync();
+
+                        await context.Tools
+                            .Where(x => x.OwnerId == userId)
+                            .ExecuteDeleteAsync();
+
+                        var result = await userManager.DeleteAsync(user);
+
+                        if (false == result.Succeeded)
+                        {
+                            await transaction.RollbackAsync();
+                            return false;
+                        }
+
+                        await transaction.CommitAsync();
+                        return true;
+                    }
+                    catch
+                    {
+                        await transaction.RollbackAsync();
+                        return false;
+                    }
+                });
+
+
+            if (deleted)
+            {
+                await DeleteUnusedFilesAsync(imageUrls);
+            }
+
+            return deleted;
 
         }
-
 
     }
 }

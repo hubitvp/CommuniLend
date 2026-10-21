@@ -3,10 +3,10 @@ using CommuniLend.Data.Models;
 using CommuniLend.Data.Models.Enums;
 using CommuniLend.Services.Contracts;
 using CommuniLend.Services.Extensions;
+using CommuniLend.Services.ServiceTypes;
 using CommuniLend.Web.ViewModels.Category;
 using CommuniLend.Web.ViewModels.Tool;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
@@ -14,17 +14,16 @@ using System.Globalization;
 
 namespace CommuniLend.Services
 {
-    public class ToolsService : IToolsService
+    public class ToolsService : ImageDisposer, IToolsService
     {
         private readonly CommuniLendDbContext context;
-        private readonly IWebHostEnvironment webHostEnvironment;
 
         public ToolsService(
             CommuniLendDbContext context,
             IWebHostEnvironment environment)
+            : base(environment)
         {
             this.context = context;
-            webHostEnvironment = environment;
         }
 
 
@@ -181,7 +180,11 @@ namespace CommuniLend.Services
                 if (result)
                 {
                     await transaction.CommitAsync();
-                    DeleteImage(databaseTool.ImageUrl);
+
+                    if (databaseTool.ImageUrl != null)
+                    {
+                        await DeleteUnusedFilesAsync([databaseTool.ImageUrl]);
+                    }
                 }
                 else
                 {
@@ -379,20 +382,6 @@ namespace CommuniLend.Services
             return imageUrl;
         }
 
-        private void DeleteImage(string? imageUrl)
-        {
-            if (imageUrl != null)
-            {
-                var imagePath = Path.Combine(
-                    webHostEnvironment.WebRootPath,
-                    imageUrl.TrimStart('/', '\\'));
-
-                if (File.Exists(imagePath))
-                {
-                    File.Delete(imagePath);
-                }
-            }
-        }
 
     }
 }

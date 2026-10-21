@@ -101,6 +101,9 @@ public class RegisterDetailsModel : PageModel
             PhoneNumber = Input.PhoneNumber.Trim(),
             Address = string.IsNullOrWhiteSpace(Input.Address) ? null : Input.Address.Trim(),
             JoinDate = DateOnly.FromDateTime(DateTime.UtcNow),
+            EmailConfirmed = true,
+            PhoneNumberConfirmed = true,
+            LockoutEnabled = false,
             IsActive = true
         };
 
