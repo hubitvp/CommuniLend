@@ -16,6 +16,7 @@ namespace CommuniLend.Services.Contracts
 
         Task<bool> UpdateUserDetailsAsync(string userId, EditInputViewModel inputModel);
         Task<DeleteViewModel?> GetDeleteModelAsync(string userId);
+
         Task<bool> DeleteAsync(string userId);
     }
 }

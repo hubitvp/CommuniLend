@@ -3,10 +3,8 @@ using CommuniLend.Data.Models;
 using CommuniLend.Data.Models.Enums;
 using CommuniLend.Services.Contracts;
 using CommuniLend.Services.Extensions;
-using CommuniLend.Services.ServiceTypes;
 using CommuniLend.Web.ViewModels.Category;
 using CommuniLend.Web.ViewModels.Tool;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
@@ -14,16 +12,17 @@ using System.Globalization;
 
 namespace CommuniLend.Services
 {
-    public class ToolsService : ImageDisposer, IToolsService
+    public class ToolsService : IToolsService
     {
         private readonly CommuniLendDbContext context;
+        private readonly IImageStorageService iImageStorage;
 
         public ToolsService(
             CommuniLendDbContext context,
-            IWebHostEnvironment environment)
-            : base(environment)
+            IImageStorageService imageStorage)
         {
             this.context = context;
+            iImageStorage = imageStorage;
         }
 
 
@@ -148,52 +147,46 @@ namespace CommuniLend.Services
                 return false;
             }
 
-            bool result = false;
 
-            await using var transaction = await context.Database.BeginTransactionAsync();
+            var strategy = context.Database.CreateExecutionStrategy();
 
-            try
-            {
-                await context.ClosedLoans
-                    .Where(x => x.ToolId == toolId)
-                    .ExecuteDeleteAsync();
-
-
-                int rowsAffected = await context.Tools
-                    .Where(x =>
-                        x.Id == toolId
-                        && x.OwnerId == userId
-                        && x.OpenLoan == null)
-                    .ExecuteDeleteAsync();
-
-                if (rowsAffected == 1)
+            bool deleted = await strategy.ExecuteAsync(
+                async () =>
                 {
-                    result = true;
-                }
-            }
-            catch
-            {
-                result = false;
-            }
-            finally
-            {
-                if (result)
-                {
-                    await transaction.CommitAsync();
+                    await using var transaction = await context.Database.BeginTransactionAsync();
 
-                    if (databaseTool.ImageUrl != null)
+                    try
                     {
-                        await DeleteUnusedFilesAsync([databaseTool.ImageUrl]);
+                        await context.ClosedLoans
+                            .Where(x => x.OwnerId == userId || x.BorrowerId == userId)
+                            .ExecuteDeleteAsync();
+
+                        int rowsAffected = await context.Tools
+                            .Where(x =>
+                                x.Id == toolId
+                                && x.OwnerId == userId
+                                && x.OpenLoan == null)
+                            .ExecuteDeleteAsync();
+
+
+                        if (rowsAffected != 1)
+                        {
+                            await transaction.RollbackAsync();
+                            return false;
+                        }
+
+                        await transaction.CommitAsync();
+                        return true;
                     }
-                }
-                else
-                {
-                    await transaction.RollbackAsync();
-                }
-            }
+                    catch
+                    {
+                        await transaction.RollbackAsync();
+                        return false;
+                    }
+                });
 
 
-            return result;
+            return deleted;
         }
 
 
@@ -253,7 +246,7 @@ namespace CommuniLend.Services
                 ReplacementValue = decimal.Parse(model.ReplacementValue, CultureInfo.InvariantCulture),
                 DateAdded = DateOnly.FromDateTime(DateTime.UtcNow),
                 CategoryId = model.CategoryId,
-                ImageUrl = await StoreImage(model),
+                ImageUrl = await iImageStorage.SaveAsync(model.ToolUploadImage?.File),
                 OwnerId = userId,
             };
 
@@ -311,11 +304,6 @@ namespace CommuniLend.Services
         }
 
 
-
-
-
-
-
         public async Task<bool> EditAsync(string userId, int toolId, ToolFormInputViewModel model)
         {
             var tool = await context.Tools
@@ -335,7 +323,7 @@ namespace CommuniLend.Services
             tool.ReplacementValue = decimal.Parse(model.ReplacementValue, CultureInfo.InvariantCulture);
             tool.CategoryId = model.CategoryId;
 
-            var newImageUrl = await StoreImage(model);
+            var newImageUrl = await iImageStorage.SaveAsync(model.ToolUploadImage?.File);
 
             if (newImageUrl != null)
             {
@@ -345,41 +333,6 @@ namespace CommuniLend.Services
             await context.SaveChangesAsync();
 
             return true;
-        }
-
-
-        private async Task<string?> StoreImage(ToolFormInputViewModel model)
-        {
-            string? imageUrl = null;
-            if (model.ToolUploadImage != null && model.ToolUploadImage.File != null)
-            {
-                string fileName = model.ToolUploadImage.File.FileName;
-
-                var imagePath = Path.Combine(
-                    webHostEnvironment.WebRootPath,
-                    "images",
-                    "tools",
-                    fileName);
-
-                while (File.Exists(imagePath))
-                {
-                    fileName = $"{Guid.NewGuid()}-{model.ToolUploadImage.File.FileName}";
-
-                    imagePath = Path.Combine(
-                    webHostEnvironment.WebRootPath,
-                    "images",
-                    "tools",
-                    fileName);
-                }
-
-                using (FileStream fileStream = new FileStream(imagePath, FileMode.CreateNew))
-                {
-                    await model.ToolUploadImage.File.CopyToAsync(fileStream);
-                }
-
-                imageUrl = $"/images/tools/{fileName}";
-            }
-            return imageUrl;
         }
 
 

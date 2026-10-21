@@ -113,7 +113,7 @@ namespace CommuniLend.Web.Controllers
                 return Conflict();
             }
 
-            return RedirectToAction("Dashboard", "Users");
+            return RedirectToAction(nameof(UsersController.Dashboard), "Users");
         }
 
 
@@ -156,7 +156,7 @@ namespace CommuniLend.Web.Controllers
                 return BadRequest();
             }
 
-            return RedirectToAction("Dashboard", "Users");
+            return RedirectToAction(nameof(UsersController.Dashboard), "Users");
         }
     }
 }

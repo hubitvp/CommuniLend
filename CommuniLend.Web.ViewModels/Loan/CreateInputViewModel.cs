@@ -9,8 +9,6 @@ namespace CommuniLend.Web.ViewModels.Loan
     {
 
 
-
-
         public required ToolViewModel? ToolViewModel { get; set; }
 
 

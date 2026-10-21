@@ -38,7 +38,7 @@ namespace CommuniLend.Web
             builder.Services.AddScoped<IToolsService, ToolsService>();
             builder.Services.AddScoped<IUsersService, UsersService>();
             builder.Services.AddScoped<ILoansService, LoansService>();
-
+            builder.Services.AddScoped<IImageStorageService, LocalImageStorageService>();
 
             var app = builder.Build();
 

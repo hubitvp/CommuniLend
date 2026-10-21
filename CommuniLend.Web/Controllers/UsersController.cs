@@ -126,11 +126,10 @@ namespace CommuniLend.Web.Controllers
 
             if (false == isDeleted)
             {
-                return Conflict();
+                return RedirectToAction(nameof(Delete));
             }
 
             await signInManager.SignOutAsync();
-
 
             return RedirectToAction(nameof(ToolsController.Index), "Tools");
         }

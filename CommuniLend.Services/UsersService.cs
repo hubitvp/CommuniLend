@@ -2,30 +2,29 @@
 using CommuniLend.Data.Models;
 using CommuniLend.Services.Contracts;
 using CommuniLend.Services.Extensions;
-using CommuniLend.Services.ServiceTypes;
 using CommuniLend.Web.ViewModels.User;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommuniLend.Services
 {
 
-    public class UsersService : ImageDisposer, IUsersService
+    public class UsersService : IUsersService
     {
 
         private readonly CommuniLendDbContext context;
         private readonly UserManager<ApplicationUser> userManager;
 
+        private readonly IImageStorageService iImageStorage;
 
         public UsersService(
             CommuniLendDbContext context,
             UserManager<ApplicationUser> userManager,
-            IWebHostEnvironment environment)
-            : base(environment)
+            IImageStorageService imageStorage)
         {
             this.context = context;
             this.userManager = userManager;
+            iImageStorage = imageStorage;
         }
 
 
@@ -341,14 +340,10 @@ namespace CommuniLend.Services
                 || x.BorrowerId == userId);
 
 
-            var model = await userManager.Users
-                .AsNoTracking()
-                .Where(x => x.Id == userId)
-                .Select(x => new DeleteViewModel
-                {
-                    HasActiveLoans = hasActiveLoans,
-                })
-                .SingleOrDefaultAsync();
+            var model = new DeleteViewModel
+            {
+                HasActiveLoans = hasActiveLoans,
+            };
 
             return model;
         }
@@ -412,10 +407,9 @@ namespace CommuniLend.Services
                     }
                 });
 
-
             if (deleted)
             {
-                await DeleteUnusedFilesAsync(imageUrls);
+                await iImageStorage.DeleteAsync(imageUrls);
             }
 
             return deleted;
