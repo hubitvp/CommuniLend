@@ -32,7 +32,8 @@ namespace CommuniLend.Data.Migrations
 
                     b.Property<string>("Address")
                         .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(200)")
+                        .HasComment("Optional home address of the member");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -48,13 +49,16 @@ namespace CommuniLend.Data.Migrations
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(100)")
+                        .HasComment("Full name of the member");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasComment("Whether the member is active; inactive members' tools are hidden and they cannot borrow");
 
                     b.Property<DateOnly>("JoinDate")
-                        .HasColumnType("date");
+                        .HasColumnType("date")
+                        .HasComment("Date the member joined");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -100,7 +104,10 @@ namespace CommuniLend.Data.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("AspNetUsers", null, t =>
+                        {
+                            t.HasComment("Registered member of the tool library (extends the Identity user)");
+                        });
 
                     b.HasData(
                         new
@@ -256,22 +263,28 @@ namespace CommuniLend.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Primary key of the category");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(500)")
+                        .HasComment("Optional description of the category");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(100)")
+                        .HasComment("Name of the category");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", t =>
+                        {
+                            t.HasComment("Category that groups tools, e.g. Power Tools");
+                        });
 
                     b.HasData(
                         new
@@ -298,35 +311,43 @@ namespace CommuniLend.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Primary key of the closed loan");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("BorrowerId")
                         .IsRequired()
                         .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(450)")
+                        .HasComment("Foreign key to the member who borrows the tool");
 
                     b.Property<DateOnly>("DueDate")
-                        .HasColumnType("date");
+                        .HasColumnType("date")
+                        .HasComment("Date the tool is expected to be returned");
 
                     b.Property<DateOnly>("LoanDate")
-                        .HasColumnType("date");
+                        .HasColumnType("date")
+                        .HasComment("Date the tool is handed over to the borrower");
 
                     b.Property<string>("Notes")
                         .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasColumnType("nvarchar(1000)")
+                        .HasComment("Optional notes about the loan");
 
                     b.Property<string>("OwnerId")
                         .IsRequired()
                         .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(450)")
+                        .HasComment("Foreign key to the member who owns the tool (lender)");
 
                     b.Property<DateOnly>("ReturnDate")
-                        .HasColumnType("date");
+                        .HasColumnType("date")
+                        .HasComment("Date the tool was actually returned");
 
                     b.Property<int>("ToolId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Foreign key to the loaned tool");
 
                     b.HasKey("Id");
 
@@ -336,7 +357,10 @@ namespace CommuniLend.Data.Migrations
 
                     b.HasIndex("ToolId");
 
-                    b.ToTable("ClosedLoans");
+                    b.ToTable("ClosedLoans", t =>
+                        {
+                            t.HasComment("Loan history record created when a tool is returned");
+                        });
 
                     b.HasData(
                         new
@@ -444,32 +468,39 @@ namespace CommuniLend.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Primary key of the open loan");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("BorrowerId")
                         .IsRequired()
                         .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(450)")
+                        .HasComment("Foreign key to the member who borrows the tool");
 
                     b.Property<DateOnly>("DueDate")
-                        .HasColumnType("date");
+                        .HasColumnType("date")
+                        .HasComment("Date the tool is expected to be returned");
 
                     b.Property<DateOnly>("LoanDate")
-                        .HasColumnType("date");
+                        .HasColumnType("date")
+                        .HasComment("Date the tool is handed over to the borrower");
 
                     b.Property<string>("Notes")
                         .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasColumnType("nvarchar(1000)")
+                        .HasComment("Optional notes about the loan");
 
                     b.Property<string>("OwnerId")
                         .IsRequired()
                         .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(450)")
+                        .HasComment("Foreign key to the member who owns the tool (lender)");
 
                     b.Property<int>("ToolId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Foreign key to the loaned tool");
 
                     b.HasKey("Id");
 
@@ -480,7 +511,10 @@ namespace CommuniLend.Data.Migrations
                     b.HasIndex("ToolId")
                         .IsUnique();
 
-                    b.ToTable("OpenLoans");
+                    b.ToTable("OpenLoans", t =>
+                        {
+                            t.HasComment("Active loan of a tool that has not been returned yet");
+                        });
 
                     b.HasData(
                         new
@@ -559,40 +593,49 @@ namespace CommuniLend.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Primary key of the tool");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Foreign key to the category of the tool");
 
                     b.Property<int>("Condition")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Physical condition of the tool (ToolCondition enum value)");
 
                     b.Property<DateOnly>("DateAdded")
-                        .HasColumnType("date");
+                        .HasColumnType("date")
+                        .HasComment("Date the tool was added to the library");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(500)")
+                        .HasComment("Description of the tool");
 
                     b.Property<string>("ImageUrl")
                         .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
+                        .HasColumnType("nvarchar(512)")
+                        .HasComment("Optional relative URL of the tool image");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(100)")
+                        .HasComment("Name of the tool");
 
                     b.Property<string>("OwnerId")
                         .IsRequired()
                         .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(450)")
+                        .HasComment("Foreign key to the member who owns the tool");
 
                     b.Property<decimal>("ReplacementValue")
-                        .HasColumnType("decimal(8,2)");
+                        .HasColumnType("decimal(8,2)")
+                        .HasComment("Replacement value of the tool in EUR");
 
                     b.HasKey("Id");
 
@@ -600,7 +643,10 @@ namespace CommuniLend.Data.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("Tools");
+                    b.ToTable("Tools", t =>
+                        {
+                            t.HasComment("Tool that a member shares with the community");
+                        });
 
                     b.HasData(
                         new
