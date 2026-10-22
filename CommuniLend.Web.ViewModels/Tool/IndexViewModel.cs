@@ -1,9 +1,10 @@
-﻿using CommuniLend.Web.ViewModels.Enums;
+﻿using CommuniLend.Web.ViewModels.Category;
+using CommuniLend.Web.ViewModels.Enums;
 
 
 namespace CommuniLend.Web.ViewModels.Tool
 {
-    public class IndexViewModel
+    public class ToolIndexViewModel
     {
         public required int ToolId { get; set; }
         public required string ToolName { get; set; }
@@ -23,4 +24,19 @@ namespace CommuniLend.Web.ViewModels.Tool
         public required string CategoryName { get; set; }
 
     }
+
+
+    public class IndexViewModel
+    {
+
+        public required IEnumerable<ToolIndexViewModel> Tools { get; set; }
+
+
+        public required IEnumerable<CategoryViewModel> Categories { get; set; }
+
+        public string? SearchString { get; set; }
+        public int? CategoryId { get; set; }
+    }
+
+
 }

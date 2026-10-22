@@ -21,12 +21,14 @@ namespace CommuniLend.Web.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+            [FromQuery] string? search,
+            [FromQuery(Name = "category")] int? categoryId)
         {
             var userId = GetUserId();
-            var tools = await iToolsService.GetAllAsync(userId);
+            var model = await iToolsService.GetAllAsync(userId, search, categoryId);
 
-            return View(tools);
+            return View(model);
         }
 
 

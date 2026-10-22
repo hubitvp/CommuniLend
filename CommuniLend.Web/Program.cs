@@ -13,9 +13,22 @@ namespace CommuniLend.Web
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-            builder.Services.AddDbContext<CommuniLendDbContext>(options =>
-                options.UseSqlServer(connectionString));
+            var connectionString =
+                builder.Configuration.GetConnectionString("DefaultConnection")
+                ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+            builder.Services.AddDbContext<CommuniLendDbContext>(
+                options =>
+               {
+                   options.UseSqlServer(connectionString);
+
+
+                   if (builder.Environment.IsDevelopment())
+                   {
+                       options.EnableSensitiveDataLogging();
+                       options.EnableDetailedErrors();
+                   }
+               });
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(
@@ -23,12 +36,10 @@ namespace CommuniLend.Web
                 {
                     options.SignIn.RequireConfirmedAccount = false;
 
-                    options.Password.RequireDigit = false;
-                    options.Password.RequireLowercase = false;
-                    options.Password.RequireNonAlphanumeric = false;
-                    options.Password.RequireUppercase = false;
-                    options.Password.RequiredUniqueChars = 1;
-                    options.Password.RequiredLength = 3;
+                    builder.Configuration
+                        .GetSection("Identity:Password")
+                        .Bind(options.Password);
+
                 })
                 .AddEntityFrameworkStores<CommuniLendDbContext>();
             builder.Services.AddControllersWithViews();

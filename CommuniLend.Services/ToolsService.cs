@@ -26,20 +26,44 @@ namespace CommuniLend.Services
         }
 
 
-        public async Task<IEnumerable<IndexViewModel>> GetAllAsync(string userId)
+        public async Task<IndexViewModel> GetAllAsync(string userId, string? search, int? categoryId)
         {
-            var tools = await context.Tools
+
+            IQueryable<Tool> query = context.Tools
                 .AsNoTracking()
+                .Where(
+                    x =>
+                        x.OwnerId != userId
+                        && x.Owner.IsActive);
+
+            if (false == string.IsNullOrWhiteSpace(search))
+            {
+                search = search.Trim();
+
+                query = query.Where(x =>
+                    x.Name.Contains(search));
+            }
+
+
+            if (categoryId.HasValue)
+            {
+                query = query.Where(x => x.CategoryId == categoryId.Value);
+            }
+
+
+            var toolsWithStatus = query
                 .AsSplitQuery()
                 .Include(x => x.Category)
                 .Include(x => x.Owner)
-                .Where(x => x.OwnerId != userId && x.Owner.IsActive)
                 .WithStatus()
-                .AsAsyncEnumerable()
+                .AsAsyncEnumerable();
+
+
+            var tools = await toolsWithStatus
                 .OrderByDescending(x => x.Status)
                 .ThenBy(x => x.Tool.Category.Name)
                 .ThenBy(x => x.Tool.Owner.FullName)
-                .Select(x => new IndexViewModel
+                .Select(x => new ToolIndexViewModel
                 {
                     ToolId = x.Tool.Id,
                     ToolName = x.Tool.Name,
@@ -51,7 +75,29 @@ namespace CommuniLend.Services
                 })
                 .ToListAsync();
 
-            return tools;
+
+
+            var categories = await context.Categories
+                        .AsNoTracking()
+                        .OrderBy(x => x.Name)
+                        .Select(x => new CategoryViewModel
+                        {
+                            Id = x.Id,
+                            Name = x.Name
+                        })
+                        .ToListAsync();
+
+
+            var model = new IndexViewModel
+            {
+                Tools = tools,
+                Categories = categories,
+                SearchString = search,
+                CategoryId = categoryId,
+            };
+
+
+            return model;
         }
 
         public async Task<DetailsViewModel?> GetDetailsAsync(int toolId)
