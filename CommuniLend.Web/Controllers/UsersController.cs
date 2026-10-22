@@ -43,7 +43,7 @@ namespace CommuniLend.Web.Controllers
 
             if (userViewModel == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Dashboard));
             }
 
             return View(userViewModel);

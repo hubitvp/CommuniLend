@@ -36,10 +36,6 @@ namespace CommuniLend.Web.Controllers
 
             bool result = await iLoansService.ReturnAsync(userId, openLoanId);
 
-            if (false == result)
-            {
-                return BadRequest();
-            }
 
             return RedirectToAction(nameof(Index));
         }
