@@ -22,8 +22,8 @@ namespace CommuniLend.Web.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Index(
-            [FromQuery] string? search,
-            [FromQuery(Name = "category")] int? categoryId)
+            [FromQuery] string? search = null,
+            [FromQuery(Name = "category")] int? categoryId = null)
         {
             var userId = GetUserId();
             var model = await iToolsService.GetAllAsync(userId, search, categoryId);
@@ -40,7 +40,7 @@ namespace CommuniLend.Web.Controllers
 
             if (toolViewModel == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(ToolsController.Index), "Tools");
             }
 
             return View(toolViewModel);
@@ -95,7 +95,7 @@ namespace CommuniLend.Web.Controllers
 
             if (toolViewModel == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(UsersController.Dashboard), "Users");
             }
 
             return View(toolViewModel);
