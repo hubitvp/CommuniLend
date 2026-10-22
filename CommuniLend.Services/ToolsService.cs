@@ -180,18 +180,17 @@ namespace CommuniLend.Services
 
         public async Task<bool> DeleteAsync(string userId, int toolId)
         {
-            var databaseTool = await context.Tools
+
+
+            var imageUrl = await context.Tools
                 .AsNoTracking()
-                .AsSplitQuery()
-                .SingleOrDefaultAsync(x =>
+                .Where(x =>
                     x.Id == toolId
                     && x.OwnerId == userId
-                    && x.OpenLoan == null);
+                    && x.OpenLoan == null)
+                .Select(x => x.ImageUrl)
+                .SingleOrDefaultAsync();
 
-            if (databaseTool == null)
-            {
-                return false;
-            }
 
 
             var strategy = context.Database.CreateExecutionStrategy();
@@ -204,7 +203,7 @@ namespace CommuniLend.Services
                     try
                     {
                         await context.ClosedLoans
-                            .Where(x => x.OwnerId == userId || x.BorrowerId == userId)
+                            .Where(x => x.ToolId == toolId)
                             .ExecuteDeleteAsync();
 
                         int rowsAffected = await context.Tools
@@ -213,7 +212,6 @@ namespace CommuniLend.Services
                                 && x.OwnerId == userId
                                 && x.OpenLoan == null)
                             .ExecuteDeleteAsync();
-
 
                         if (rowsAffected != 1)
                         {
@@ -231,6 +229,10 @@ namespace CommuniLend.Services
                     }
                 });
 
+            if (deleted)
+            {
+                await iImageStorage.DeleteAsync(imageUrl);
+            }
 
             return deleted;
         }

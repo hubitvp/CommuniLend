@@ -6,14 +6,17 @@
 
 - **Accounts** – register, log in and log out with ASP.NET Core Identity. Registration also collects full name and address.
 - **Tool catalog** – browse tools shared by other active members, with category, owner, photo and availability status. Your own tools are not shown in the catalog.
+- **Search and filter** – search the catalog by tool name and filter by category; the selected values are kept after filtering.
 - **Tool management (full CRUD)** – add, view, edit and delete your own tools, including photo upload, category, condition and replacement value. Tools that are currently on loan cannot be edited or deleted.
 - **Loans** – borrow an available tool by choosing a loan date and due date (with optional notes). The owner marks the tool as returned, which moves the loan into history.
 - **Loan overview** – see the tools you have provided and the tools you have borrowed, with their status.
 - **Dashboard** – your profile, owned tools, active loans and past loans (provided and borrowed).
 - **Member profiles** – view other members and the tools they own.
 - **Edit profile** – update your name, address and details.
+- **Delete account** – delete your own account from the dashboard. It is blocked while you have open loans (as lender or borrower); otherwise your tools, their photos and your loan history are removed.
 - **Validation** – client-side (jQuery Validation / Unobtrusive) and server-side (data annotations, `IValidatableObject` and service-level checks).
 - **Seed data** – 3 categories, 7 members and about 50 tools are created by the migrations.
+- **Database comments** – tables and columns carry `[Comment]` descriptions that are applied to SQL Server by the migrations.
 
 ## Technologies
 
@@ -30,7 +33,7 @@
 |---|---|
 | `CommuniLend.Web` | MVC controllers, Razor views, Identity area, static files, `Program.cs` |
 | `CommuniLend.Web.ViewModels` | View and input models used by the controllers and views |
-| `CommuniLend.Services` | Business logic behind interfaces (`IToolsService`, `ILoansService`, `IUsersService`) |
+| `CommuniLend.Services` | Business logic behind interfaces (`IToolsService`, `ILoansService`, `IUsersService`, `IImageStorageService`) |
 | `CommuniLend.Data` | `CommuniLendDbContext`, entity configurations, seed data, migrations |
 | `CommuniLend.Data.Models` | Entities: `ApplicationUser`, `Tool`, `Category`, `OpenLoan`, `ClosedLoan` |
 | `CommuniLend.DataModelConstraints` | Shared validation and column-type constants |
@@ -64,7 +67,7 @@
 
    ```json
    "ConnectionStrings": {
-     "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=CommuniLendDbContext;Trusted_Connection=True;MultipleActiveResultSets=true"
+     "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=CommuniLend;Trusted_Connection=True;MultipleActiveResultSets=true"
    }
    ```
 
@@ -76,6 +79,8 @@
    ```
 
    or with an environment variable: `ConnectionStrings__DefaultConnection`.
+
+   Configuration sources are applied in this order (later ones win): `appsettings.json`, `appsettings.{Environment}.json`, user secrets (Development only), environment variables.
 
 3. **Restore packages and apply migrations**
 
@@ -99,6 +104,7 @@
 | Connection string key | `ConnectionStrings:DefaultConnection` (env var: `ConnectionStrings__DefaultConnection`) |
 | Environment | `ASPNETCORE_ENVIRONMENT=Development` (set by `launchSettings.json`) |
 | Seeded user password | `Password123!` |
+| Password rules | Configured in the `Identity:Password` section of `appsettings.json` (production: min. 8 characters, digit, lowercase, uppercase, 4 unique characters) and relaxed in `appsettings.Development.json` (min. 3 characters) |
 
 ### Seeded test accounts
 
@@ -114,11 +120,11 @@ All use the password `Password123!`:
 | Jessica Martinez | jessica.martinez@email.com |
 | Robert Taylor | robert.taylor@email.com |
 
-You can also register a new account from the **Register** page. Passwords only need 3 characters in this development setup.
+You can also register a new account from the **Register** page. In the Development environment a password needs only 3 characters; outside Development the stricter rules above apply (the seeded password `Password123!` satisfies them).
 
 ## Notes
 
-- Uploaded tool photos are stored in `CommuniLend.Web/wwwroot/images/tools/` and are limited to 50 KB per file.
+- Uploaded tool photos (JPG or PNG, validated by extension and file signature) are stored in `CommuniLend.Web/wwwroot/images/tools/` and are limited to 50 KB per file.
 - Dates are handled with `DateOnly`; a loan must start in the future and end after it starts.
 
 ## License

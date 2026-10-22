@@ -11,6 +11,9 @@ namespace CommuniLend.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Tool> builder)
         {
+
+            builder.HasIndex(t => t.ImageUrl);
+
             builder.HasOne(t => t.Category)
                 .WithMany(c => c.Tools)
                 .HasForeignKey(t => t.CategoryId)

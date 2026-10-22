@@ -2,6 +2,7 @@ using CommuniLend.Data;
 using CommuniLend.Data.Models;
 using CommuniLend.Services;
 using CommuniLend.Services.Contracts;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommuniLend.Web
@@ -21,13 +22,6 @@ namespace CommuniLend.Web
                 options =>
                {
                    options.UseSqlServer(connectionString);
-
-
-                   if (builder.Environment.IsDevelopment())
-                   {
-                       options.EnableSensitiveDataLogging();
-                       options.EnableDetailedErrors();
-                   }
                });
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -42,7 +36,12 @@ namespace CommuniLend.Web
 
                 })
                 .AddEntityFrameworkStores<CommuniLendDbContext>();
-            builder.Services.AddControllersWithViews();
+
+            builder.Services.AddControllersWithViews(
+                configure =>
+                {
+                    configure.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                });
 
 
 
@@ -61,7 +60,6 @@ namespace CommuniLend.Web
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }

@@ -1,6 +1,8 @@
-﻿using CommuniLend.Services.Contracts;
+﻿using CommuniLend.Data;
+using CommuniLend.Services.Contracts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace CommuniLend.Services
 {
@@ -12,9 +14,14 @@ namespace CommuniLend.Services
 
         protected readonly string[] folderChain = new[] { "images", "tools" };
 
+        private readonly CommuniLendDbContext context;
 
-        public LocalImageStorageService(IWebHostEnvironment environment)
+        public LocalImageStorageService(
+            CommuniLendDbContext context,
+            IWebHostEnvironment environment)
         {
+            this.context = context;
+
             webHostEnvironment = environment;
 
             storagePath = webHostEnvironment.WebRootPath;
@@ -35,7 +42,7 @@ namespace CommuniLend.Services
             }
 
 
-            string fileName = image.FileName;
+            string fileName = Path.GetFileName(image.FileName);
 
             var imageFullStoragePath = Path.Combine(storagePath, fileName);
 
@@ -71,6 +78,13 @@ namespace CommuniLend.Services
             var fileName = Path.GetFileName(imageUrl);
 
             if ("no-image.jpg" == fileName)
+            {
+                return;
+            }
+
+            bool stillInUse = await context.Tools.AnyAsync(x => x.ImageUrl == imageUrl);
+
+            if (stillInUse)
             {
                 return;
             }

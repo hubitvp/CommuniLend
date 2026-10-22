@@ -13,7 +13,7 @@
             <h5 class="card-title">@Model.ToolName</h5>
             <p class="card-text text-muted small">
                 @Model.CategoryName &middot;
-                Owner: @Model.OwnerFullName
+                Owner:
 
                 <a asp-controller="Users" asp-action="Details" asp-route-id="@Model.OwnerId">
                     @Model.OwnerFullName

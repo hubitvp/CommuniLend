@@ -641,6 +641,8 @@ namespace CommuniLend.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("ImageUrl");
+
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Tools", t =>
