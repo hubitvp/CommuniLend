@@ -162,6 +162,9 @@ CommuniLend/
 - A loan must start in the future and end after it starts.
 - Deleting your account is blocked while you have open loans (as lender or borrower); otherwise your tools, their photos and your loan history are removed.
 - Uploaded photos must be JPG or PNG (validated by extension and file signature) and are limited to 50 KB.
+- When a tool's photo is replaced, the previous image file is removed from `wwwroot/images/tools` (unless another tool still uses it).
+- A member's e-mail is also their login name: changing the e-mail in **Edit profile** changes the address used to sign in.
+- Password rules come from the `Identity:Password` configuration only (minimum 8 characters in production, 3 in Development); the Register page adds no extra minimum.
 
 ### Seeded test accounts
 
