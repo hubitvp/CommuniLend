@@ -371,6 +371,9 @@ namespace CommuniLend.Services
             tool.ReplacementValue = decimal.Parse(model.ReplacementValue, CultureInfo.InvariantCulture);
             tool.CategoryId = model.CategoryId;
 
+
+            var oldImageUrl = tool.ImageUrl;
+
             var newImageUrl = await iImageStorage.SaveAsync(model.ToolUploadImage?.File);
 
             if (newImageUrl != null)
@@ -379,6 +382,11 @@ namespace CommuniLend.Services
             }
 
             await context.SaveChangesAsync();
+
+            if (newImageUrl != null && oldImageUrl != newImageUrl)
+            {
+                await iImageStorage.DeleteAsync(oldImageUrl);
+            }
 
             return true;
         }

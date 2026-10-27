@@ -316,6 +316,7 @@ namespace CommuniLend.Services
 
             user.FullName = inputModel.FullName;
             user.Email = inputModel.Email;
+            user.UserName = inputModel.Email;
             user.PhoneNumber = inputModel.PhoneNumber;
             user.Address = inputModel.Address;
             user.IsActive = inputModel.IsActive;

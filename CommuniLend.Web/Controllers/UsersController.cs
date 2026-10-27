@@ -96,6 +96,14 @@ namespace CommuniLend.Web.Controllers
                 return BadRequest();
             }
 
+
+            var currentUser = await signInManager.UserManager.GetUserAsync(User);
+            if (currentUser != null)
+            {
+                await signInManager.RefreshSignInAsync(currentUser);
+            }
+
+
             return RedirectToAction(nameof(Dashboard));
         }
 
